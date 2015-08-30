@@ -1,0 +1,10 @@
+---
+:orm: activerecord
+:test: none
+:mock: none
+:script: jquery
+:renderer: erb
+:stylesheet: none
+:namespace: SerenityPadrino
+:migration_format: number
+:admin_renderer: erb
