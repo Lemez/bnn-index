@@ -23,6 +23,14 @@ gem 'pg'
 
 # Padrino Stable Gem
 gem 'padrino', '0.12.5'
+gem 'httparty'
+
+# gem 'google_drive'
+# gem 'google-api-client', '0.9.pre3'
+
+gem 'dropbox-sdk'
+
+gem "sentimentalizer"
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

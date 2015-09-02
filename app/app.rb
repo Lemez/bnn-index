@@ -1,3 +1,6 @@
+require 'json'
+require_relative './rss'
+
 module SerenityPadrino
   class Serenity < Padrino::Application
     use ConnectionPoolManagement
@@ -9,6 +12,15 @@ module SerenityPadrino
 
     get '/' do
         render :index
+    end
+
+    
+
+    get '/getdata' do
+
+       
+
+        # render :getdata
     end
 
 
