@@ -173,21 +173,15 @@ end
 def save_to_dropbox(dataToAdd)
 
 	access_token = DB_ACCESS
-
 	client = DropboxClient.new(access_token)
-
-	previous_location, previous_name = '/Apps',"papers_production.csv"
-
-	result = client.search(previous_location, previous_name)[0]
-
+	location, name = '/Public',"papers_production.csv"
+	result = client.search(location, name)[0]
 	contents, metadata = client.get_file_and_metadata(result['path'])
 
 	@current = CSV.parse(contents)
-
 	make_new_csv @current,dataToAdd.split(",")
-	p "made new csv"
+
 	newfile = open("new.csv")
-	p "newfile is open"
 	response = client.put_file(result['path'], newfile, overwrite=true, parent_rev=nil)
 	puts "uploaded:", response.inspect
 

@@ -31,6 +31,7 @@ gem 'httparty'
 gem 'dropbox-sdk'
 
 gem "sentimentalizer"
+gem 'whenever', :require => false
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

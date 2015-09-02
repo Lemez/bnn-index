@@ -136,7 +136,8 @@ p#misery_score {
   opacity: 0.3;
 }
 svg {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
+  margin-top: 20px;
 }
 .area {
   fill: rgba(255,100,100,0.5);
@@ -164,12 +165,11 @@ svg {
 }
 .chart__times--focus {
   stroke-width: 2px;
-  stroke: #2980b9;
+  stroke: #40d47e;
 }
 .chart__guardian--focus {
   stroke-width: 2px;
-  stroke: #f00;
-  opacity: 0.3;
+  stroke: #f1c40f;
 }
 .chart__mail--focus {
   stroke-width: 2px;
@@ -177,30 +177,21 @@ svg {
 }
 .chart__independent--focus {
   stroke-width: 2px;
-  stroke: #f00;
-  opacity: 0.3;
+  stroke: #2c3e50;
 }
 .chart__express--focus {
   stroke-width: 2px;
-  stroke: #2980b9;
+  stroke: #d35400;
 }
 .chart__telegraph--focus {
   stroke-width: 2px;
-  stroke: #f00;
-  opacity: 0.3;
+  stroke: #7f8c8d;
 }
 .chart__overlay {
   opacity: 0;
   pointer-events: all;
 }
-.chart__tooltip--price {
-  fill: none;
-  stroke: #f00;
-}
-.chart__tooltip--average {
-  fill: none;
-  stroke: #f00;
-}
+
 .chart__bars {
   fill: #99c5df;
   opacity: 1;

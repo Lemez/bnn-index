@@ -14,14 +14,7 @@ module SerenityPadrino
         render :index
     end
 
-    
-
-    get '/getdata' do
-
-       
-
-        # render :getdata
-    end
+   
 
 
     ##
