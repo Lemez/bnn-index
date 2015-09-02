@@ -14,7 +14,7 @@ module SerenityPadrino
         render :index
     end
 
-   
+    
 
 
     ##

@@ -18,15 +18,17 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-
-set :output, {:error => Padrino.root("log", "cron_error_log.log"), :standard => Padrino.root("log", "cron_log.log")}
+PADRINO_ROOT = File.dirname(__FILE__) + '/..'
+set :output, {:error => PADRINO_ROOT+ "log/cron_error_log.log", :standard =>  PADRINO_ROOT+ "log/cron_log.log"}
 set :environment, "development"
+job_type :padrino_rake, 'cd :path && padrino rake :task -e :environment'
 
-every 1.day, :at => '10:30 am' do
+every :hour do
   p "\n\n #{Time.now} : score:get_and_save_today_to_db \n\n"
-	rake "score:get_and_save_today_to_db"
+	padrino_rake "score:get_and_save_today_to_db"
 end
 
 # update with `whenever -w`
+# check with `crontab -l`
 
 

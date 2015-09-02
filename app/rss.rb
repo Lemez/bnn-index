@@ -124,7 +124,7 @@ end
 
 def get_todays_rss
 
-	@todays_data = [Time.now.strftime('%d/%m/%Y')]
+	@todays_data = [Time.now.strftime('%X/%d/%m/%Y')]
 
 	SOURCES.each_pair do |k,v|
 		rss = open(v).read

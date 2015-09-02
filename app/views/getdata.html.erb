@@ -1,5 +1,8 @@
 
-
+<nav>
+	<a href="/">Today's Joy</a>
+  <div id='papers'></div>
+</nav>
 <script> 
 /* global d3, _ */
 
@@ -12,7 +15,7 @@
     height2  = 483 - margin2.top - margin2.bottom,
     mouseLineHeight = 270;
 
-  var parseDate = d3.time.format('%d/%m/%Y').parse,
+  var parseDate = d3.time.format('%X/%d/%m/%Y').parse,
     bisectDate = d3.bisector(function(d) { return d.date; }).left,
     legendFormat = d3.time.format('%b %d, %Y');
 
@@ -82,7 +85,7 @@
   var barsGroup = svg.append('g')
    	 .attr('class', 'volume')
    	 .attr('clip-path', 'url(#clip)')
-   	 .attr('transform', 'translate(' + margin.left + ',' + (margin.top + 60 + 20) + ')');
+   	 .attr('transform', 'translate(' + margin.left + ',50)');
 
   var context = svg.append('g')
    	 .attr('class', 'context')
@@ -107,22 +110,16 @@
       	.x(x2)
       	.on('brush', brushed);
 
-    var allDates = data.map(function (d) {return (d.date)});
-
-//     function addMinutes(date, minutes) {
-//     return new Date(date.getTime() + minutes*60000);
-// }
-
-// http://stackoverflow.com/questions/1197928/how-to-add-30-minutes-to-a-javascript-date-object
-  
-  // TO DO - add 30 mins to each last date to make it play nice with bars
-
-    var maxDate=new Date(Math.max.apply(null,allDates));
-	var minDate=new Date(Math.min.apply(null,allDates));
-	var maxDateplus = maxDate.setDate(maxDate.getDate() + 1);
-	var minDateminus = minDate.setDate(minDate.getDate() - 1);
+    function addMinutes(date, minutes) {
+	    return new Date(date.getTime() + minutes*60000);
+	}
 
     var xRange = d3.extent(data.map(function(d) { return d.date; }));
+    var minDate = xRange[0];
+
+    // add 30 mins to  last date to make it play nice with bars
+    var maxDate = addMinutes(xRange[1],30);
+    
 
     var allValues = [].concat(data.map(function (d) {return (d.guardian);}), 
     		data.map(function (d) {return (d.mail);}),
@@ -134,13 +131,11 @@
     var min = Math.min.apply(null, allValues),
     max = Math.max.apply(null, allValues);
 
-    alert(minDate);
-    alert(maxDate);
-    alert(xRange);
-
     y.range([height, min]);
     y.domain([min-1,max+1]);
+
     x.domain([minDate,maxDate]);
+
     x2.domain(x.domain());
     y2.domain(y.domain());
     y3.domain(d3.extent(allValues));
@@ -199,7 +194,7 @@
 
     focus.append('g')
         .attr('class', 'y axis')
-        .attr('transform', 'translate(12, 0)')
+        .attr('transform', 'translate(-5, 0)')
         .call(yAxis);
 
     var focusGraph = barsGroup.selectAll('rect')
@@ -207,9 +202,11 @@
       .enter().append('rect')
         .attr('class', 'chart__bars')
         .attr('x', function(d, i) { return x(d.date)+i*1000; })
-        .attr('y', function(d) { return mouseLineHeight - y3(d.average); })
+        // .attr('y', function(d) { return 0 + y3(d.min); })
+        .attr('y',0)
         .attr('width', 1)
-        .attr('height', function(d) { return y3(d.average); })
+        .attr('height', function(d) { return 300; })
+        // .attr('height', 300)
         .style('display', 'none');
 
     var helper = focus.append('g')
@@ -219,39 +216,39 @@
 
     var helperText = helper.append('text')
 
-    // var guardianTooltip = focus.append('g')
-    //   .attr('class', 'chart__tooltip--guardian')
-    //   .append('circle')
-    //   .style('display', 'none')
-    //   .attr('r', 2.5);
+    var guardianTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--guardian')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
 
-    // var mailTooltip = focus.append('g')
-    //   .attr('class', 'chart__tooltip--mail')
-    //   .append('circle')
-    //   .style('display', 'none')
-    //   .attr('r', 2.5);
-    //   var independentTooltip = focus.append('g')
-    //   .attr('class', 'chart__tooltip--independent')
-    //   .append('circle')
-    //   .style('display', 'none')
-    //   .attr('r', 2.5);
+    var mailTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--mail')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
+      var independentTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--independent')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
 
-    // var expressTooltip = focus.append('g')
-    //   .attr('class', 'chart__tooltip--express')
-    //   .append('circle')
-    //   .style('display', 'none')
-    //   .attr('r', 2.5);
-    //   var telegraphTooltip = focus.append('g')
-    //   .attr('class', 'chart__tooltip--telegraph')
-    //   .append('circle')
-    //   .style('display', 'none')
-    //   .attr('r', 2.5);
+    var expressTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--express')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
+      var telegraphTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--telegraph')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
 
-    // var timesTooltip = focus.append('g')
-    //   .attr('class', 'chart__tooltip--times')
-    //   .append('circle')
-    //   .style('display', 'none')
-    //   .attr('r', 2.5);
+    var timesTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--times')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
 
     var mouseArea = svg.append('g')
       .attr('class', 'chart__mouse')
@@ -263,22 +260,22 @@
       .on('mouseover', function() {
         helper.style('display', null);
         focusGraph.style('display', null);
-        // guardianTooltip.style('display', null);
-        // mailTooltip.style('display', null);
-        //  expressTooltip.style('display', null);
-        // independentTooltip.style('display', null);
-        // timesTooltip.style('display', null);
-        // telegraphTooltip.style('display', null);
+        guardianTooltip.style('display', null);
+        mailTooltip.style('display', null);
+         expressTooltip.style('display', null);
+        independentTooltip.style('display', null);
+        timesTooltip.style('display', null);
+        telegraphTooltip.style('display', null);
       })
       .on('mouseout', function() {
         helper.style('display', 'none');
         focusGraph.style('display', 'none');
-        // guardianTooltip.style('display', 'none');
-        // mailTooltip.style('display', 'none');
-        // expressTooltip.style('display', 'none');
-        // independentTooltip.style('display', 'none');
-        // timesTooltip.style('display', 'none');
-        // telegraphTooltip.style('display', 'none');
+        guardianTooltip.style('display', 'none');
+        mailTooltip.style('display', 'none');
+        expressTooltip.style('display', 'none');
+        independentTooltip.style('display', 'none');
+        timesTooltip.style('display', 'none');
+        telegraphTooltip.style('display', 'none');
       })
       .on('mousemove', mousemove);
 
@@ -308,13 +305,13 @@
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
       helperText.text("Average value on " + legendFormat(new Date(d.date)) + " : " +  d.average);
       focusGraph.attr('transform', 'translate(' + x(d.date) + ',' + 0 + ')');
-      // guardianTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.guardian) + ')');
-      // mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.mail) + ')');
-      // expressTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.express) + ')');
-      // independentTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.independent) + ')');
-      // timesTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.times) + ')');
-      // telegraphTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.telegraph) + ')');
-      // mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
+      guardianTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.guardian) + ')');
+      mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.mail) + ')');
+      expressTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.express) + ')');
+      independentTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.independent) + ')');
+      timesTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.times) + ')');
+      telegraphTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.telegraph) + ')');
+      mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
     }
 
     function brushed() {
@@ -387,7 +384,19 @@
 			      	parseInt(d.Express)+
 			      	parseInt(d.Telegraph)+
 			      	parseInt(d.Independent)+
-			      	parseInt(d.Times))/6).toPrecision(3)
+			      	parseInt(d.Times))/6).toPrecision(3),
+      max : Math.max.apply(null, [(parseInt(d.Guardian),
+			      	parseInt(d.Mail),
+			      	parseInt(d.Express),
+			      	parseInt(d.Telegraph),
+			      	parseInt(d.Independent),
+			      	parseInt(d.Times))]),
+      min : Math.min.apply(null, [(parseInt(d.Guardian),
+			      	parseInt(d.Mail),
+			      	parseInt(d.Express),
+			      	parseInt(d.Telegraph),
+			      	parseInt(d.Independent),
+			      	parseInt(d.Times))])
     }
   }
 }());
