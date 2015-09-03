@@ -1,23 +1,27 @@
 
 <nav>
-	<a href="/">Today's Joy</a>
-  <div id='papers'></div>
+	<a href="/">See Stories</a>
+  <h2>What Not To Read</h2>
+   <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a href="#">here</a></strong>  </p>
 </nav>
+<div class='rightfar'>
+
+	Hello
+</div>
 <script> 
 /* global d3, _ */
 
 (function() {
 
-  var margin = {top: 30, right: 20, bottom: 100, left: 50},
+  var margin = {top: 180, right: 20, bottom: 100, left: 50},
     margin2  = {top: 410, right: 20, bottom: 20, left: 50},
     width    = 764 - margin.left - margin.right,
-    height   = 483 - margin.top - margin.bottom,
-    height2  = 483 - margin2.top - margin2.bottom,
-    mouseLineHeight = 270;
+    height   = 633 - margin.top - margin.bottom,
+    height2  = 633 - margin2.top - margin2.bottom;
 
   var parseDate = d3.time.format('%X/%d/%m/%Y').parse,
     bisectDate = d3.bisector(function(d) { return d.date; }).left,
-    legendFormat = d3.time.format('%b %d, %Y');
+    legendFormat = d3.time.format('%b %d, %Y : %H00 ');
 
   var x = d3.time.scale().range([0, width]),
     x2  = d3.time.scale().range([0, width]),
@@ -63,7 +67,7 @@
   var svg = d3.select('body').append('svg')
 	    .attr('class', 'chart')
 	    .attr('width', width + margin.left + margin.right)
-	    .attr('height', height + margin.top + margin.bottom + 60);
+	    .attr('height', height + margin.top + margin.bottom );
 
   svg.append('defs').append('clipPath')
 	    .attr('id', 'clip')
@@ -87,18 +91,18 @@
    	 .attr('clip-path', 'url(#clip)')
    	 .attr('transform', 'translate(' + margin.left + ',50)');
 
-  var context = svg.append('g')
-   	 .attr('class', 'context')
-   	 .attr('transform', 'translate(' + margin2.left + ',' + (margin2.top + 60) + ')');
+  // var context = svg.append('g')
+  //  	 .attr('class', 'context')
+  //  	 .attr('transform', 'translate(' + margin2.left + ',' + (margin2.top + 60) + ')');
 
   var legend = svg.append('g')
    	 .attr('class', 'chart__legend')
    	 .attr('width', width)
    	 .attr('height', 30)
-   	 .attr('transform', 'translate(' + margin2.left + ', 10)')
+   	 .attr('transform', 'translate(' + margin2.left + ', 50)')
    	 .append('text')
      .attr('class', 'chart__symbol')
-     .text('MISERY INDEX')
+     .text('BRITISH NEWSPAPER MISERY INDEX')
 
   var rangeSelection =  legend
    	 .append('g')
@@ -117,10 +121,9 @@
     var xRange = d3.extent(data.map(function(d) { return d.date; }));
     var minDate = xRange[0];
 
-    // add 30 mins to  last date to make it play nice with bars
-    var maxDate = addMinutes(xRange[1],30);
+    // add 3 mins to  last date to make it play nice with bars
+    var maxDate = addMinutes(xRange[1],3);
     
-
     var allValues = [].concat(data.map(function (d) {return (d.guardian);}), 
     		data.map(function (d) {return (d.mail);}),
     		data.map(function (d) {return (d.independent);}),
@@ -132,7 +135,7 @@
     max = Math.max.apply(null, allValues);
 
     y.range([height, min]);
-    y.domain([min-1,max+1]);
+    y.domain([max+1,min-1]);
 
     x.domain([minDate,maxDate]);
 
@@ -144,7 +147,7 @@
 				.interpolate('monotone')
 				.x(function(d) { return x2(d.date); })
 				.y0(height2)
-				.y1(function(d) { return y2(d.average); });
+				.y1(function(d) { return y2(d.guardian); });
 
     var range = legend.append('text')
       .text(legendFormat(new Date(xRange[0])) + ' - ' + legendFormat(new Date(xRange[1])))
@@ -160,32 +163,33 @@
     var TimesChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__times--focus line')
-        .attr('d', TimesLine);
+        .attr('d', TimesLine)
+        .attr('data-legend', 'Times');
 
     var GuardianChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__guardian--focus line')
-        .attr('d', GuardianLine);
+        .attr('d', GuardianLine).attr('data-legend', 'Guardian');
 
     var MailChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__mail--focus line')
-        .attr('d', MailLine);
+        .attr('d', MailLine).attr('data-legend', 'Mail');
 
     var IndependentChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__independent--focus line')
-        .attr('d', IndependentLine);
+        .attr('d', IndependentLine).attr('data-legend', 'Independent');
 
     var ExpressChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__express--focus line')
-        .attr('d', ExpressLine);
+        .attr('d', ExpressLine).attr('data-legend', 'Express');
 
     var TelegraphChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__telegraph--focus line')
-        .attr('d', TelegraphLine);
+        .attr('d', TelegraphLine).attr('data-legend', 'Telegraph');
 
     focus.append('g')
         .attr('class', 'x axis')
@@ -205,16 +209,118 @@
         // .attr('y', function(d) { return 0 + y3(d.min); })
         .attr('y',0)
         .attr('width', 1)
-        .attr('height', function(d) { return 300; })
+        .attr('height', function(d) { return 500; })
         // .attr('height', 300)
         .style('display', 'none');
 
-    var helper = focus.append('g')
+     var labelx = parseInt(width-70);
+
+    var helper = svg.append('g')
       .attr('class', 'chart__helper')
       .style('text-anchor', 'end')
-      .attr('transform', 'translate(' + width + ', 0)');
+      .style('font-size', '14px')
+      .attr('transform', 'translate(' + labelx + ', 15)');
 
-    var helperText = helper.append('text')
+       var expressLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'express');
+
+        var guardianLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'guardian');
+
+        var independentLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'independent');
+
+        var mailLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'mail');
+
+       var telegraphLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'telegraph');
+
+        var timesLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'times');
+
+      var expressHelper = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'express');
+
+      var guardianHelper = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'guardian');
+
+      var independentHelper = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'independent');
+
+      var mailHelper = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'mail');
+
+       var telegraphHelper = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'telegraph');
+
+      var timesHelper = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('class', 'times');
+
+
+    var helperText = helper.append('text').attr('class', 'indented_details');
+    var mailText = mailHelper.append('text').attr('class', 'indented_details');
+    var guardianText = guardianHelper.append('text').attr('class', 'indented_details');
+    var expressText = expressHelper.append('text').attr('class', 'indented_details');
+    var independentText = independentHelper.append('text').attr('class', 'indented_details');
+    var timesText = timesHelper.append('text').attr('class', 'indented_details');
+    var telegraphText = telegraphHelper.append('text').attr('class', 'indented_details');
+    var mailLabelText = mailLabel.append('text').attr('class', 'indented_details');
+    var guardianLabelText = guardianLabel.append('text').attr('class', 'indented_details');
+    var expressLabelText = expressLabel.append('text').attr('class', 'indented_details');
+    var independentLabelText = independentLabel.append('text').attr('class', 'indented_details');
+    var timesLabelText = timesLabel.append('text').attr('class', 'indented_details');
+    var telegraphLabelText = telegraphLabel.append('text').attr('class', 'indented_details');
+
+
+      var allLabels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,timesLabel];
+      var allTextHelpers = [expressHelper,guardianHelper,independentHelper,mailHelper,telegraphHelper,timesHelper];
+      
+
+
+      function reorderLabels(d){
+
+      	var labelNames = {'express':expressLabel, 'guardian':guardianLabel,'independent':independentLabel,'mail':mailLabel,'telegraph':telegraphLabel,'times':timesLabel};
+      	var textHelperNames = {'express':expressHelper, 'guardian':guardianHelper,'independent':independentHelper,'mail':mailHelper,'telegraph':telegraphHelper,'times':timesHelper};
+
+      		keysSorted = Object.keys(d).sort(function(a,b){return d[a]-d[b]});
+      		keysSorted.splice(-1,1);
+	     
+
+	      	for (i = 0;i<keysSorted.length;i++){ 
+
+	      		var paper =  keysSorted[i];
+
+	      		labelNames[paper].attr('transform', 'translate(' + labelx + ',' + (i+2)*25 + ' )');
+	      		textHelperNames[paper].attr('transform', 'translate(' + width + ',' + (i+2)*25 + ' )');
+	      	}
+
+	      	
+      }
 
     var guardianTooltip = focus.append('g')
       .attr('class', 'chart__tooltip--guardian')
@@ -227,6 +333,7 @@
       .append('circle')
       .style('display', 'none')
       .attr('r', 2.5);
+
       var independentTooltip = focus.append('g')
       .attr('class', 'chart__tooltip--independent')
       .append('circle')
@@ -238,6 +345,7 @@
       .append('circle')
       .style('display', 'none')
       .attr('r', 2.5);
+
       var telegraphTooltip = focus.append('g')
       .attr('class', 'chart__tooltip--telegraph')
       .append('circle')
@@ -259,7 +367,7 @@
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .on('mouseover', function() {
         helper.style('display', null);
-        focusGraph.style('display', null);
+        // focusGraph.style('display', null);
         guardianTooltip.style('display', null);
         mailTooltip.style('display', null);
          expressTooltip.style('display', null);
@@ -269,7 +377,7 @@
       })
       .on('mouseout', function() {
         helper.style('display', 'none');
-        focusGraph.style('display', 'none');
+        // focusGraph.style('display', 'none');
         guardianTooltip.style('display', 'none');
         mailTooltip.style('display', 'none');
         expressTooltip.style('display', 'none');
@@ -279,23 +387,23 @@
       })
       .on('mousemove', mousemove);
 
-    context.append('path')
-        .datum(data)
-        .attr('class', 'chart__area area')
-        .attr('d', area2);
+    // context.append('path')
+    //     .datum(data)
+    //     .attr('class', 'chart__area area')
+    //     .attr('d', area2);
 
-    context.append('g')
-        .attr('class', 'x axis chart__axis--context')
-        .attr('y', 0)
-        .attr('transform', 'translate(0,' + (height2 - 22) + ')')
-        .call(xAxis2);
+    // context.append('g')
+    //     .attr('class', 'x axis chart__axis--context')
+    //     .attr('y', 0)
+    //     .attr('transform', 'translate(0,' + (height2 - 22) + ')')
+    //     .call(xAxis2);
 
-    context.append('g')
-        .attr('class', 'x brush')
-        .call(brush)
-      .selectAll('rect')
-        .attr('y', -6)
-        .attr('height', height2 + 7);
+    // context.append('g')
+    //     .attr('class', 'x brush')
+    //     .call(brush)
+    //   .selectAll('rect')
+    //     .attr('y', -6)
+    //     .attr('height', height2 + 7);
 
     function mousemove() {
       var x0 = x.invert(d3.mouse(this)[0]);
@@ -303,15 +411,31 @@
       var d0 = data[i - 1];
       var d1 = data[i];
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      helperText.text("Average value on " + legendFormat(new Date(d.date)) + " : " +  d.average);
-      focusGraph.attr('transform', 'translate(' + x(d.date) + ',' + 0 + ')');
+      helperText.text(legendFormat(new Date(d.date)));
+
+      reorderLabels(d);
+	  guardianText.text(d.guardian);
+      mailText.text(d.mail);
+      expressText.text(d.express);
+      independentText.text(d.independent);
+      timesText.text(d.times);
+      telegraphText.text(d.telegraph);
+
+      guardianLabelText.text("Guardian");
+      mailLabelText.text("Mail");
+      expressLabelText.text("Express");
+      independentLabelText.text("Independent");
+      timesLabelText.text("Times");
+      telegraphLabelText.text("Telegraph");
+
+      // focusGraph.attr('transform', 'translate(' + x(d.date) + ',' + 0 + ')');
       guardianTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.guardian) + ')');
       mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.mail) + ')');
       expressTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.express) + ')');
       independentTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.independent) + ')');
       timesTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.times) + ')');
       telegraphTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.telegraph) + ')');
-      mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
+      
     }
 
     function brushed() {
@@ -365,7 +489,7 @@
 
       brush.extent([ext, today])
       brushed()
-      context.select('g.x.brush').call(brush.extent([ext, today]))
+      // context.select('g.x.brush').call(brush.extent([ext, today]))
     }
 
   })// end Data
@@ -378,26 +502,12 @@
       express   : d.Express,
       telegraph   : d.Telegraph,
       independent   : d.Independent,
-      times   : d.Times,
-      average : ((parseInt(d.Guardian)+
-			      	parseInt(d.Mail)+
-			      	parseInt(d.Express)+
-			      	parseInt(d.Telegraph)+
-			      	parseInt(d.Independent)+
-			      	parseInt(d.Times))/6).toPrecision(3),
-      max : Math.max.apply(null, [(parseInt(d.Guardian),
-			      	parseInt(d.Mail),
-			      	parseInt(d.Express),
-			      	parseInt(d.Telegraph),
-			      	parseInt(d.Independent),
-			      	parseInt(d.Times))]),
-      min : Math.min.apply(null, [(parseInt(d.Guardian),
-			      	parseInt(d.Mail),
-			      	parseInt(d.Express),
-			      	parseInt(d.Telegraph),
-			      	parseInt(d.Independent),
-			      	parseInt(d.Times))])
+      times   : d.Times
     }
   }
+
+
+
+
 }());
 </script>

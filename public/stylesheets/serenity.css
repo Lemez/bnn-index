@@ -10,6 +10,12 @@ body {
   margin: 0;
 }
 
+.footer, .push {
+clear: both;
+padding-left: 5px;
+}
+
+
 body {
   bottom: 0;
   display: table;
@@ -21,6 +27,7 @@ body {
 nav {
   width: 10%;
   float: left;
+  margin-left: 5px;
 
 }
 
@@ -102,7 +109,6 @@ p {
 }
 
 a {
-  display: block;
   text-decoration: none;
 }
 
@@ -124,11 +130,15 @@ p#misery_score {
   opacity: 1;
 }
 
-
 .hidden {
   opacity: 0;
 }
 
+.rightfar {
+  width: 20%;
+  margin-left: 80%;
+  top: 10%;
+}
 
 /* GRAPH */
 .chart__grid {
@@ -158,35 +168,50 @@ svg {
 .chart text {
   fill: #7f8faf;
 }
+
+.indented_details {
+  font-size: 18px;
+}
+
 .chart__line {
   fill: none;
   stroke-width: 1.2px;
   clip-path: url("#clip");
 }
-.chart__times--focus {
+.chart__times--focus{
   stroke-width: 2px;
   stroke: #40d47e;
 }
+
+
+.times {stroke:#40d47e;}
+
 .chart__guardian--focus {
   stroke-width: 2px;
   stroke: #f1c40f;
 }
+.guardian{stroke: #f1c40f;}
 .chart__mail--focus {
   stroke-width: 2px;
   stroke: #2980b9;
 }
+.mail{ stroke: #2980b9;}
 .chart__independent--focus {
   stroke-width: 2px;
   stroke: #2c3e50;
 }
+.independent{stroke: #2c3e50;}
 .chart__express--focus {
   stroke-width: 2px;
   stroke: #d35400;
 }
+.express{stroke: #d35400;}
 .chart__telegraph--focus {
   stroke-width: 2px;
   stroke: #7f8c8d;
 }
+
+.telegraph{stroke: #7f8c8d;}
 .chart__overlay {
   opacity: 0;
   pointer-events: all;
@@ -230,3 +255,10 @@ svg {
 .y.axis path {
   display: none;
 }
+
+.chart__legend {
+  font-size: 24px;
+}
+
+
+
