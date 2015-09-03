@@ -1,11 +1,39 @@
  <nav>
     <a href="/">See Stories</a>
     <h2>What Not To Read</h2>
-     <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a href="#">here</a></strong>  </p>
+     <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a id="show" href="#">here</a></strong>  </p>
   </nav>
+
+<div id='info'>
+	<div id='blurb'>
+		<h3>Why?</h3>
+		<p></p>
+		<h3>How?</h3>
+		<p>Once every hour, we take the RSS feed from Britain's 'top' newspapers, and run the first ten stories through sentiment analysis to see how they score. Stories are assessed for 'positivity' or 'negativity', according to two respected sentiment analysis dictionaries.</p>
+		<p>Three different tools were tested, and manually assessed to check efficacy: </p>
+		<ol>
+			<li><a href="http://www2.imm.dtu.dk/pubdb/views/publication_details.php?id=6010" target="_blank">AFINN-111</a></li>
+		<li><a href="http://mpqa.cs.pitt.edu/lexicons/subj_lexicon/" target="_blank">MPQA Subjectivity Lexicon</a></li>
+	</ol>
+
+		<p>Sixty headlines were checked against the three tools: AFINN(), WIEBE() and SENT(). Ultimately, sentiment analysis is a rather objective exercise, so I went down the list of scores and picked out the stories <em>I </em> thought were particularly offensive, and compared the scores. The full csv of initial data for comparison is <a href="https://www.dropbox.com/s/tngc6yqcff9ylve/rss2mixed.csv?dl=1">here.</a></p>
+		<h3>Can I hack it?</h3>
+		<p>Sure you can, check out my GH</p>
+	</div>
+</div>
+
 
 <script> 
 /* global d3, _ */
+
+$('#show').on('click',function(){
+	$('#info').slideDown(1000);
+});
+
+$('#info').on('click',function(){
+	$(this).slideUp(1000);
+});
+
 
 (function() {
 
@@ -534,8 +562,5 @@
 }());
 </script>
 <script>
-// $(window).load(function(){ 
-// $("div").insertAfter( $( "#wrapper" )).html("<h3>Why?</h3><p></p><h3>How?</h3><p>Once an hour, we take the RSS feed from Britain's 'top' newspapers, and run them through sentiment analysis to see bla bla...</p><h3>Can I hack it?</h3><p>Sure you can, check out my GH</p>");
 
-// });
 </script>
