@@ -1,27 +1,24 @@
+ <nav>
+    <a href="/">See Stories</a>
+    <h2>What Not To Read</h2>
+     <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a href="#">here</a></strong>  </p>
+  </nav>
 
-<nav>
-	<a href="/">See Stories</a>
-  <h2>What Not To Read</h2>
-   <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a href="#">here</a></strong>  </p>
-</nav>
-<div class='rightfar'>
-
-	Hello
-</div>
 <script> 
 /* global d3, _ */
 
 (function() {
 
-  var margin = {top: 180, right: 20, bottom: 100, left: 50},
-    margin2  = {top: 410, right: 20, bottom: 20, left: 50},
+  var margin = {top: 180, right: 20, bottom: 100, left: 100},
+    margin2  = {top: 410, right: 20, bottom: 20, left: 100},
     width    = 764 - margin.left - margin.right,
     height   = 633 - margin.top - margin.bottom,
     height2  = 633 - margin2.top - margin2.bottom;
 
   var parseDate = d3.time.format('%X/%d/%m/%Y').parse,
     bisectDate = d3.bisector(function(d) { return d.date; }).left,
-    legendFormat = d3.time.format('%b %d, %Y : %H00 ');
+    legendFormat = d3.time.format('%b %d, %Y');
+    timeFormat = d3.time.format('%H:00 ');
 
   var x = d3.time.scale().range([0, width]),
     x2  = d3.time.scale().range([0, width]),
@@ -99,7 +96,7 @@
    	 .attr('class', 'chart__legend')
    	 .attr('width', width)
    	 .attr('height', 30)
-   	 .attr('transform', 'translate(' + margin2.left + ', 50)')
+   	 .attr('transform', 'translate(' + margin2.left + ', 20)')
    	 .append('text')
      .attr('class', 'chart__symbol')
      .text('BRITISH NEWSPAPER MISERY INDEX')
@@ -213,13 +210,19 @@
         // .attr('height', 300)
         .style('display', 'none');
 
-     var labelx = parseInt(width-70);
+     var labelx = parseInt(width-70+margin.left);
 
     var helper = svg.append('g')
       .attr('class', 'chart__helper')
       .style('text-anchor', 'end')
       .style('font-size', '14px')
       .attr('transform', 'translate(' + labelx + ', 15)');
+
+     var helperLabel = svg.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .style('font-size', '14px')
+      .attr('transform', 'translate(' + parseInt(width+margin.left) + ', 15)');
 
        var expressLabel = svg.append('g')
       .attr('class', 'chart__helper')
@@ -289,6 +292,8 @@
     var independentText = independentHelper.append('text').attr('class', 'indented_details');
     var timesText = timesHelper.append('text').attr('class', 'indented_details');
     var telegraphText = telegraphHelper.append('text').attr('class', 'indented_details');
+
+    var helperLabelText = helperLabel.append('text').attr('class', 'indented_details');
     var mailLabelText = mailLabel.append('text').attr('class', 'indented_details');
     var guardianLabelText = guardianLabel.append('text').attr('class', 'indented_details');
     var expressLabelText = expressLabel.append('text').attr('class', 'indented_details');
@@ -316,7 +321,7 @@
 	      		var paper =  keysSorted[i];
 
 	      		labelNames[paper].attr('transform', 'translate(' + labelx + ',' + (i+2)*25 + ' )');
-	      		textHelperNames[paper].attr('transform', 'translate(' + width + ',' + (i+2)*25 + ' )');
+	      		textHelperNames[paper].attr('transform', 'translate(' + parseInt(width+margin.left) + ',' + (i+2)*25 + ' )');
 	      	}
 
 	      	
@@ -367,6 +372,7 @@
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .on('mouseover', function() {
         helper.style('display', null);
+        helperLabel.style('display', null);
         // focusGraph.style('display', null);
         guardianTooltip.style('display', null);
         mailTooltip.style('display', null);
@@ -374,9 +380,17 @@
         independentTooltip.style('display', null);
         timesTooltip.style('display', null);
         telegraphTooltip.style('display', null);
+      
+        timesHelper.style('display', null);
+        independentHelper.style('display', null);
+        guardianHelper.style('display', null);
+        mailHelper.style('display', null);
+        telegraphHelper.style('display', null);
+        expressHelper.style('display', null);
       })
       .on('mouseout', function() {
         helper.style('display', 'none');
+        helperLabel.style('display', 'none');
         // focusGraph.style('display', 'none');
         guardianTooltip.style('display', 'none');
         mailTooltip.style('display', 'none');
@@ -384,6 +398,13 @@
         independentTooltip.style('display', 'none');
         timesTooltip.style('display', 'none');
         telegraphTooltip.style('display', 'none');
+
+        timesHelper.style('display', 'none');
+        independentHelper.style('display', 'none');
+        guardianHelper.style('display', 'none');
+        mailHelper.style('display', 'none');
+        telegraphHelper.style('display', 'none');
+        expressHelper.style('display', 'none');
       })
       .on('mousemove', mousemove);
 
@@ -412,6 +433,7 @@
       var d1 = data[i];
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
       helperText.text(legendFormat(new Date(d.date)));
+      helperLabelText.text(timeFormat(new Date(d.date)));
 
       reorderLabels(d);
 	  guardianText.text(d.guardian);
@@ -510,4 +532,10 @@
 
 
 }());
+</script>
+<script>
+// $(window).load(function(){ 
+// $("div").insertAfter( $( "#wrapper" )).html("<h3>Why?</h3><p></p><h3>How?</h3><p>Once an hour, we take the RSS feed from Britain's 'top' newspapers, and run them through sentiment analysis to see bla bla...</p><h3>Can I hack it?</h3><p>Sure you can, check out my GH</p>");
+
+// });
 </script>

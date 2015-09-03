@@ -10,10 +10,10 @@ body {
   margin: 0;
 }
 
-.footer, .push {
+/*.footer, .push {
 clear: both;
 padding-left: 5px;
-}
+}*/
 
 
 body {
@@ -135,10 +135,19 @@ p#misery_score {
 }
 
 .rightfar {
-  width: 20%;
-  margin-left: 80%;
-  top: 10%;
+  position: relative;
+  width: 100%;
+  opacity: 0.75;
 }
+
+.rightfar p {
+  font-size: 14px;
+}
+
+.rightfar h3 {
+  font-size: 18px;
+}
+
 
 /* GRAPH */
 .chart__grid {
@@ -210,6 +219,7 @@ svg {
   stroke-width: 2px;
   stroke: #7f8c8d;
 }
+
 
 .telegraph{stroke: #7f8c8d;}
 .chart__overlay {
