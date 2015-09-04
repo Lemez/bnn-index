@@ -33,6 +33,8 @@ gem 'dropbox-sdk'
 gem "sentimentalizer"
 gem 'whenever', :require => false
 
+gem 'classifier-reborn'
+
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'
 

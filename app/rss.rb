@@ -112,7 +112,7 @@ def average(sequence)
   sequence.inject(:+).to_f / sequence.length  
 end  
 
-def save_stories(paper,score)
+def save_scores(paper,score)
 
 	Score.where(date:Date.today, source:paper).first_or_create do |sc|
 		sc.score = score
@@ -121,10 +121,17 @@ def save_stories(paper,score)
 	#ensures only one per paper per day
 end
 
+def save_stories(paper,score,headline)
+	story = Story.where(title: headline, date: Time.now, score:score, source:paper).first_or_create
+	p story
+end
+
+
+
 
 def get_todays_rss
 
-	@todays_data = [Time.now.strftime('%X/%d/%m/%Y')]
+	@todays_data = [Time.now.strftime('%X-%d/%m/%Y')]
 
 	SOURCES.each_pair do |k,v|
 		rss = open(v).read
@@ -142,12 +149,14 @@ def get_todays_rss
 				mixed_story = (afinn_story+wiebe_story)/2
 				mixed_scores << mixed_story
 
+				save_stories(k,mixed_story,headline)
+
 			end
 		end
 		mixed_normalized = average(mixed_scores).round(2)
 
 		#save data to AR
-		save_stories(k,mixed_normalized)
+		save_scores(k,mixed_normalized)
 
 		# add to today's data array
 		@todays_data << mixed_normalized
@@ -185,5 +194,10 @@ def save_to_dropbox(dataToAdd)
 	response = client.put_file(result['path'], newfile, overwrite=true, parent_rev=nil)
 	puts "uploaded:", response.inspect
 
+
+end
+
+
+def classify
 
 end

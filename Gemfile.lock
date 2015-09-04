@@ -18,9 +18,12 @@ GEM
     bcrypt (3.1.10)
     builder (3.2.2)
     chronic (0.10.2)
+    classifier-reborn (2.0.3)
+      fast-stemmer (~> 1.0)
     dropbox-sdk (1.6.5)
       json
     erubis (2.7.0)
+    fast-stemmer (1.0.2)
     http_router (0.11.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -101,6 +104,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord (>= 3.1)
   bcrypt
+  classifier-reborn
   dropbox-sdk
   erubis (~> 2.7.0)
   httparty

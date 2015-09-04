@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2) do
+ActiveRecord::Schema.define(version: 3) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2) do
   create_table "scores", force: :cascade do |t|
     t.datetime "date"
     t.float    "score"
+    t.string   "source"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stories", force: :cascade do |t|
+    t.string   "title"
+    t.float    "score"
+    t.datetime "date"
     t.string   "source"
     t.datetime "created_at"
     t.datetime "updated_at"

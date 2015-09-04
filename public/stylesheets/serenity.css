@@ -278,11 +278,112 @@ svg {
   height: 100%;
   background-color: white;
   opacity: 0.9;
+   overflow-y:scroll;
+    overflow-x:hidden;
+
 }
 
 #blurb{
   padding: 5% 0 0 5%;
+   overflow-y:scroll;
+    overflow-x:hidden;
+    transition: color 1s ease, opacity 1s ease;
 }
+
+#blurb p{
+  font-size: 16px;
+  margin: 0 5% 2% 0;
+}
+
+#blurb h3 {
+  margin: 0 0 2% 0;
+}
+
+#blurb ol {
+  margin: 0 0 2% 0;
+}
+
+#blurb a {
+  color: #a17f1a;
+}
+
+#champion_neg, #champion_pos {
+  left: 2%;
+  width: 20%;
+  float: right;
+  padding-right: 4%;
+  text-align: center;
+  position: relative;
+}
+
+#champion_pos {
+  left: -1000px;
+  display: none;
+}
+
+#champion_neg h2, #champion_pos h2{
+  margin: 10px 0 10px 0;
+  font-size: 36px;
+}
+
+#champion_neg h1, #champion_pos h1,#champion_neg h4, #champion_pos h4, #champion_pos p, #champion_neg p {
+  margin: 0;
+}
+
+#champion_neg h3, #champion_pos h3 {
+  font-size: 24px;
+  margin:5% 0 5% 0;
+}
+
+.cup {
+  background-image: url('http://www.sylviarimm.com/images/medal.gif');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 40%;
+  width: 80px;
+  height: 125px;
+  padding-left: 190px; 
+  margin: 0;
+}
+
+.score_award {
+  text-decoration: none;
+  color: red;
+  font-size: 30px;
+  padding: 5px 0 0 0;
+  font-weight: 700;
+  display: block;
+}
+
+.neg_award_headline {
+  background-color: red;
+  color: white;
+}
+
+.pos_award_headline {
+  background-color: gold;
+  color: black;
+
+}
+
+  .myButton {
+  border:1px solid gray;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-size: 20px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #2f6627;
+  width: 100%;
+  margin-top: 20%;
+}
+.myButton:hover {
+  background-color:black;
+}
+.myButton:active {
+  position:relative;
+}
+
 
 
 

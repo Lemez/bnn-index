@@ -23,7 +23,12 @@ set :output, {:error => PADRINO_ROOT+ "log/cron_error_log.log", :standard =>  PA
 set :environment, "development"
 job_type :padrino_rake, 'cd :path && padrino rake :task -e :environment'
 
-every :hour do
+
+# every 1.day, :at => '4:30 am' do
+# every :hour do
+
+
+every '0 0,6,12,18 * * *' do # every day, 3 times a day, do
   p "\n\n #{Time.now} : score:get_and_save_today_to_db \n\n"
 	padrino_rake "score:get_and_save_today_to_db"
 end

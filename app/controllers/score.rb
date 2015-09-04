@@ -22,6 +22,11 @@ SerenityPadrino::Serenity.controllers :score do
   layout :data
 
    get :getdata, :map => '/data' do
+
+    stories = Story.all.order(:score)
+    @story_neg = stories.first
+    @story_pos = stories.reverse.first
+
         render 'getdata'
   end
   
