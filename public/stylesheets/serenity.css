@@ -307,7 +307,7 @@ svg {
   color: #a17f1a;
 }
 
-#champion_neg, #champion_pos {
+#side {
   left: 2%;
   width: 20%;
   float: right;
@@ -319,6 +319,13 @@ svg {
 #champion_pos {
   left: -1000px;
   display: none;
+  float: left;
+}
+
+#champion_neg {
+  left: 1000px;
+  display: none;
+  float: left;
 }
 
 #champion_neg h2, #champion_pos h2{
@@ -382,6 +389,10 @@ svg {
 }
 .myButton:active {
   position:relative;
+}
+
+nav, #side, .footer {
+  display: none;
 }
 
 

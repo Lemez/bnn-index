@@ -13,7 +13,6 @@ def set_up_sentiment_analysers
 end
 
 
-
 class Hash
 	def format_for_dropbox
 		return [self['date'],
@@ -121,8 +120,8 @@ def save_scores(paper,score)
 	#ensures only one per paper per day
 end
 
-def save_stories(paper,score,headline)
-	story = Story.where(title: headline, date: Time.now, score:score, source:paper).first_or_create
+def save_stories(storyparams)
+	story = Story.where(storyparams).first_or_create
 	p story
 end
 
@@ -133,6 +132,7 @@ def get_todays_rss
 
 	@todays_data = [Time.now.strftime('%X-%d/%m/%Y')]
 
+
 	SOURCES.each_pair do |k,v|
 		rss = open(v).read
 		feed = RSS::Parser.parse(rss,false)
@@ -141,15 +141,17 @@ def get_todays_rss
 
 		feed.items.each.with_index do |item,i| 
 			if i<10
-				headline = item.title.strip
-				afinn_story = headline.afinn_probability.round(2)*100
-				wiebe_story = headline.wiebe_probability.round(2)*100
+				@storyparams = {:title=> '', :date=> Time.now, :mixed=>0.0, :afinn=>0.0, :wiebe=>0.0, :source =>'' }
+				@storyparams[:title] = item.title.strip
+				@storyparams[:afinn] = @storyparams[:title].afinn_probability.round(2)*100
+				@storyparams[:wiebe] = @storyparams[:title].wiebe_probability.round(2)*100
 
 				#  combination of AFINN and WIEBE is by far best with least outliers
-				mixed_story = (afinn_story+wiebe_story)/2
-				mixed_scores << mixed_story
+				@storyparams[:mixed] = (@storyparams[:afinn]+@storyparams[:wiebe])/2
+				mixed_scores << @storyparams[:mixed]
+				@storyparams[:source]=k
 
-				save_stories(k,mixed_story,headline)
+				save_stories(@storyparams)
 
 			end
 		end
