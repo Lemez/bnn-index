@@ -142,12 +142,7 @@ $('button#to_neg_award').on('click',function(){
 	  //   .attr('width', width)
 	  //   .attr('height', height);
 
-  	var make_y_axis = function () {
-	    return d3.svg.axis()
-	      .scale(y)
-	      .orient('left')
-	      .ticks(3);
-	  };
+  	
 
   	var focus = svg.append('g')
     	.attr('class', 'focus')
@@ -218,6 +213,14 @@ $('button#to_neg_award').on('click',function(){
 	    //   .style('text-anchor', 'end')
 	    //   .attr('transform', 'translate(' + width + ', 0)');
 
+	    var make_y_axis = function () {
+	    return d3.svg.axis()
+	      .scale(y)
+	      .orient('left')
+	      .ticks(3);
+	  };
+
+
 	    focus.append('g')
 	        .attr('class', 'y chart__grid')
 	        .call(make_y_axis()
@@ -230,9 +233,43 @@ $('button#to_neg_award').on('click',function(){
 	        .call(xAxis);
 
 	    focus.append('g')
-	        .attr('class', 'y axis')
+	        .attr('class', 'y axis smiley_ticks_helper')
 	        .attr('transform', 'translate(-5, 0)')
 	        .call(yAxis);
+
+	    var yAxisSmileys   = d3.svg.axis().scale(y).orient('left').ticks(4).orient("left");
+
+	    // focus.append('g')
+	    //     .attr('class', ' y axis ')
+	    //     .attr('transform', 'translate(-40, 0)')
+	    //     .call(yAxisSmileys);
+
+	   var allSmileys={
+	    	'4':  '',
+	    	'3':  '',
+	    	'2':  'http://1.bp.blogspot.com/-t8YPSAx5xuA/U2M2a0gLciI/AAAAAAAAG3o/-Ynd1ZFB-uk/s1600/smiling-face.png',
+	    	'1':  '',
+	    	'0':  '',
+	    	'-1':  '',
+	    	'-2':  'http://3.bp.blogspot.com/-WjD8l4AfrAQ/UZYg1Sn0tII/AAAAAAAAD_U/mpRMOaF7EJ0/s1600/mad-angry-emoticon-for-facebook.png',
+	    	'-3':  '',
+	    	'-4':  '',
+	    	'-5':  '',
+	    	'-6':  'http://1.bp.blogspot.com/-UWLZoUV4YOs/UZVbECiesAI/AAAAAAAAD9Y/R1440slqFGg/s1600/red-angry-emoticon-for-facebook.png',
+	    	'-7':  '',
+	    	'-8':  '',
+	    	'-9':''
+	    }
+
+	    focus.select(".smiley_ticks_helper").selectAll(".tick").each(function(d,i) {
+		  console.log("d", d, i);
+			  d3.select(this).append("image").attr({"xlink:href": allSmileys[d.toString()],
+			         "width": 25,
+			         "height": 25,
+			         "transform":"translate(-45, -10)"
+			        })
+			});
+
 
 	    // var focusGraph = barsGroup.selectAll('rect')
 	    //     .data(data)
