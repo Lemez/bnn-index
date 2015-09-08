@@ -232,6 +232,11 @@ svg {
   opacity: 0.5;
 }
 
+.chart__average--focus:hover {
+  opacity: 1;
+}
+
+
 .chart__overlay {
   opacity: 0;
   pointer-events: all;
@@ -424,7 +429,7 @@ nav {
 }
 
 /*@media only screen and (min-device-width: 320px) and (max-device-width: 650px) {
-  
+
     nav {
     display: block;
     width: 100%;

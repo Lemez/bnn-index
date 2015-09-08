@@ -47,11 +47,14 @@
 		<li><a href="https://github.com/malavbhavsar/sentimentalizer" target="_blank">Naive Bayes Classifier (Sentimentalizer)</a> </li>
 	</ol>
 
+		<p>Currently, calculation of overall sentiment score for each story is simply made by averaging the per-word score of tools 1 and 2 above, normalised between -1(negative) and +1(positive) . </p>
+
 		<p>In the first test, sixty headlines were checked against the three tools. Ultimately, sentiment analysis is a rather subjective exercise, so I went down the list of scores and picked out the stories <em>I </em> thought were particularly offensive, and compared the scores. The full csv of initial data for comparison is <a href="https://www.dropbox.com/s/tngc6yqcff9ylve/rss2mixed.csv?dl=1">here</a> (key: Wiebe-MPQA, Sent-Naive Classifier). Taken alone, Wiebe and AFINN got the score badly wrong (ie weren't offended by something I found grossly offensive, or were offended by something harmless) around 20% of the time, but averaged together, the rate dropped dramatically in the test data. </p>
 
 
-		<h3>Can I hack it?</h3>
-		<p>Sure you can, fork it over on <a href="https://github.com/Lemez/serenity-padrino" target="_blank">Github</a> .</p>
+		<h3>Can I improve it?</h3>
+		<p>Sure you can, please fork it over on <a href="https://github.com/Lemez/serenity-padrino" target="_blank">Github</a> .</p>
+		<p>If you have any thoughts, comments, improvements, go to the  <a href="https://github.com/Lemez/serenity-padrino" target="_blank">Hacker News thread</a> .</p>
 	</div>
 </div>
 
@@ -607,17 +610,12 @@ $('button#to_neg_award').on('click',function(){
 		      var d1 = data[i];
 		      var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
-		      // helperText.text(legendFormat(new Date(d.date)));
-		      // helperLabelText.text(timeFormat(new Date(d.date)));
-
-
-
+		      helperText.text(legendFormat(new Date(d.date)));
+		      helperLabelText.text(timeFormat(new Date(d.date)));
 
 		      function reorderLabels(d){
 
 		      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji,'times':timesEmoji, 'average':averageEmoji};
-
-		      		
 
 		      		function makeEmoji(name){
 
@@ -694,8 +692,7 @@ $('button#to_neg_award').on('click',function(){
 
 		      reorderLabels(d);
 
-		      // averageLabel.attr('transform', 'translate(' + labelx + ',200)');
-		      // averageHelper.attr('transform', 'translate(' + parseInt(width+margin.left) + ',200)');
+		      
 
 			  guardianText.text(d.guardian);
 		      mailText.text(d.mail);
@@ -713,6 +710,9 @@ $('button#to_neg_award').on('click',function(){
 		      timesTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.times) + ')');
 		      telegraphTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.telegraph) + ')'); 
 		      averageTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')'); 
+
+		      // console.log(d3.mouse(this));
+		      console.log();
 
 	    }
 
