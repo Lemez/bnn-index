@@ -37,8 +37,8 @@
 		<p>"It's good to stay informed" is a platitude I grew up on. I turn to the Guardian online several times a day to kill spare moments. But what does this do to my mood? Apart from the story itself, what other information am I getting? This project is a humble attempt to find out.</p>
 		<h3>How?</h3>
 		<p>
-			Once every hour, we take the RSS feed from Britain's 'top' newspapers, and run the first ten headlines through sentiment analysis to see how they score. Stories are assessed for 'positivity' or 'negativity', according to two sentiment analysis dictionaries, AFINN and MPQA.
-			Each word in the headline is given a score, according to its strength or weakness, such as 'charming': +3; 'terrifying': -3, and each headline score is added together, and then averaged out across all ten stories. </p>
+			Once every hour, we take the RSS feed from Britain's 'top' newspapers, and run the first ten headlines through sentiment analysis to see how they score. Stories are assessed for 'positivity' or 'negativity', according to two sentiment analysis dictionaries, AFINN and MPQA.</p>
+			<p>Each word in the headline is given a score, according to its strength or weakness, such as 'charming': +3; 'terrifying': -3, and each headline score is added together, and then averaged out across all ten stories. </p>
 
 		<p>Three different tools were tested, and manually assessed to check efficacy (click for more info): </p>
 		<ol>
@@ -256,12 +256,12 @@ $('button#to_neg_award').on('click',function(){
 	   var allSmileys={
 	    	'2':  'http://blog.openconnection.com/wp-content/uploads/2015/04/closed-eyes-smiley.png',
 	    	'0': 'http://afv.com/wp-content/uploads/2014/11/Neutral.png',
-	    	'-2':  'http://pix.iemoji.com/images/emoji/apple/8.3/256/weary-face.png',
-	    	'-4':  'http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png'
+	    	'-2':  'http://vaks.in/wp-content/uploads/2012/07/e416.png',
+	    	'-4':  'http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png',
+	    	'-6': 'https://image.freepik.com/free-photo/evil-bad-emoticon_318-40219.jpg'
 	    }
 
 	    focus.select(".smiley_ticks_helper").selectAll(".tick").each(function(d,i) {
-		  console.log("d", d, i);
 			  d3.select(this).append("image").attr({"xlink:href": allSmileys[d.toString()],
 			         "width": 25,
 			         "height": 25,
@@ -416,11 +416,19 @@ $('button#to_neg_award').on('click',function(){
 		timesLabel =  makeLabel('times');
 		averageLabel =  makeLabel('average');
 
+		// set up original legend display
+		var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,timesLabel,averageLabel];
+
+		for (p=0;p<labels.length;p++){
+			labels[p].attr('transform', 'translate(' + margin.left + ',' + (p+5)*20 + ' )');
+		}
+
 		// HELPERS
 		function makeHelper(name){
 	    	return svg.append('g')
 	      .attr('class', 'chart__helper')
 	      .style('text-anchor', 'end')
+	      .style('display', null)
 	      .attr('class', name);
 	    }
 
@@ -466,6 +474,14 @@ $('button#to_neg_award').on('click',function(){
 	    timesLabelText = timesLabel.append('text').attr('class', 'indented_details');
 	    telegraphLabelText = telegraphLabel.append('text').attr('class', 'indented_details');
 	    averageLabelText = averageLabel.append('text').attr('class', 'indented_details');
+
+	    guardianLabelText.text("Guardian");
+	    mailLabelText.text("Mail");
+	    expressLabelText.text("Express");
+	    independentLabelText.text("Independent");
+	    timesLabelText.text("Times");
+	    telegraphLabelText.text("Telegraph");
+	    averageLabelText.text("average");
 
 	    function makeEmoji(name){
 	    	return svg.append('g')
@@ -607,25 +623,40 @@ $('button#to_neg_award').on('click',function(){
 
 		      			var emojiKeys = Object.keys(allSmileys).map(function(a){return parseInt(a);});
 
-		      			var emojiScore, smileyKey = emojiKeys[0], neutralKey = emojiKeys[1], sadKey = emojiKeys[2],angryKey = emojiKeys[3];
+		      			var emojiScore;
+		      			var neutralKey = emojiKeys[0],  smileyKey = emojiKeys[1], sadKey = emojiKeys[2],angryKey = emojiKeys[3], deathKey = emojiKeys[4];
 		      		
-		      			var paperScore = Math.round(parseInt((d[name])));
+
+		      			function roundNeatly(number){
+
+		      				return number < 0 ? number-(1+(number%2)) : number+(1-(number%2));
+		      			}
+
+		      			var paperScore = parseFloat(d[name]);
+		      			// condition = Math.abs(paperScore)%2>1;
+
+		      			// if (condition) {paperScore=roundNeatly(paperScore);}
 
 						switch (true) {
-						    case (paperScore >= smileyKey):
+						    case (paperScore >= ((smileyKey+neutralKey)/2)):
 								emojiScore = smileyKey.toString();
 						        break;
-						    case (paperScore >= neutralKey):
+						    case (paperScore >= ((neutralKey+sadKey)/2)):
 						    	emojiScore = neutralKey.toString();
 						        break;
-						     case (paperScore >= sadKey):
+						    case (paperScore > ((sadKey+angryKey)/2)):
 						    	emojiScore = sadKey.toString();
 						        break;
-						    case (paperScore < sadKey):
+						    case (paperScore > ((angryKey+deathKey)/2)):
 						    	emojiScore = angryKey.toString();
 						        break;
-						       
+
+						    case (paperScore <= ((angryKey+deathKey)/2)):
+						    	emojiScore = deathKey.toString();
+						        break;			       
 						}
+
+						console.log(name,paperScore,emojiScore);
 
 					   emojiNames[name].append("image")
 					  .attr({"xlink:href": allSmileys[emojiScore],
@@ -665,14 +696,6 @@ $('button#to_neg_award').on('click',function(){
 
 		      // averageLabel.attr('transform', 'translate(' + labelx + ',200)');
 		      // averageHelper.attr('transform', 'translate(' + parseInt(width+margin.left) + ',200)');
-
-		       guardianLabelText.text("Guardian");
-		      mailLabelText.text("Mail");
-		      expressLabelText.text("Express");
-		      independentLabelText.text("Independent");
-		      timesLabelText.text("Times");
-		      telegraphLabelText.text("Telegraph");
-		      averageLabelText.text("average");
 
 			  guardianText.text(d.guardian);
 		      mailText.text(d.mail);
