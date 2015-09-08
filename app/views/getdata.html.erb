@@ -99,20 +99,6 @@ $('button#to_neg_award').on('click',function(){
 	timesLine,timesChart,timesLabel,timesHelper,timesTooltip,timesText,timesLabelText,averageLine,averageChart,averageLabel,averageHelper,averageTooltip,averageText,averageLabelText;
 
 	var allPapers=['express','guardian','independent','mail','telegraph','times'];
-
-     function type(d) {
-
-	    return {
-	      date    : parseDate(d.Date),
-	      guardian   : d.Guardian,
-	      mail   : d.Mail,
-	      express   : d.Express,
-	      telegraph   : d.Telegraph,
-	      independent   : d.Independent,
-	      times   : d.Times,
-	      average : Math.round(((parseInt(d.Times)+parseInt(d.Independent)+parseInt(d.Telegraph)+parseInt(d.Express)+parseInt(d.Mail)+parseInt(d.Guardian))/6) * 10 ) / 10
-	    }
-  }
    
 	var windowW = $(window).width();
 	var windowH = $(window).height();
@@ -129,7 +115,7 @@ $('button#to_neg_award').on('click',function(){
     var y2  = d3.scale.linear().range([height2, 0]);
     var y3  = d3.scale.linear().range([800, 0]);
   	var parseDate = d3.time.format('%X-%d/%m/%Y').parse;
-    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+    var bisectDate = d3.bisector(function(d) { return parseDate(d.date); }).left;
     var legendFormat = d3.time.format('%b %d, %Y');
     var timeFormat = d3.time.format('%H:00 ');
   	var xAxis = d3.svg.axis().scale(x).ticks(4).tickFormat(d3.time.format("%a %d/%m")).orient('bottom');
@@ -183,20 +169,50 @@ $('button#to_neg_award').on('click',function(){
    // 	 .append('g')
    // 	 .attr('class', 'chart__range-selection')
    // 	 .attr('transform', 'translate(110, 0)');
+   var scores = <%=@scores%>;
+   console.log(scores); 
+   var testdata = [
+					{"date": parseDate("11:00:00-01/01/2015"),
+					"express": "-2.75",
+					"guardian": "-4.35",
+					"independent": "-3.0",
+					"mail": "-1.3",
+					"telegraph": "-1.0",
+					"times": "-1.2",
+					"average": '1.0'},
+					{"date": parseDate("11:00:00-02/01/2015"),
+					"express": "-2.85",
+					"guardian": "-4.25",
+					"independent": "-2.0",
+					"mail": "-1.8",
+					"telegraph": "-2.0",
+					"times": "-1.4",
+				"average": '1.0'},
+					{"date": parseDate("11:00:00-03/01/2015"),
+					"express": "-3.85",
+					"guardian": "-3.25",
+					"independent": "-1.0",
+					"mail": "-1.8",
+					"telegraph": "-2.5",
+					"times": "-1.9",
+				"average": '1.0'}
+					];
 
-  	d3.csv('https://dl.dropboxusercontent.com/u/2448084/papers_production.csv', type, function(err, data) {
+	draw(scores);
+
+
+  	// d3.csv('https://dl.dropboxusercontent.com/u/2448084/papers_production.csv', type, function(err, data) {
+  	function draw(data){
 
   		// var brush = d3.svg.brush().x(x2).on('brush', brushed);
 
-	    function addMinutes(date, minutes) {
-		    return new Date(date.getTime() + minutes*60000);
-		}
+  		// console.log(data);
 
-	    var xRange = d3.extent(data.map(function(d) { return d.date; }));
+	    var xRange = d3.extent(data.map(function(d) { return parseDate(d.date); }));
 	    var minDate = xRange[0];
 
 	    // add 3 mins to  last date to make it play nice with bars
-	    var maxDate = addMinutes(xRange[1],3);
+	    var maxDate = xRange[1];
 	    var allValues = [].concat(
 	    		data.map(function (d) {return (d.guardian);}), 
 	    		data.map(function (d) {return (d.mail);}),
@@ -290,7 +306,7 @@ $('button#to_neg_award').on('click',function(){
 	    function makeLine(name){
 			   return d3.svg.line()
 			    .interpolate('monotone')
-			    .x(function(d) { return x(d.date); })
+			    .x(function(d) { return x(parseDate(d.date)); })
 			    .y(function(d) { return y(d[name]); });
 	    }
 
@@ -608,10 +624,10 @@ $('button#to_neg_award').on('click',function(){
 		      var i = bisectDate(data, x0, 1);
 		      var d0 = data[i - 1];
 		      var d1 = data[i];
-		      var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+		      var d = x0 - parseDate(d0.date) > parseDate(d1.date) - x0 ? d1 : d0;
 
-		      helperText.text(legendFormat(new Date(d.date)));
-		      helperLabelText.text(timeFormat(new Date(d.date)));
+		      helperText.text(legendFormat(new Date(parseDate(d.date))));
+		      helperLabelText.text(timeFormat(new Date(parseDate(d.date))));
 
 		      function reorderLabels(d){
 
@@ -654,7 +670,7 @@ $('button#to_neg_award').on('click',function(){
 						        break;			       
 						}
 
-						console.log(name,paperScore,emojiScore);
+						// console.log(name,paperScore,emojiScore);
 
 					   emojiNames[name].append("image")
 					  .attr({"xlink:href": allSmileys[emojiScore],
@@ -669,18 +685,20 @@ $('button#to_neg_award').on('click',function(){
 			      
 
 			      		keysSorted = Object.keys(d);
+
 			      		//keysSorted.splice(-1,1); // remove "average" value from sorted list
 			      		keysSorted.sort(function(a,b){return d[a]-d[b]});
-			      		keysSorted.splice(-1,1);
+			      		keysSorted.shift();// remove "date" value from sorted list
 
-			   			 
+	 
 				    for (w = 0;w<keysSorted.length;w++){ 
 				      		var paper =  keysSorted[w];
-				      		var textBoxX = x(d.date)+180;
+				      		var textBoxX = x(parseDate(d.date))+180;
 				      		if (textBoxX>width){textBoxX=width;}
 			      			if (textBoxX<200){textBoxX=200;}
 
 				      		var textBoxY = ((w+2)*25)+40;
+
 				      		labelNames[paper].attr('transform', 'translate(' + textBoxX + ',' + textBoxY + ' )');
 				      		textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+100) + ',' + textBoxY + ' )');
 				      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+50) + ',' + textBoxY + ' )');
@@ -703,16 +721,16 @@ $('button#to_neg_award').on('click',function(){
 		      averageText.text(d.average);
 
 		      // focusGraph.attr('transform', 'translate(' + x(d.date) + ',' + 0 + ')');
-		      guardianTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.guardian) + ')');
-		      mailTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.mail) + ')');
-		      expressTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.express) + ')');
-		      independentTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.independent) + ')');
-		      timesTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.times) + ')');
-		      telegraphTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.telegraph) + ')'); 
-		      averageTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')'); 
+		      guardianTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.guardian) + ')');
+		      mailTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.mail) + ')');
+		      expressTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.express) + ')');
+		      independentTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.independent) + ')');
+		      timesTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.times) + ')');
+		      telegraphTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.telegraph) + ')'); 
+		      averageTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.average) + ')'); 
 
 		      // console.log(d3.mouse(this));
-		      console.log();
+
 
 	    }
 
@@ -798,10 +816,7 @@ $('button#to_neg_award').on('click',function(){
 	      // context.select('g.x.brush').call(brush.extent([ext, today]))
 	    }
 
-  })// end Data
+  }// end Data
 
 }());
-</script>
-<script>
-
 </script>

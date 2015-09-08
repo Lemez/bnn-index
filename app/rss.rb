@@ -113,7 +113,7 @@ end
 
 def save_scores(paper,score)
 
-	Score.where(date:Date.today, source:paper).first_or_create do |sc|
+	Score.where(date:Time.now, source:paper).first_or_create do |sc|
 		sc.score = score
 	end
 

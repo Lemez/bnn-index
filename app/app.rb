@@ -14,9 +14,6 @@ module SerenityPadrino
         render :index
     end
 
-    
-
-
     ##
     # Caching support.
     #
