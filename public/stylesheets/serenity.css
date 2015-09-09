@@ -16,19 +16,19 @@ padding-left: 5px;
 }*/
 
 
-body {
-  bottom: 0;
-  display: table;
-  height: 100%;
-  top: 0;
-  width: 100%;
+html {
+  overflow: scroll;
 }
+
+
 
 nav {
   width: 10%;
   float: left;
-  margin-left: 5px;
+  margin-left: 1%;
   min-width: 70px;
+  min-height: 200%;
+  clear: none;
 
 }
 
@@ -159,7 +159,6 @@ svg {
   font: 12px sans-serif;
   margin-top: 20px;
   float: right;
-  display: inline;
 }
 .area {
   fill: rgba(255,100,100,0.5);
@@ -309,76 +308,75 @@ svg {
   opacity: 0.9;
    overflow-y:scroll;
     overflow-x:hidden;
-
 }
 
-#blurb{
+.blurb{
   padding: 5% 0 0 5%;
    overflow-y:scroll;
     overflow-x:hidden;
     transition: color 1s ease, opacity 1s ease;
 }
 
-#blurb p{
+.blurb p{
   font-size: 16px;
   margin: 0 5% 2% 0;
 }
 
-#blurb h3 {
+.blurb h3 {
   margin: 0 0 2% 0;
 }
 
-#blurb ol {
+.blurb ol {
   margin: 0 0 2% 0;
 }
 
-#blurb a {
+.blurb a {
   color: #a17f1a;
 }
 
 #side {
-  left: 2%;
-  width: 20%;
+  width: 80%;
   float: right;
-  padding-right: 4%;
+  background-color: white;
+
+}
+
+#champion_pos, #champion_neg {
   text-align: center;
-  position: relative;
+  width: 100%;
 }
 
 #champion_pos {
-  left: -1000px;
   display: none;
-  float: left;
 }
 
-#champion_neg {
-  left: 1000px;
-  display: none;
-  float: left;
-}
+
 
 #champion_neg h2, #champion_pos h2{
   margin: 10px 0 10px 0;
   font-size: 36px;
 }
 
-#champion_neg h1, #champion_pos h1,#champion_neg h4, #champion_pos h4, #champion_pos p, #champion_neg p {
+#side h2, #side p, #side h3, #side h4 {
   margin: 0;
 }
 
-#champion_neg h3, #champion_pos h3 {
+#side h3{
   font-size: 24px;
-  margin:5% 0 5% 0;
+  margin:1% 0 1% 0;
+}
+
+#side h4 {
+  display: inline;
 }
 
 .cup {
   background-image: url('http://www.sylviarimm.com/images/medal.gif');
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 40%;
-  width: 80px;
-  height: 125px;
-  padding-left: 190px; 
+  background-size: 15%;
+  height: 140px;
+
   margin: 0;
 }
 
@@ -420,13 +418,68 @@ svg {
   position:relative;
 }
 
-nav, #side, .footer {
+.footer {
   display: none;
 }
 
 nav {
   display: inline;
 }
+
+
+
+.score_neg {
+  color: red;
+  font-weight: 700;
+}
+
+.score_pos {
+  color: green;
+  font-weight: 700;
+}
+
+span.source {
+  font-style: italic;
+}
+
+span.title {
+font-weight: 400;
+}
+ol li {
+  text-align: left;
+  font-size: 20px;
+  margin: 0;
+  border-bottom: 1px dotted gray;
+}
+
+ol li:first {
+  margin-top: 20px;
+}
+
+ol {
+  border-top: 1px dotted gray;
+}
+
+#buttons_div {
+  position: absolute;
+  top:100%;
+
+}
+
+#buttons_div button {
+  margin-top:80%;
+  display: none;
+}
+
+#champion_pos, #champion_neg {
+  display: none;
+  padding-right: 10px;
+}
+
+
+/*.footer {
+  width: 100%;  
+}*/
 
 /*@media only screen and (min-device-width: 320px) and (max-device-width: 650px) {
 

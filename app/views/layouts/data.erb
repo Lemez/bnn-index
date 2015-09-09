@@ -11,10 +11,57 @@
   </head>
   <body>
    
-
-     
         <%= yield %>
 
+
+    <div id='side'>
+    <div id='champion_neg'>
+      
+      <p class='neg_award_headline'>Misery Guts Story of the month award</p>
+      <h3>with a score of <span class='score_award'><%=@story_neg.first[3] %></span></h3>
+      <h2> The <%= @story_neg.first[1] %></h2>
+      <div class='cup'></div>
+      <h4><%= @story_neg.first[2].strftime('%x') %></h4>
+      <h3><em><%= @story_neg.first[0] %></em></h3>
+      
+     
+      
+       <ol start="2">
+        <%@story_neg[1..9].each do |bs|%>
+          <li>
+          <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_neg'><%=bs[-1]%></span>
+          </li>
+          <br/>
+        <%end%>
+      </ol>
+      
+    
+    </div>
+
+    <div id='champion_pos'>
+  
+      <p class='pos_award_headline'>Happy Larry Story of the month award</p>
+      <h3>with a score of <span class='score_award score_pos'><%=@story_pos.first[3] %></span></h3>
+      <h2> The <%= @story_pos.first[1] %></h2>
+      <div class='cup'></div>
+      <h4><%= @story_pos.first[2].strftime('%x') %></h4>
+      <h3><em><%= @story_pos.first[0] %></em></h3>
+      
+      
+    
+      <ol start="2">
+        <%@story_pos[1..9].each do |bs|%>
+          <li>
+            <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_pos'><%=bs[-1]%></span>
+          </li>
+          <br/>
+        <%end%>
+      </ol>
+
+    
+    </div>
+  
+</div>
       
     <div class="footer">made by Jonathan Walton, using D3.js and Padrino. The code is available on <a href="https://github.com/Lemez/serenity-padrino" target ="_blank">Github</a>.
     </div>

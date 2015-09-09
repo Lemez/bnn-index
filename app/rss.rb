@@ -12,6 +12,56 @@ def set_up_sentiment_analysers
 	wiebe_to_hash
 end
 
+def write_stories_title_to_file
+	 file = File.open("test.txt","w")
+	    Story.all.each do |s|
+	      file.puts(s.title)
+	    end
+    file.close
+end
+
+def analyse_headlines_with_brown
+
+	clusters = [10,20,40,60,80,100,120,150,200,500,1000]
+	clusters.each do |x|
+		`./wcluster --text test.txt --c #{x}`
+	end
+
+	# https://github.com/percyliang/brown-cluster
+
+	# http://www.derczynski.com/sheffield/brown-tuning/
+	# Low cluster counts and small input corpora both lead to poor quality Brown clusterings. But this isn't very useful general advice. We need to look deeper. We'll change to recognising named entities in news text, because we have bigger and more reliable data in this area, which improves the stability and resolution of the performance scores.
+	
+end
+
+def analyse_brown_output
+	 hash = {}
+        Dir.glob("./lib/brown-cluster/*.out/paths").each do |file|
+            f = File.dirname(file)
+            write = File.open("#{f}/readable.txt","w")
+            File.open(file,"r").readlines.each do |line, line_num|
+
+                binary,word,group = line.split("\t")
+                group.strip!
+                word.strip!
+
+                if !hash.has_key?(group)
+                  hash[group] = [word]
+                else
+                  arr = hash[group]
+                  arr << word
+                  hash[group] = arr
+                end
+            end
+
+            hash.each_pair do |k,v|
+              write.puts(k)
+              write.printf("#{v}\n\n")
+            end
+            write.close
+        end
+end
+
 
 class Hash
 	def format_for_dropbox
@@ -201,5 +251,55 @@ end
 
 
 def classify
+end
+
+def sort_scores_by_date(data)
+
+	@allscores, @tmp = [],[]
+    @previous = data[-1]
+
+    data.each_with_index do |s,i|
+      if i==0
+        @tmp << s
+      elsif s.date.strftime("%h/%d/%m/%Y")==@previous.date.strftime("%h/%d/%m/%Y")
+        @tmp << s
+      else
+        @allscores << @tmp
+        @tmp = [s]
+      end
+      @previous=s
+    end
+
+    @allscores
+end
+
+def ar_to_array_of_objects(data)
+	finalscores=[]
+    
+    data.each do |date_array|
+      o={}
+
+      sources,scores = date_array.map(&:source),date_array.map(&:score)
+
+      sources.each_with_index do |d,i|
+        o['date']=date_array[0].date.strftime("%X-%d/%m/%Y")
+        o[sources[i].downcase]=scores[i]
+        o['average'] = (scores.inject(0.0) { |sum, el| sum + el } / scores.size).round(2)
+
+      end
+      finalscores << o
+    end
+
+    finalscores
 
 end
+
+def sort_and_deliver_scores(data)
+
+	allscores = sort_scores_by_date(data)
+    scores = ar_to_array_of_objects(allscores)
+    
+   return scores.to_json.html_safe
+end
+
+

@@ -2,37 +2,19 @@
 	<a href="/"><-</a>
 <!-- 	<h2>What Not To Read</h2> -->
 	 <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a id="showmethods" href="#">here</a></strong>  </p>
-</nav>
-<div id='side'>
-	<h2 id='showside'>See Awards</h2>
-	  <div id='champion_neg'>
+	 <br/>
 
-	  	<p class='neg_award_headline'>Misery Guts story of the month award</p>
-	  	<h3>with a score of </h3>
-	  	<span class='score_award'><%=@story_neg.mixed %></span>
-	  	<h2> The <%= @story_neg.source %></h2>
-	  	<div class='cup'></div>
-	  	<h3><em><%= @story_neg.title %></em></h3>
-	  	<h4><%= @story_neg.date.strftime('%x') %></h4>
-	  	<button id='to_pos_award' class="myButton"> >> </button>
-	  	
-	  </div>
-	   <div id='champion_pos'>
-	   	
-	  	<p class='pos_award_headline'>Happy Larry story of the month award</p>
-	  	<h3>with a score of </h3>
-	  	<span class='score_award'><%=@story_pos.mixed %></span>
-	  	<h2> The <%= @story_pos.source %></h2>
-	  	<div class='cup'></div>
-	  	<h3><em><%= @story_pos.title %></em></h3>
-	  	<h4><%= @story_pos.date.strftime('%x') %></h4>
-	  	<button id='to_neg_award' class="myButton"> << </button>
-	  	
-	  </div>
-</div>
+	  <p>To see the current hall of shame, click <strong><a id="showside" href="#side">here</a></strong>  </p>
+	
+	  <div id='buttons_div'>
+		 <button id='to_pos_award' class="myButton"> To Happy<br/> Top 10 </button>
+	     <button id='to_neg_award' class="myButton"> To Miserable<br/> Top 10 </button>
+	 </div>
+</nav>
+
 
 <div id='info'>
-	<div id='blurb'>
+	<div class='blurb'>
 		<h3>Why?</h3>
 		<p>"It's good to stay informed" is a platitude I grew up on. I turn to the Guardian online several times a day to kill spare moments. But what does this do to my mood? Apart from the story itself, what other information am I getting? This project is a humble attempt to find out.</p>
 		<h3>How?</h3>
@@ -66,25 +48,42 @@ $('#showmethods').on('click',function(){
 	$('#info').slideDown(1000);
 });
 
+
 $('#info').on('click',function(){
 	$(this).slideUp(1000);
 });
 
-$('#showside').on('click',function(){
-	$('#champion_neg').animate({left:'2%'},300).show();
-	$(this).hide();
+$('a[href^="#"]').on('click',function (e) {
+	    e.preventDefault();
+
+	    var target = this.hash;
+	    var $target = $(target);
+
+	    $('html, body').stop().animate({
+	        'scrollTop': $target.offset().top
+	    }, 900, 'swing', function () {
+	        window.location.hash = target;
+	    });
+	});
+
+
+$('#showside, button#to_neg_award').on('click',function(){
+
+
+	 $('#champion_neg').show();
+	 $('#champion_pos').hide();
+	 $('#to_pos_award').show();
+	 $('#to_neg_award').hide();
 });
 
 $('button#to_pos_award').on('click',function(){
-        $('#champion_neg').animate({left:'1000px'},300).hide();
-         $('#champion_pos').animate({left:'2%'},300).show();
-});
+			 $('#champion_neg').hide();
+           $('#champion_pos').show();
+            
+	 		$('#to_neg_award').show();
+	 		$(this).hide();
 
-$('button#to_neg_award').on('click',function(){
-	 $('#champion_pos').animate({left:'1000px'},300).hide();
-         $('#champion_neg').animate({left:'2%'},300).show();
 });
-
 
 
 
@@ -103,6 +102,7 @@ $('button#to_neg_award').on('click',function(){
 	var windowW = $(window).width();
 	var windowH = $(window).height();
 	var windowM = windowW/8;
+	var responsiveTicks = Math.round(windowW/150);
   	var margin = {top: 230, right: windowM, bottom: 100, left: windowM};
   	var margin2  = {top: 410, right: 100, bottom: 100, left: 100};
   	var width    = windowW - margin.left - margin.right;
@@ -118,7 +118,7 @@ $('button#to_neg_award').on('click',function(){
     var bisectDate = d3.bisector(function(d) { return parseDate(d.date); }).left;
     var legendFormat = d3.time.format('%b %d, %Y');
     var timeFormat = d3.time.format('%H:00 ');
-  	var xAxis = d3.svg.axis().scale(x).ticks(4).tickFormat(d3.time.format("%a %d/%m")).orient('bottom');
+  	var xAxis = d3.svg.axis().scale(x).ticks(responsiveTicks).tickFormat(d3.time.format("%a %d/%m")).orient('bottom');
     var xAxis2  = d3.svg.axis().scale(x2).orient('bottom');
     var yAxis   = d3.svg.axis().scale(y).orient('left');
 
@@ -199,6 +199,7 @@ $('button#to_neg_award').on('click',function(){
 					];
 
 	draw(scores);
+	setTimeout(placePageElements(),5000);
 
 
   	// d3.csv('https://dl.dropboxusercontent.com/u/2448084/papers_production.csv', type, function(err, data) {
@@ -517,7 +518,7 @@ $('button#to_neg_award').on('click',function(){
 	    timesEmoji =  makeEmoji('times');
 	    averageEmoji =  makeEmoji('average');
 
-	    var emojis = [timesEmoji,independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji];
+	    var emojis = [timesEmoji,independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji,averageEmoji];
 
 	    mailEmojiText = mailEmoji.append('text').attr('class', 'indented_details');
 	    guardianEmojiText = guardianEmoji.append('text').attr('class', 'indented_details');
@@ -563,6 +564,7 @@ $('button#to_neg_award').on('click',function(){
 	      		globalHelpers[0].style('display', null);
 		      	globalHelpers[1].style('display', null);
 		      	globalHelpers[2].style('display', null);
+		      	d3.select(".chart__subtitle").style('display', 'none');
 
 		      	for (q=0;q<helpers.length;q++){
 		      		helpers[q].style('display', null);
@@ -576,6 +578,10 @@ $('button#to_neg_award').on('click',function(){
 		      		emojis[t].style('display', null);
 		      	}
 
+		      	for (p=0;p<labels.length;p++){
+					labels[p].style('display', null);
+				}
+
 		    
 	      })
 	      .on('mouseout', function() {
@@ -584,6 +590,11 @@ $('button#to_neg_award').on('click',function(){
 	     		globalHelpers[0].style('display', 'none');
 		      	globalHelpers[1].style('display', 'none');
 		      	globalHelpers[2].style('display', 'none');
+		      	d3.select(".chart__subtitle").style('display', null);
+
+		      	for (p=0;p<labels.length;p++){
+					labels[p].style('display', 'none');
+				}
 
 
 	        	for (r=0;r<helpers.length;r++){
@@ -817,6 +828,11 @@ $('button#to_neg_award').on('click',function(){
 	    }
 
   }// end Data
+
+  function placePageElements(){
+  	var svgH = $('svg').height();
+  	$('#side').css('top',svgH+'px');
+  }
 
 }());
 </script>
