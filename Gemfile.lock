@@ -17,13 +17,21 @@ GEM
     arel (6.0.3)
     bcrypt (3.1.10)
     builder (3.2.2)
+    charlock_holmes (0.7.3)
     chronic (0.10.2)
     classifier-reborn (2.0.3)
       fast-stemmer (~> 1.0)
     dropbox-sdk (1.6.5)
       json
     erubis (2.7.0)
+    escape_utils (1.1.0)
     fast-stemmer (1.0.2)
+    gemoji (2.1.0)
+    github-linguist (4.5.15)
+      charlock_holmes (~> 0.7.3)
+      escape_utils (~> 1.1.0)
+      mime-types (>= 1.19)
+      rugged (>= 0.23.0b)
     http_router (0.11.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -80,6 +88,7 @@ GEM
     rack-protection (1.5.3)
       rack
     rake (10.4.2)
+    rugged (0.23.2)
     sentimentalizer (0.2.2)
     sinatra (1.4.6)
       rack (~> 1.4)
@@ -107,6 +116,8 @@ DEPENDENCIES
   classifier-reborn
   dropbox-sdk
   erubis (~> 2.7.0)
+  gemoji
+  github-linguist
   httparty
   padrino (= 0.12.5)
   pg

@@ -20,6 +20,11 @@ html {
   overflow: scroll;
 }
 
+table
+{ 
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
 nav {
@@ -38,7 +43,7 @@ nav div {
 
 nav p {
   margin-left: 5px;
-  font-size: 14px;
+  font-size: 16px;
   min-width: 20px;
   opacity: 0.75;
 }
@@ -63,6 +68,18 @@ nav a:hover {
   color: gold;
 }
 
+nav h6 {
+  text-align: right;
+}
+
+nav h3{
+  text-align: center;
+}
+
+
+
+
+
 section {
   width: 80%;
   float: left;
@@ -77,13 +94,31 @@ section {
 
 }
 
-p#emojis {
-  font-size: 100px;
-  display: block;
-  line-height: 100px;
+.e {
+/*  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 15%;*/
+  font-size: 80px;
+/*  min-height: 240px;
+  min-width: 240px;*/
   margin: 0;
 }
 
+.emoji1{
+    /*background-image:url('http://vaks.in/wp-content/uploads/2012/07/e416.png');*/
+}
+.emoji2{
+  /*background-image: url('http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png');*/
+}
+.emoji3{
+  /*background-image: url('http://image.freepik.com/free-photo/evil-bad-emoticon_318-40219.jpg');*/
+}
+.emoji4{
+  /*background-image: url('http://www.sherv.net/cm/emoticons/nervous/suicidal-smiley-emoticon.gif');*/
+}
+.emoji5{
+    /*background-image: url('http://www.sherv.net/cm/emoticons/guns/headshot-suicide.gif');*/
+}
 
 
 
@@ -95,12 +130,13 @@ article {
 h1 {
   display: inline-block;
   font-size: 66.6px;
-  margin: 1em 0 0 0;
+  margin: 0;
 }
 
 h2 {
   display: inline-block;
   font-size: 33.6px;
+  margin: 0;
 }
 
 p {
@@ -118,7 +154,7 @@ a {
 p#misery_score {
   font-size: 30px;
   font-weight: 700;
-  margin-left: 10px;
+  margin: 0;
 }
 
 .highlight {
@@ -445,18 +481,18 @@ span.source {
 span.title {
 font-weight: 400;
 }
-ol li {
+ol.news li {
   text-align: left;
   font-size: 20px;
   margin: 0;
   border-bottom: 1px dotted gray;
 }
 
-ol li:first {
+ol.news li:first {
   margin-top: 20px;
 }
 
-ol {
+ol.news {
   border-top: 1px dotted gray;
 }
 
@@ -497,6 +533,50 @@ ol {
 }
 */
 
+
+.codechart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+#balls {
+  width: 50%;
+  text-align: center;
+  display: inline;
+  font-size: 100px;
+  margin: 0;
+  line-height: 30px;
+  vertical-align: -25px;
+}
+
+.highlightball {
+  color: red;
+}
+
+#changesource, #changestory {
+  font-size: 18px;
+  border: 1px solid black;
+  display: inline-block;
+  text-align: center;
+  margin: 2px 50px 2px 50px;
+  padding: 5px 5px 5px 5px;
+  vertical-align: middle;
+
+}
+
+#changesource:hover, #changestory:hover {
+  background-color: yellow;
+  color: black ;
+  }
+  #top {
+    display: inline;
+    vertical-align: middle;
+    text-align: center;
+  }
 
 
 

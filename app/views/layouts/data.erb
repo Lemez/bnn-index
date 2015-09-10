@@ -26,7 +26,7 @@
       
      
       
-       <ol start="2">
+       <ol class="news" start="2">
         <%@story_neg[1..9].each do |bs|%>
           <li>
           <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_neg'><%=bs[-1]%></span>
@@ -49,7 +49,7 @@
       
       
     
-      <ol start="2">
+      <ol class="news" start="2">
         <%@story_pos[1..9].each do |bs|%>
           <li>
             <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_pos'><%=bs[-1]%></span>

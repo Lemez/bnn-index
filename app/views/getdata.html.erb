@@ -1,10 +1,11 @@
 <nav>
-	<a href="/"><-</a>
 <!-- 	<h2>What Not To Read</h2> -->
 	 <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a id="showmethods" href="#">here</a></strong>  </p>
 	 <br/>
 
-	  <p>To see the current hall of shame, click <strong><a id="showside" href="#side">here</a></strong>  </p>
+	 <p>To see today's in-depth headline scores, click <strong><a href="/">here</a></strong>  </p>
+
+	  <p>To see the misery hall of shame, click <strong><a id="showside" href="#side">here</a></strong>  </p>
 	
 	  <div id='buttons_div'>
 		 <button id='to_pos_award' class="myButton"> To Happy<br/> Top 10 </button>
@@ -23,7 +24,7 @@
 			<p>Each word in the headline is given a score, according to its strength or weakness, such as 'charming': +3; 'terrifying': -3, and each headline score is added together, and then averaged out across all ten stories. </p>
 
 		<p>Three different tools were tested, and manually assessed to check efficacy (click for more info): </p>
-		<ol>
+		<ol class='analysers'>
 			<li><a href="http://www2.imm.dtu.dk/pubdb/views/publication_details.php?id=6010" target="_blank">AFINN-111</a></li>
 		<li><a href="http://mpqa.cs.pitt.edu/lexicons/subj_lexicon/" target="_blank">MPQA Subjectivity Lexicon</a></li>
 		<li><a href="https://github.com/malavbhavsar/sentimentalizer" target="_blank">Naive Bayes Classifier (Sentimentalizer)</a> </li>
@@ -33,7 +34,52 @@
 
 		<p>In the first test, sixty headlines were checked against the three tools. Ultimately, sentiment analysis is a rather subjective exercise, so I went down the list of scores and picked out the stories <em>I </em> thought were particularly offensive, and compared the scores. The full csv of initial data for comparison is <a href="https://www.dropbox.com/s/tngc6yqcff9ylve/rss2mixed.csv?dl=1">here</a> (key: Wiebe-MPQA, Sent-Naive Classifier). Taken alone, Wiebe and AFINN got the score badly wrong (ie weren't offended by something I found grossly offensive, or were offended by something harmless) around 20% of the time, but averaged together, the rate dropped dramatically in the test data. </p>
 
+		<h3>What is it coded in?</h3>
+		<div class='codechart'></div>
+	
+		<script type="text/javascript">
+	    var dataArray = <%=@project%>;
+	    var total = <%=@total%>;
+	    // var langsArray = <%=@languages%>;
+	    var w = 840,
+    	barHeight = 20;
 
+		  x = d3.scale.linear()
+		  .domain([0, 100])
+		  .range([0, w]);
+
+		d3.select(".codechart")
+		  .selectAll("div")
+		    .data(dataArray)
+		  .enter().append("div")
+		    .style("width", function(d) { return x(d.amount) + "px"; })
+		    .text(function(d) { return d.lang; });
+
+		var chart = d3.select(".bar-chart-svg")
+		    .attr("width", w)
+		    .attr("height", barHeight);
+
+		var bar = chart.selectAll("g")
+		    .data(dataArray)
+		  .enter().append("g")
+		    .attr("transform", function(d, i) { return "translate(" + "0" + "," + i * barHeight + ")"; });
+
+		bar.append("rect")
+		    .attr("width", x)
+		    .attr("height", barHeight - 1);
+
+		bar.append("text")
+		    .attr("x", function(d) { return x(d) - 3; })
+		    .attr("y", barHeight / 2)
+		    .attr("dy", ".35em")
+		    .text(function(d) { return d.amount; });
+
+
+
+
+
+		</script>
+		<br/>
 		<h3>Can I improve it?</h3>
 		<p>Sure you can, please fork it over on <a href="https://github.com/Lemez/serenity-padrino" target="_blank">Github</a> .</p>
 		<p>If you have any thoughts, comments, improvements, go to the  <a href="https://github.com/Lemez/serenity-padrino" target="_blank">Hacker News thread</a> .</p>

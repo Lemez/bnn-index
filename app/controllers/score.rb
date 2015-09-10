@@ -1,5 +1,10 @@
 SerenityPadrino::Serenity.controllers :score do
   
+  require 'rugged'
+  require 'linguist'
+
+
+
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
   #   render 'index'
@@ -26,8 +31,8 @@ SerenityPadrino::Serenity.controllers :score do
         stories = Story.all.pluck(:title,:source,:date,:mixed).uniq{|t|t[0]}.sort{|a,b|a[-1] <=> b[-1]}
         @story_neg = stories[0..9]
         @story_pos = stories[-10..-1].reverse
-        p @story_neg
-        p @story_pos
+        # p @story_neg
+        # p @story_pos
         # @story_pos = stories.order(:mixed)[0..9]
 
        
@@ -46,7 +51,12 @@ SerenityPadrino::Serenity.controllers :score do
 
         @good_stories.each do |s|
             p [s.source,s.mixed,s.title]
-        end     
+        end   
+
+        repo = Rugged::Repository.new('.')
+        project = Linguist::Repository.new(repo, repo.head.target_id)
+        @project = formatforD3(project.languages).to_json.html_safe 
+        @total = project.languages.values.inject(:+)
 
       render 'getdata'
 

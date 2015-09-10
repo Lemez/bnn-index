@@ -6,6 +6,7 @@ require 'csv'
 require 'sentimentalizer'
 require 'date'
 
+
 def set_up_sentiment_analysers
 	# Sentimentalizer.setup
 	afinn_to_hash
@@ -171,8 +172,10 @@ def save_scores(paper,score)
 end
 
 def save_stories(storyparams)
-	story = Story.where(storyparams).first_or_create
-	p story
+	Story.where(source: storyparams[:source],title: storyparams[:title]).first_or_create do |st|
+		st.update(storyparams)
+		st.save!
+	end
 end
 
 
@@ -180,45 +183,81 @@ end
 
 def get_todays_rss
 
-	@todays_data = [Time.now.strftime('%X-%d/%m/%Y')]
-
+	todays_data = [Time.now.strftime('%X-%d/%m/%Y')]
+	todays_stories = {}
+	threads = []
 
 	SOURCES.each_pair do |k,v|
-		rss = open(v).read
-		feed = RSS::Parser.parse(rss,false)
+		threads << Thread.new(k) {|key|
 
-		afinn_scores,wiebe_scores,mixed_scores = [],[],[]
+				p "fetching #{key} RSS"
 
-		feed.items.each.with_index do |item,i| 
-			if i<10
-				@storyparams = {:title=> '', :date=> Time.now, :mixed=>0.0, :afinn=>0.0, :wiebe=>0.0, :source =>'' }
-				@storyparams[:title] = item.title.strip
-				@storyparams[:afinn] = @storyparams[:title].afinn_probability.round(2)*100
-				@storyparams[:wiebe] = @storyparams[:title].wiebe_probability.round(2)*100
+				story_array = []
+				begin
 
-				#  combination of AFINN and WIEBE is by far best with least outliers
-				@storyparams[:mixed] = (@storyparams[:afinn]+@storyparams[:wiebe])/2
-				mixed_scores << @storyparams[:mixed]
-				@storyparams[:source]=k
+					rss = open(v).read
+					feed = RSS::Parser.parse(rss,false)
+					data = feed.items
+				rescue SocketError
+					p Story.all
+					# data = Story.where(source:key).order(date: :desc)[0..9]
+				end
+				afinn_scores,wiebe_scores,mixed_scores = [],[],[]
 
-				save_stories(@storyparams)
+				data.each.with_index do |item,i| 
+					if i<10
+						params = {:title=> '', :date=> Time.now, :mixed=>0.0, :afinn=>0.0, :wiebe=>0.0, :source =>'' }
+						params[:title] = item.title.strip
+						params[:afinn] = params[:title].afinn_probability.round(2)*100
+						params[:wiebe] = params[:title].wiebe_probability.round(2)*100
 
-			end
-		end
-		mixed_normalized = average(mixed_scores).round(2)
+						#  combination of AFINN and WIEBE is by far best with least outliers
+						params[:mixed] = (params[:afinn]+params[:wiebe])/2
+						mixed_scores << params[:mixed]
+						params[:source]=key
 
-		#save data to AR
-		save_scores(k,mixed_normalized)
+						save_stories(params)
 
-		# add to today's data array
-		@todays_data << mixed_normalized
-		
+						story_array << params
+					end
+				end
+
+				todays_stories[key] = story_array.sort{|a,b|a[:mixed]<=>b[:mixed]}.select{|a|a[:mixed]<0}
+
+				mixed_normalized = average(mixed_scores).round(2)
+
+				#save data to AR
+				save_scores(key,mixed_normalized)
+
+				# add to today's data array
+				todays_data << mixed_normalized
+		}
 	end
 
+	# join concurrent threads to trigger them
+	threads.each { |aThread|  aThread.join }
+
 	# return today's data
-	@todays_data
+	p todays_stories.each_pair{|k,v| p k; p v.length}
+	[todays_data, todays_stories]
 end
 
+
+def formatforD3(obj)
+
+	s = []
+	total = obj.values.inject(:+)
+
+	obj.each_pair do |k,v|
+	
+		h = {}
+		h['lang']=k
+		h['amount']=(100.0*v/total).round(2)
+		s << h
+	end
+
+	return s
+end
 
 
 def make_new_csv (olddata,newdata)

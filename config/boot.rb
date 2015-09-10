@@ -8,6 +8,7 @@ require 'bundler/setup'
 Bundler.require(:default, RACK_ENV)
 
 
+
 SOURCES =  {                 
 			'Express'=>"http://feeds.feedburner.com/daily-express-news-showbiz",
 			'Guardian'=>"http://www.theguardian.com/uk/rss",

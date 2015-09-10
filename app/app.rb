@@ -1,5 +1,6 @@
 require 'json'
 require_relative './rss'
+ActiveRecord::Base.logger.level = 1
 
 module SerenityPadrino
   class Serenity < Padrino::Application
@@ -11,6 +12,12 @@ module SerenityPadrino
     layout :layout 
 
     get '/' do
+        set_up_sentiment_analysers        
+        data = get_todays_rss
+        @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
+        @time,@date = @todays_data[0].split("-")
+
+        p "DONE"
         render :index
     end
 

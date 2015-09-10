@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Serenity</title>
     <%= stylesheet_link_tag 'serenity' %>
-     <%= javascript_include_tag 'jquery', 'bundle' %>
+     <%= javascript_include_tag 'jquery' %>
      
     <link href='https://fonts.googleapis.com/css?family=Dosis:400,200,500,700' rel='stylesheet' type='text/css' />
   </head>
   <body>
-     <div class="wrapper">
-
+     
     <%= yield %>
-
-    <div class="push"></div>
-    <div>
 
     <div class="footer">made by Jonathan Walton, using D3.js and Padrino. See the code on <em><a href="https://github.com/Lemez/serenity-padrino" target ="_blank">Github</a></em>
     </div>
