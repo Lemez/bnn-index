@@ -83,7 +83,7 @@ nav h3{
 section {
   width: 80%;
   float: left;
-  margin-left: 5%;
+  margin-left: 150px;
   text-align: center;
 
 }
@@ -123,7 +123,6 @@ section {
 
 
 article {
-  width: 80%;
   display: inline-block;
 }
 
@@ -193,8 +192,12 @@ p#misery_score {
 }
 svg {
   font: 12px sans-serif;
-  margin-top: 20px;
+  margin-top: 0px;
   float: right;
+}
+
+#super {
+  min-height: 20px;
 }
 .area {
   fill: rgba(255,100,100,0.5);
@@ -372,6 +375,9 @@ svg {
 
 #side {
   width: 80%;
+  height: 100%;
+  min-height: 100%;
+  margin-top: 20%;
   float: right;
   background-color: white;
 
@@ -385,7 +391,6 @@ svg {
 #champion_pos {
   display: none;
 }
-
 
 
 #champion_neg h2, #champion_pos h2{
@@ -436,24 +441,6 @@ svg {
 
 }
 
-  .myButton {
-  border:1px solid gray;
-  display:inline-block;
-  cursor:pointer;
-  color:#ffffff;
-  font-size: 20px;
-  text-decoration:none;
-  text-shadow:0px 1px 0px #2f6627;
-  width: 100%;
-  margin-top: 20%;
-}
-.myButton:hover {
-  background-color:black;
-}
-.myButton:active {
-  position:relative;
-}
-
 .footer {
   display: none;
 }
@@ -478,34 +465,54 @@ span.source {
   font-style: italic;
 }
 
-span.title {
-font-weight: 400;
+
+
+.news {
+  margin-left: 0;
+  padding-right: 0;
+ list-style-type: none;
 }
-ol.news li {
+
+.news li {
   text-align: left;
   font-size: 20px;
   margin: 0;
   border-bottom: 1px dotted gray;
+  min-height: 40px;
+  vertical-align: middle;
 }
 
-ol.news li:first {
-  margin-top: 20px;
+.news li {
+    counter-increment: step-counter;
 }
 
-ol.news {
-  border-top: 1px dotted gray;
+
+.news li:first-child::before {
+  background-color: gold;
+  color: white;
 }
 
-#buttons_div {
-  position: absolute;
-  top:100%;
-
+.news li:first-child + li::before {
+  background-color: rgb(200,200,200); /*silver*/
+  color: white;
 }
 
-#buttons_div button {
-  margin-top:80%;
-  display: none;
+.news li:nth-of-type(3)::before {
+  background-color: #CD7F32; /*bronze*/
+  color: white;
 }
+
+
+.news li::before {
+    content: counter(step-counter);
+    margin-right: 5px;
+    font-size: 80%;
+    color: black;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
 
 #champion_pos, #champion_neg {
   display: none;
@@ -557,26 +564,63 @@ ol.news {
   color: red;
 }
 
-#changesource, #changestory {
+.myButton {
   font-size: 18px;
-  border: 1px solid black;
-  display: inline-block;
-  text-align: center;
-  margin: 2px 50px 2px 50px;
+  display: block;
+  text-align: right;
   padding: 5px 5px 5px 5px;
-  vertical-align: middle;
+  margin: 5px 0 5px 0;
+  min-width: 100px;
+  display: block;
 
 }
 
-#changesource:hover, #changestory:hover {
-  background-color: yellow;
-  color: black ;
+
+.selected {
+  width: 120%;
+  font-weight: 700;
+  background-color: pink;
+  margin-left: 10px;
+  border-left: 2px solid black;
+  
   }
-  #top {
-    display: inline;
-    vertical-align: middle;
+
+.tabselected {
+  font-weight: 700;
+  opacity: 1;
+  }
+
+
+  nav {
+    position: fixed;
+  }
+
+  .tab {
+    display: block;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
     text-align: center;
   }
+
+  .tab:hover, .sub_tab:hover, .myButton:hover {
+    cursor: pointer;  
+    border-bottom:2px solid gray;
+    padding: 8px 0 8px 0;
+  }
+
+  .sub_tab {
+    text-align: right;
+    display: block;
+    margin: 10px 0 10px 0;
+  }
+
+  #categories {
+    display: none;
+  }
+
+
+
+
 
 
 

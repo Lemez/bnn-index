@@ -1,16 +1,20 @@
 <nav>
+	
 <!-- 	<h2>What Not To Read</h2> -->
 	 <p>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/>To find out more about the methodology, click <strong><a id="showmethods" href="#">here</a></strong>  </p>
 	 <br/>
 
-	 <p>To see today's in-depth headline scores, click <strong><a href="/">here</a></strong>  </p>
-
-	  <p>To see the misery hall of shame, click <strong><a id="showside" href="#side">here</a></strong>  </p>
+	 <a class='tab' id='headlines' href='/'>Today's Headlines</a>
+	 <a id='over_time' href='#super' class='tab selected'>Over Time</a>
+	 <a class='tab'id='miserylink' href='#side'>Hall of Shame</a>
+	<div id='categories'>
+	 <a id='glummest' class='sub_tab' > Glummest</a>
+	 <a id='happiest' class='sub_tab'> Happiest</a>
+	</div>
+     
+       
 	
-	  <div id='buttons_div'>
-		 <button id='to_pos_award' class="myButton"> To Happy<br/> Top 10 </button>
-	     <button id='to_neg_award' class="myButton"> To Miserable<br/> Top 10 </button>
-	 </div>
+	
 </nav>
 
 
@@ -110,26 +114,35 @@ $('a[href^="#"]').on('click',function (e) {
 	    }, 900, 'swing', function () {
 	        window.location.hash = target;
 	    });
+
+	    $(this).addClass('selected').siblings('a').removeClass('selected');
 	});
 
+$('#miserylink, #glummest').on('click',function(){
 
-$('#showside, button#to_neg_award').on('click',function(){
 
-
-	 $('#champion_neg').show();
+	 $('#categories, #champion_neg').show();
 	 $('#champion_pos').hide();
-	 $('#to_pos_award').show();
-	 $('#to_neg_award').hide();
+
+	 $('#glummest').addClass('tabselected');
+	 $('#happiest').removeClass('tabselected');
+	 
 });
 
-$('button#to_pos_award').on('click',function(){
-			 $('#champion_neg').hide();
-           $('#champion_pos').show();
-            
-	 		$('#to_neg_award').show();
-	 		$(this).hide();
-
+$('#happiest').on('click',function(){
+		$('#champion_neg').hide();
+        $('#champion_pos').show();
+           
+         $('#glummest').removeClass('tabselected'); 
+	 	 $('#happiest').addClass('tabselected');
+		 
 });
+
+$('#over_time').on('click',function(){
+	$('#categories').hide();
+});
+
+
 
 
 
@@ -170,6 +183,7 @@ $('button#to_pos_award').on('click',function(){
 
   	var svg = d3.select('body').append('svg')
 	    .attr('class', 'chart')
+	    .attr('id', 'svg')
 	    .attr('width', width + margin.right + 10)
 	    .attr('height', height + margin.top + margin.bottom );
 
@@ -325,7 +339,7 @@ $('button#to_pos_award').on('click',function(){
 	    	'-2':  'http://vaks.in/wp-content/uploads/2012/07/e416.png',
 	    	'-4':  'http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png',
 	    	'-6': 'https://image.freepik.com/free-photo/evil-bad-emoticon_318-40219.jpg'
-	    }
+	    };
 
 	    focus.select(".smiley_ticks_helper").selectAll(".tick").each(function(d,i) {
 			  d3.select(this).append("image").attr({"xlink:href": allSmileys[d.toString()],

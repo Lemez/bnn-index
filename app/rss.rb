@@ -198,9 +198,10 @@ def get_todays_rss
 					rss = open(v).read
 					feed = RSS::Parser.parse(rss,false)
 					data = feed.items
-				rescue SocketError
-					p Story.all
-					# data = Story.where(source:key).order(date: :desc)[0..9]
+				rescue SocketError #when there are connection problems
+					p "SOCKET ERROR #{Time.now}"
+					data = Story.where(source:key).order(:date)[0..9]
+
 				end
 				afinn_scores,wiebe_scores,mixed_scores = [],[],[]
 
@@ -235,7 +236,7 @@ def get_todays_rss
 	end
 
 	# join concurrent threads to trigger them
-	threads.each { |aThread|  aThread.join }
+	threads.each { |aThread|  aThread.join}
 
 	# return today's data
 	p todays_stories.each_pair{|k,v| p k; p v.length}

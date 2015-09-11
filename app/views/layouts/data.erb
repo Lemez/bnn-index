@@ -10,56 +10,55 @@
     <link href='https://fonts.googleapis.com/css?family=Dosis:400,200,500,700' rel='stylesheet' type='text/css' />
   </head>
   <body>
+
+    <div id='super'></div>
    
         <%= yield %>
 
 
     <div id='side'>
-    <div id='champion_neg'>
+      <div id='champion_neg'>
+        
+<!--         <p class='neg_award_headline'>Misery Guts Story of the month award</p>
+        <h3>with a score of <span class='score_award'><%#@story_neg.first[3] %></span></h3>
+        <h2> The <%# @story_neg.first[1] %></h2>
+        
+        -->
+        
+         <ol class="news" start="1">
+            <li class='winner'>
+            <span class='title'><%=@story_neg[0][0]%>, </span><span class='source'><%=@story_neg[0][1]%>, </span><span class='score_neg'><%=@story_neg[0][-1]%></span>
+            </li>
+          <%@story_neg[1..9].each do |bs|%>
+            <li>
+            <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_neg'><%=bs[-1]%></span>
+            </li>
+          <%end%>
+        </ol>
+        
       
-      <p class='neg_award_headline'>Misery Guts Story of the month award</p>
-      <h3>with a score of <span class='score_award'><%=@story_neg.first[3] %></span></h3>
-      <h2> The <%= @story_neg.first[1] %></h2>
-      <div class='cup'></div>
-      <h4><%= @story_neg.first[2].strftime('%x') %></h4>
-      <h3><em><%= @story_neg.first[0] %></em></h3>
-      
-     
-      
-       <ol class="news" start="2">
-        <%@story_neg[1..9].each do |bs|%>
-          <li>
-          <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_neg'><%=bs[-1]%></span>
-          </li>
-          <br/>
-        <%end%>
-      </ol>
-      
-    
-    </div>
+      </div>
 
-    <div id='champion_pos'>
-  
-      <p class='pos_award_headline'>Happy Larry Story of the month award</p>
-      <h3>with a score of <span class='score_award score_pos'><%=@story_pos.first[3] %></span></h3>
-      <h2> The <%= @story_pos.first[1] %></h2>
-      <div class='cup'></div>
-      <h4><%= @story_pos.first[2].strftime('%x') %></h4>
-      <h3><em><%= @story_pos.first[0] %></em></h3>
-      
-      
+      <div id='champion_pos'>
     
-      <ol class="news" start="2">
-        <%@story_pos[1..9].each do |bs|%>
-          <li>
+     <!--    <p class='pos_award_headline'>Happy Larry Story of the month award</p>
+        <h3>with a score of <span class='score_award score_pos'><%#@story_pos.first[3] %></span></h3>
+        <h2> The <%# @story_pos.first[1] %></h2>
+        -->
+        
+       <ol class="news" start="1">
+            <li class='winner'>
+            <span class='title'><%=@story_pos[0][0]%>, </span><span class='source'><%=@story_pos[0][1]%>, </span><span class='score_pos'><%=@story_pos[0][-1]%></span>
+            </li>
+          <%@story_pos[1..9].each do |bs|%>
+            <li>
             <span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%>, </span><span class='score_pos'><%=bs[-1]%></span>
-          </li>
-          <br/>
-        <%end%>
-      </ol>
+            </li>
+          <%end%>
+        </ol>
 
-    
-    </div>
+      
+      </div>
   
 </div>
       
