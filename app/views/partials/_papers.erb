@@ -1,0 +1,24 @@
+
+  <div id='papers'>
+    <table>
+     <!--  <h3>Current Average Scores</h3> -->
+      <tbody>
+        <tr class= 'tablerow'>
+        <% SOURCES.keys.each_with_index do |k,i| %>
+          
+            <td class='<%=k%>'><span class='paperscore'><%=k%></span><span class='paperscore'><%=sprintf('%.2f', @todays_data[i+1])%></span></td>
+          
+        <%end%>
+        <h6> Updated: <%=@date %> at: <%=@time%> </h6>
+        </tr>
+      </tbody>
+  </table>
+  
+    
+  </div>
+
+   <div id='next_headlines'>
+        <a id="changestory" >Headline >></a>
+        <a id="changesource" >Source >></a>
+  </div>
+  

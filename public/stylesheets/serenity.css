@@ -2,7 +2,7 @@
   color: #333;
   font-family: 'Dosis',Helvetica,sans-serif;
   opacity: 1;
-  transition: color 6s ease, opacity 4s ease;
+/*  transition: color 6s ease, opacity 4s ease;*/
 }
 
 html,
@@ -27,15 +27,22 @@ table
 }
 
 
-nav {
-  width: 10%;
+                            /* nav */
+
+nav, #lowernav {
+  width: 15%;
   float: left;
-  margin-left: 1%;
-  min-width: 70px;
-  min-height: 200%;
-  clear: none;
+  margin-left: 10px;
+  min-width: 130px;
+  min-height: 50%;
+  clear: both;
 
 }
+
+ #lowernav {
+  position: fixed;
+
+ }
 
 nav div {
   display: block;
@@ -50,23 +57,10 @@ nav p {
 
 nav a {
   line-height: 1em;
-}
-
-nav div#changesource{
-  font-size: 50px;
+  font-size: 30px;
   text-align: center;
-  margin-left: 5px;
 }
 
-nav a#link {
-  font-size: 50px;
-  text-align: center;
-  margin-left: 5px;
-}
-
-nav a:hover {
-  color: gold;
-}
 
 nav h6 {
   text-align: right;
@@ -78,7 +72,112 @@ nav h3{
 
 
 
+.myButton {
+  font-size: 18px;
+  display: block;
+  text-align: right;
+  padding: 5px 5px 5px 5px;
+  margin: 5px 0 5px 0;
+  min-width: 100px;
+  display: block;
 
+}
+
+
+.selected {
+  font-weight: 700;
+  background-color: pink;
+  border-left: 2px solid black;
+  
+  }
+
+.tabselected {
+  font-weight: 700;
+  opacity: 1;
+  }
+
+
+  nav {
+    position: fixed;
+  }
+
+  .tab, #lowernav {
+    display: block;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 10px;
+    text-align: left;
+    border-left: 2px solid white;
+  }
+
+  .tab:hover, .sub_tab:hover, .myButton:hover {
+    cursor: pointer;  
+    border-left: 2px solid black;
+
+  }
+
+  nav a.sub_tab {
+    text-align: right;
+    display: block;
+    margin: 10px 0 10px 0;
+    font-size: 24px;
+  }
+
+  #categories {
+    display: none;
+  }
+
+#desc {
+  font-size: 12px;
+}
+
+
+
+              /* today */
+
+#papers {
+  width: 100%;
+  line-height: 2em;
+ display: inline;
+}
+
+#papers h6 {
+  margin: 0;
+  font-weight: 400;
+  float: right;
+}
+
+.paperscore {
+  padding: 5px 5px 5px 5px;
+}
+
+.active {
+  font-weight: 700;
+  background-color: gold;
+}
+
+#next_headlines{
+  display: none;
+  position: fixed;
+  width: 80%;
+}
+
+#next_headlines a {
+  line-height: 2em;
+  text-align: center;
+  margin-left: 5px;
+  background-color: blue;
+  color: white;
+  font-size: 18px;
+  border: 2px black solid;
+  border-radius: 10px;
+  padding: 5px 5px 5px 5px;
+}
+
+#next_headlines a:hover {
+  cursor: pointer;
+  background-color: gold;
+  color: black;
+}
 
 section {
   width: 80%;
@@ -95,31 +194,10 @@ section {
 }
 
 .e {
-/*  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 15%;*/
+
   font-size: 80px;
-/*  min-height: 240px;
-  min-width: 240px;*/
   margin: 0;
 }
-
-.emoji1{
-    /*background-image:url('http://vaks.in/wp-content/uploads/2012/07/e416.png');*/
-}
-.emoji2{
-  /*background-image: url('http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png');*/
-}
-.emoji3{
-  /*background-image: url('http://image.freepik.com/free-photo/evil-bad-emoticon_318-40219.jpg');*/
-}
-.emoji4{
-  /*background-image: url('http://www.sherv.net/cm/emoticons/nervous/suicidal-smiley-emoticon.gif');*/
-}
-.emoji5{
-    /*background-image: url('http://www.sherv.net/cm/emoticons/guns/headshot-suicide.gif');*/
-}
-
 
 
 article {
@@ -149,7 +227,6 @@ a {
 }
 
 
-
 p#misery_score {
   font-size: 30px;
   font-weight: 700;
@@ -161,31 +238,27 @@ p#misery_score {
   transition: color 2s ease;
 }
 
-.active {
-  font-weight: 700;
-  opacity: 1;
-}
-
 .hidden {
   opacity: 0;
 }
 
-.rightfar {
-  position: relative;
-  width: 100%;
-  opacity: 0.75;
+#balls {
+  width: 50%;
+  text-align: center;
+  display: inline;
+  font-size: 100px;
+  margin: 0;
+  line-height: 30px;
+  vertical-align: -25px;
 }
 
-.rightfar p {
-  font-size: 14px;
-}
-
-.rightfar h3 {
-  font-size: 18px;
+.highlightball {
+  color: red;
 }
 
 
-/* GRAPH */
+
+                              /* GRAPH over time */
 .chart__grid {
   stroke: #e7eef4;
   opacity: 0.3;
@@ -196,7 +269,7 @@ svg {
   float: right;
 }
 
-#super {
+#top {
   min-height: 20px;
 }
 .area {
@@ -337,6 +410,8 @@ svg {
   min-font-size: 14px;
 }
 
+        /* info tab */
+
 #info {
   display: none;
   position: fixed;
@@ -350,7 +425,7 @@ svg {
 }
 
 .blurb{
-  padding: 5% 0 0 5%;
+  padding: 5% 0 5% 5%;
    overflow-y:scroll;
     overflow-x:hidden;
     transition: color 1s ease, opacity 1s ease;
@@ -373,19 +448,35 @@ svg {
   color: #a17f1a;
 }
 
+
+.codechart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+
+                    /* HALL OF SHAME */
+
 #side {
   width: 80%;
   height: 100%;
   min-height: 100%;
-  margin-top: 20%;
   float: right;
   background-color: white;
-
 }
 
 #champion_pos, #champion_neg {
   text-align: center;
   width: 100%;
+}
+
+#champion_pos, #champion_neg {
+  display: none;
+  padding-right: 10px;
 }
 
 #champion_pos {
@@ -398,9 +489,9 @@ svg {
   font-size: 36px;
 }
 
-#side h2, #side p, #side h3, #side h4 {
+/*#side h2, #side p, #side h3, #side h4 {
   margin: 0;
-}
+}*/
 
 #side h3{
   font-size: 24px;
@@ -421,6 +512,7 @@ svg {
   margin: 0;
 }
 
+
 .score_award {
   text-decoration: none;
   color: red;
@@ -433,12 +525,15 @@ svg {
 .neg_award_headline {
   background-color: red;
   color: white;
+  font-size: 40px;
+  padding: 2px 5px 2px 5px;
 }
 
 .pos_award_headline {
   background-color: gold;
   color: black;
-
+  font-size: 40px;
+  padding: 2px 5px 2px 5px;
 }
 
 .footer {
@@ -449,37 +544,40 @@ nav {
   display: inline;
 }
 
-
+.score_neg, .score_pos {
+  margin-right: 15px;
+    font-weight: 700;
+}
 
 .score_neg {
   color: red;
-  font-weight: 700;
 }
 
 .score_pos {
   color: green;
-  font-weight: 700;
 }
 
 span.source {
   font-style: italic;
 }
 
+ol.news {
+  padding-top: 50px;
+}
 
 
 .news {
-  margin-left: 0;
-  padding-right: 0;
+  margin: 0;
+  padding: 0;
  list-style-type: none;
 }
 
 .news li {
   text-align: left;
   font-size: 20px;
-  margin: 0;
   border-bottom: 1px dotted gray;
   min-height: 40px;
-  vertical-align: middle;
+  margin-top: 10px;
 }
 
 .news li {
@@ -487,23 +585,22 @@ span.source {
 }
 
 
-.news li:first-child::before {
-  background-color: gold;
-  color: white;
-}
-
-.news li:first-child + li::before {
-  background-color: rgb(200,200,200); /*silver*/
-  color: white;
-}
-
-.news li:nth-of-type(3)::before {
-  background-color: #CD7F32; /*bronze*/
-  color: white;
+.news li:first-child {
+  font-size: 24px;
 }
 
 
-.news li::before {
+.badnews li:first-child::before {
+  background-color: red;
+  color: white;
+}
+
+.goodnews li:first-child::before {
+  background-color: green;
+  color: white;
+}
+
+.news li > span.number::before {
     content: counter(step-counter);
     margin-right: 5px;
     font-size: 80%;
@@ -511,112 +608,46 @@ span.source {
     font-weight: bold;
     padding: 3px 8px;
     border-radius: 12px;
+    border: 1px dotted gray;
 }
 
-
-#champion_pos, #champion_neg {
-  display: none;
-  padding-right: 10px;
-}
-
-
-/*.footer {
-  width: 100%;  
+/*.news li:first-child + li::before {
+  background-color: rgb(200,200,200); 
+  color: white;
 }*/
 
-/*@media only screen and (min-device-width: 320px) and (max-device-width: 650px) {
-
-    nav {
-    display: block;
-    width: 100%;
-    top:0;
-    position: fixed;
-    min-width: 100%;
-  }
-
-  svg {
-    clear: both;
-  }
-}
-*/
-
-
-.codechart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
+/*.news li:nth-of-type(3)::before {
+  background-color: #CD7F32; 
   color: white;
+}*/
+
+ /*LAYOUT*/
+
+
+#data {
+  margin-bottom: 100%;
 }
 
-#balls {
-  width: 50%;
-  text-align: center;
-  display: inline;
-  font-size: 100px;
-  margin: 0;
-  line-height: 30px;
-  vertical-align: -25px;
+section#today {
+  margin-bottom: 100%;
 }
 
-.highlightball {
-  color: red;
+#side {
+  margin-bottom: 100%;
+  padding-top: 20px;
 }
 
-.myButton {
-  font-size: 18px;
-  display: block;
-  text-align: right;
-  padding: 5px 5px 5px 5px;
-  margin: 5px 0 5px 0;
-  min-width: 100px;
-  display: block;
-
+#side table {
+  padding-top: 20px;
 }
 
 
-.selected {
-  width: 120%;
-  font-weight: 700;
-  background-color: pink;
-  margin-left: 10px;
-  border-left: 2px solid black;
-  
-  }
-
-.tabselected {
-  font-weight: 700;
-  opacity: 1;
-  }
 
 
-  nav {
-    position: fixed;
-  }
 
-  .tab {
-    display: block;
-    margin: 10px 0 10px 0;
-    padding: 10px 0 10px 0;
-    text-align: center;
-  }
 
-  .tab:hover, .sub_tab:hover, .myButton:hover {
-    cursor: pointer;  
-    border-bottom:2px solid gray;
-    padding: 8px 0 8px 0;
-  }
 
-  .sub_tab {
-    text-align: right;
-    display: block;
-    margin: 10px 0 10px 0;
-  }
 
-  #categories {
-    display: none;
-  }
 
 
 

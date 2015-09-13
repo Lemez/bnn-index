@@ -11,15 +11,15 @@ module SerenityPadrino
     enable :sessions
     layout :layout 
 
-    get '/' do
-        set_up_sentiment_analysers        
-        data = get_todays_rss
-        @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
-        @time,@date = @todays_data[0].split("-")
+    # get '/' do
+    #     set_up_sentiment_analysers        
+    #     data = get_todays_rss
+    #     @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
+    #     @time,@date = @todays_data[0].split("-")
 
-        p "DONE"
-        render :index
-    end
+    #     p "DONE"
+    #     render :index
+    # end
 
     ##
     # Caching support.

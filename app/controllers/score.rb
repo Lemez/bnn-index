@@ -2,6 +2,7 @@ SerenityPadrino::Serenity.controllers :score do
   
   require 'rugged'
   require 'linguist'
+  require 'json'
 
 
 
@@ -26,7 +27,7 @@ SerenityPadrino::Serenity.controllers :score do
 
     layout :data
 
-    get :getdata, :map => '/data' do
+    get :getdata, :map => '/' do
 
         stories = Story.all.pluck(:title,:source,:date,:mixed).uniq{|t|t[0]}.sort{|a,b|a[-1] <=> b[-1]}
         @story_neg = stories[0..9]
@@ -34,8 +35,6 @@ SerenityPadrino::Serenity.controllers :score do
         # p @story_neg
         # p @story_pos
         # @story_pos = stories.order(:mixed)[0..9]
-
-       
 
         all_scores = Score.all
 
@@ -57,6 +56,15 @@ SerenityPadrino::Serenity.controllers :score do
         project = Linguist::Repository.new(repo, repo.head.target_id)
         @project = formatforD3(project.languages).to_json.html_safe 
         @total = project.languages.values.inject(:+)
+
+        #  from index
+        set_up_sentiment_analysers        
+        data = get_todays_rss
+        @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
+        @time,@date = @todays_data[0].split("-")
+
+        p "DONE"
+        #  end index
 
       render 'getdata'
 

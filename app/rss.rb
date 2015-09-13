@@ -99,7 +99,7 @@ class String
 		all_words.each do |w|
 			word = w.strip.downcase
 		 	score=$afinn[word]
-		 	score.nil? ? result =0 : result=score/5.0
+		 	score.nil? ? result =0 : result=score/3.0
 		 	aggregate += result
 		end
 
@@ -188,10 +188,10 @@ def get_todays_rss
 	threads = []
 
 	SOURCES.each_pair do |k,v|
-		threads << Thread.new(k) {|key|
+		# threads << Thread.new(k) {|key|
 
-				p "fetching #{key} RSS"
-
+				# p "fetching #{key} RSS"
+				key = k unless key
 				story_array = []
 				begin
 
@@ -232,11 +232,11 @@ def get_todays_rss
 
 				# add to today's data array
 				todays_data << mixed_normalized
-		}
+		# }
 	end
 
 	# join concurrent threads to trigger them
-	threads.each { |aThread|  aThread.join}
+	# threads.each { |aThread|  aThread.join}
 
 	# return today's data
 	p todays_stories.each_pair{|k,v| p k; p v.length}

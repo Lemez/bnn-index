@@ -1,0 +1,32 @@
+paedo,-4
+paedophile,-4
+paedophiles,-4
+gang, -3
+raped,-4
+rapes,-4
+raping,-4
+rape,-4
+collapse,-2
+buries,-2
+bury,-2
+buried,-2
+burying,-2
+grieving,-2
+grief,-2
+grieves,-2
+grieved,-2
+kill,-3
+kills,-3
+killed,-3
+killer,-3
+killers,-3
+killing,-3
+radical, -2
+ban, -2
+banned, -2
+bans, -2
+banning, -2
+racist, -3
+sexist, -3
+tragic, -2
+
