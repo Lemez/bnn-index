@@ -1,0 +1,72 @@
+
+<%= partial 'partials/nav' %>
+<%= partial 'partials/info' %>
+
+<%= partial 'partials/chart', :locals => { :score => @score }  %>
+<%= partial 'partials/today',:locals => { :todays_data => @todays_data, :time => @time, :date => @date } %>
+<%= partial 'partials/awards' %>
+
+<script> 
+//  Jquery
+
+$(document).on('ready',function(){
+
+		var windowH = $(window).height();
+
+		$('#showmethods').on('click',function(){
+			$('#info').slideDown(1000);
+		});
+
+
+		$('#info').on('click',function(){
+			$(this).slideUp(1000);
+		});
+
+		//  smooth scrolling on click
+		$('a[href^="#"]').on('click',function (e) {
+		    e.preventDefault();
+
+		    var target = this.hash;
+		    var $target = $(target);
+
+		    $('html, body').stop().animate({
+		        'scrollTop': $target.offset().top
+		    }, 900, 'swing', function () {
+		        window.location.hash = target;
+		    });
+
+		    $(this).addClass('selected').siblings('a').removeClass('selected');
+			});
+
+		$('#miserylink, #glummest').on('click',function(){
+
+			$('#next_headlines').hide();
+
+			$('#categories, #champion_neg').show();
+			$('#champion_pos').hide();
+
+			$('#glummest').addClass('tabselected');
+			$('#happiest').removeClass('tabselected');
+			 
+		});
+
+		$('#happiest').on('click',function(){
+			$('#champion_neg').hide();
+			$('#champion_pos').show();
+			   
+			$('#glummest').removeClass('tabselected'); 
+			$('#happiest').addClass('tabselected');
+				 
+		});
+
+		$('#over_time').on('click',function(){
+			$('#categories').hide();
+		});
+
+		$('#headlines').on('click',function(){
+			$('#categories').hide();
+		});
+
+});
+
+</script>

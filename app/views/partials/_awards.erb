@@ -3,9 +3,6 @@
         
          <span class='neg_award_headline award'>Misery Guts of the month award</span><br/><h2>The <%= @story_neg.first[1] %></h2>
          <!-- <h3>with a score of <span class='score_award'><%#@story_neg.first[3] %></span></h3> -->
-       
-        
-       
         
          <ul class="news badnews" start="1">
             <li class='winner'>
@@ -16,18 +13,13 @@
             <span class='score_neg'><%=bs[-1]%></span><span class='title'><%=bs[0]%>, </span><span class='source'><%=bs[1]%> </span>
             </li>
           <%end%>
-        </ul>
-        
-      
+        </ul> 
       </div>
 
       <div id='champion_pos'>
-    
          <span class='pos_award_headline award'>Happy Larry of the month award</span><br/><h2>The <%= @story_pos.first[1] %></h2>
         <!-- <h3>with a score of <span class='score_award score_pos'><%#@story_pos.first[3] %></span></h3> -->
-        
-       
-        
+   
        <ul class="news goodnews" start="1">
             <li class='winner'>
             <span class='score_pos'><%=@story_pos[0][-1]%></span><span class='title'><%=@story_pos[0][0]%>, </span><span class='source'><%=@story_pos[0][1]%> </span>
@@ -38,8 +30,5 @@
             </li>
           <%end%>
         </ul>
-
-      
-      </div>
-  
+      </div>  
 </div>

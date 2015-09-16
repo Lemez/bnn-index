@@ -1,94 +1,6 @@
-<nav>
-	<!-- 	<h2>What Not To Read</h2> -->
-	 <a id='over_time' class='tab selected'  href='#top'>Negativity Index</a>
-	 <a id='headlines' class='tab'  href='#today'>Today's Headlines</a>
-	
-	 <a class='tab'id='miserylink' href='#side'>Hall of Shame</a>
-	<div id='categories'>
-	 <a id='glummest' class='sub_tab' > Misery Guts</a>
-	 <a id='happiest' class='sub_tab'> Happy Larry</a>
-	</div> 
-</nav>
- <%= partial 'partials/info' %>
 <div id='data'></div>
-
-<div id='lowernav'>
-	<div id='desc'>This project analyses Britain's main respectable newspapers for their mood. It is an attempt to show which papers might be bad for your health. <br/></br>To find out more about the methodology, click <strong><a id="showmethods" href="#">here</a></strong>  </div>
-	 <br/>
-</div>
-
-
- <%= partial 'partials/today',:locals => { :todays_data => @todays_data, :time => @time, :date => @date } %>
-
-
-<script> 
+<script type="text/javascript">
 /* global d3, _ */
-
-$('#showmethods').on('click',function(){
-	$('#info').slideDown(1000);
-});
-
-
-$('#info').on('click',function(){
-	$(this).slideUp(1000);
-});
-
-//  smooth scrolling on click
-$('a[href^="#"]').on('click',function (e) {
-	    e.preventDefault();
-
-	    var target = this.hash;
-	    var $target = $(target);
-
-	    $('html, body').stop().animate({
-	        'scrollTop': $target.offset().top
-	    }, 900, 'swing', function () {
-	        window.location.hash = target;
-	    });
-
-	    $(this).addClass('selected').siblings('a').removeClass('selected');
-	});
-
-$('#miserylink, #glummest').on('click',function(){
-
-	$('#next_headlines').hide();
-
-	 $('#categories, #champion_neg').show();
-	 $('#champion_pos').hide();
-
-	 $('#glummest').addClass('tabselected');
-	 $('#happiest').removeClass('tabselected');
-	 
-});
-
-$('#happiest').on('click',function(){
-		$('#champion_neg').hide();
-        $('#champion_pos').show();
-           
-         $('#glummest').removeClass('tabselected'); 
-	 	 $('#happiest').addClass('tabselected');
-		 
-});
-
-$('#over_time').on('click',function(){
-	$('#categories').hide();
-	$('#next_headlines').hide();
-
-});
-
-$('#headlines').on('click',function(){
-	$('#categories').hide();
-	$('#next_headlines').css('display', 'inline');
-});
-
-
-
-
-
-
-
-
-
 (function() {
 
 	var helper,helperLabel,mailLine,mailChart,mailLabel,mailHelper,mailTooltip,mailText,mailLabelText,
@@ -102,10 +14,6 @@ $('#headlines').on('click',function(){
    
 	var windowW = $(window).width();
 	var windowH = $(window).height();
-
-	$('#lowernav').css('margin-top',(windowH*-1.2));
-	$('#next_headlines').css('margin-top',(windowH*-1));
-
 
 	var windowM = windowW/8;
 	var responsiveTicks = Math.round(windowW/250);
@@ -177,7 +85,8 @@ $('#headlines').on('click',function(){
    // 	 .attr('class', 'chart__range-selection')
    // 	 .attr('transform', 'translate(110, 0)');
    var scores = <%=@scores%>;
-   console.log(scores); 
+   var isOffline = <%=@offline%>;
+   console.log(isOffline); 
    var testdata = [
 					{"date": parseDate("11:00:00-01/01/2015"),
 					"express": "-2.75",
@@ -205,16 +114,12 @@ $('#headlines').on('click',function(){
 				"average": '1.0'}
 					];
 
-	draw(scores);
-	setTimeout(placePageElements(),5000);
-
-
-  	// d3.csv('https://dl.dropboxusercontent.com/u/2448084/papers_production.csv', type, function(err, data) {
-  	function draw(data){
+	// draw(scores);
+	// setTimeout(placePageElements(),5000);
+  	d3.csv('https://dl.dropboxusercontent.com/u/2448084/papers_production.csv', type, function(err, data) {
+ //  	function draw(data){
 
   		// var brush = d3.svg.brush().x(x2).on('brush', brushed);
-
-  		// console.log(data);
 
 	    var xRange = d3.extent(data.map(function(d) { return parseDate(d.date); }));
 	    var minDate = xRange[0];
@@ -238,17 +143,6 @@ $('#headlines').on('click',function(){
 	    x2.domain(x.domain());
 	    y2.domain(y.domain());
 	    y3.domain(d3.extent(allValues));
-
-	  	// var area2 = d3.svg.area()
-				// .interpolate('monotone')
-				// .x(function(d) { return x2(d.date); })
-				// .y0(height2)
-				// .y1(function(d) { return y2(d.guardian); });
-
-	    // var range = legend.append('text')
-	    //   .text(legendFormat(new Date(xRange[0])) + ' - ' + legendFormat(new Date(xRange[1])))
-	    //   .style('text-anchor', 'end')
-	    //   .attr('transform', 'translate(' + width + ', 0)');
 
 	    var make_y_axis = function () {
 	    return d3.svg.axis()
@@ -275,11 +169,6 @@ $('#headlines').on('click',function(){
 
 	    var yAxisSmileys   = d3.svg.axis().scale(y).orient('left').ticks(4).orient("left");
 
-	    // focus.append('g')
-	    //     .attr('class', ' y axis ')
-	    //     .attr('transform', 'translate(-40, 0)')
-	    //     .call(yAxisSmileys);
-
 	   var allSmileys={
 	    	'2':  'http://blog.openconnection.com/wp-content/uploads/2015/04/closed-eyes-smiley.png',
 	    	'0': 'http://afv.com/wp-content/uploads/2014/11/Neutral.png',
@@ -295,19 +184,6 @@ $('#headlines').on('click',function(){
 			         "transform":"translate(-45, -10)"
 			        })
 			});
-
-
-	    // var focusGraph = barsGroup.selectAll('rect')
-	    //     .data(data)
-	    //   	.enter().append('rect')
-	    //     .attr('class', 'chart__bars')
-	    //     .attr('x', function(d, i) { return x(d.date)+i*1000; })
-	    //     // .attr('y', function(d) { return 0 + y3(d.min); })
-	    //     .attr('y',0)
-	    //     .attr('width', 1)
-	    //     .attr('height', function(d) { return 500; })
-	    //     // .attr('height', 300)
-	    //     .style('display', 'none');
 
 
 	   // LINES
@@ -447,7 +323,7 @@ $('#headlines').on('click',function(){
 		var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,timesLabel,averageLabel];
 
 		for (p=0;p<labels.length;p++){
-			labels[p].attr('transform', 'translate(' + margin.left + ',' + (p+5)*20 + ' )');
+			labels[p].attr('transform', 'translate(' + width + ',' + (p+5)*20 + ' )');
 		}
 
 		// HELPERS
@@ -566,8 +442,7 @@ $('#headlines').on('click',function(){
 	      .attr('height', height)
 	      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 	      .on('mouseover', function() {
-
-	      		 // focusGraph.style('display', null);
+	      		// focusGraph.style('display', null);
 	      		globalHelpers[0].style('display', null);
 		      	globalHelpers[1].style('display', null);
 		      	globalHelpers[2].style('display', null);
@@ -588,8 +463,6 @@ $('#headlines').on('click',function(){
 		      	for (p=0;p<labels.length;p++){
 					labels[p].style('display', null);
 				}
-
-		    
 	      })
 	      .on('mouseout', function() {
 
@@ -616,25 +489,6 @@ $('#headlines').on('click',function(){
 		      	}
 	      })
 	      .on('mousemove', mousemove);
-
-	    // context.append('path')
-	    //     .datum(data)
-	    //     .attr('class', 'chart__area area')
-	    //     .attr('d', area2);
-
-	    // context.append('g')
-	    //     .attr('class', 'x axis chart__axis--context')
-	    //     .attr('y', 0)
-	    //     .attr('transform', 'translate(0,' + (height2 - 22) + ')')
-	    //     .call(xAxis2);
-
-	    // context.append('g')
-	    //     .attr('class', 'x brush')
-	    //     .call(brush)
-	    //   .selectAll('rect')
-	    //     .attr('y', -6)
-	    //     .attr('height', height2 + 7);
-
 
 	    function mousemove() {
 
@@ -748,46 +602,9 @@ $('#headlines').on('click',function(){
 		      averageTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.average) + ')'); 
 
 		      // console.log(d3.mouse(this));
-
-
 	    }
 
-	    // function brushed() {
-	    //   var ext = brush.extent();
-	    //   if (!brush.empty()) {
-	    //     x.domain(brush.empty() ? x2.domain() : brush.extent());
-	    //     y.domain([
-	    //       d3.min(data.map(function(d) { return (d.date >= ext[0] && d.date <= ext[1]) ? d.guardian : max; })),
-	    //       d3.max(data.map(function(d) { return (d.date >= ext[0] && d.date <= ext[1]) ? d.guardian : min; }))
-	    //     ]);
-	    //     // range.text(legendFormat(new Date(ext[0])) + ' - ' + legendFormat(new Date(ext[1])))
-	    //     focusGraph.attr('x', function(d, i) { return x(d.date); });
-
-	    //     // var days = Math.ceil((ext[1] - ext[0]) / (24 * 3600 * 1000))
-	    //     focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5)
-	    //   }
-
-	    //   guardianChart.attr('d', GuardianLine);
-	    //   timesChart.attr('d', TimesLine);
-	    //   mailChart.attr('d', MailLine);
-	    //   expressChart.attr('d', ExpressLine);
-	    //   telegraphChart.attr('d', TelegraphLine);
-	    //   independentChart.attr('d', IndependentLine);
-	    //   focus.select('.x.axis').call(xAxis);
-	    //   focus.select('.y.axis').call(yAxis);
-	    // }
-
-	    // var dateRange = ['1w', '1m', '1y'];
-	    // for (var i = 0, l = dateRange.length; i < l; i ++) {
-	    //   var v = dateRange[i];
-	    //   rangeSelection
-	    //     .append('text')
-	    //     .attr('class', 'chart__range-selection')
-	    //     .text(v)
-	    //     .attr('transform', 'translate(' + (18 * i) + ', 0)')
-	    //     .on('click', function(d) { focusOnRange(this.textContent); });
-	    // }
-
+	   
 	    function resize() {
 		  /* Update graph using new width and height (code below) */
 		  /* Find the new window dimensions */
@@ -835,11 +652,24 @@ $('#headlines').on('click',function(){
 	    }
 
   }// end Data
+  );
 
-  function placePageElements(){
-  	var svgH = $('svg').height();
-  	$('#side').css('top',svgH+'px');
-  }
+ function type(d) {
+	    	return {
+	      date    : d.Date,
+	      guardian   : d.Guardian,
+	      mail   : d.Mail,
+	      express   : d.Express,
+	      telegraph   : d.Telegraph,
+	      independent   : d.Independent,
+	      times   : d.Times,
+	      average : Math.round(((parseInt(d.Times)+parseInt(d.Independent)+parseInt(d.Telegraph)+parseInt(d.Express)+parseInt(d.Mail)+parseInt(d.Guardian))/6) * 10 ) / 10
+			    }
+		  }
 
-}());
-</script>
+  // function placePageElements(){
+  // 	var svgH = $('svg').height();
+  // 	$('#side').css('top',svgH+'px');
+  // }
+
+}());</script>

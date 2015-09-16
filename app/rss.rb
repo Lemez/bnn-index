@@ -186,6 +186,7 @@ def get_todays_rss
 	todays_data = [Time.now.strftime('%X-%d/%m/%Y')]
 	todays_stories = {}
 	threads = []
+	@offline=false
 
 	SOURCES.each_pair do |k,v|
 		# threads << Thread.new(k) {|key|
@@ -201,6 +202,7 @@ def get_todays_rss
 				rescue SocketError #when there are connection problems
 					p "SOCKET ERROR #{Time.now}"
 					data = Story.where(source:key).order(:date)[0..9]
+					@offline=true
 
 				end
 				afinn_scores,wiebe_scores,mixed_scores = [],[],[]
@@ -297,13 +299,17 @@ def sort_scores_by_date(data)
 
 	@allscores, @tmp = [],[]
     @previous = data[-1]
+    # unique_data = data.each{|a| a.score && a.source && a.date.strftime("%h/%d/%m/%Y")}
 
     data.each_with_index do |s,i|
       if i==0
         @tmp << s
+        p "FIRST: #{s}"
       elsif s.date.strftime("%h/%d/%m/%Y")==@previous.date.strftime("%h/%d/%m/%Y")
+      	p "SAME: #{s.date}==#{@previous.date}"
         @tmp << s
       else
+      	p "NEWDATE: #{s.date} != #{@previous.date}"
         @allscores << @tmp
         @tmp = [s]
       end
@@ -311,6 +317,7 @@ def sort_scores_by_date(data)
     end
 
     @allscores
+    @allscores.sort{|a,b|a[0].date <=>b[0].date}.each{|a| a.each{|b| p b}}
 end
 
 def ar_to_array_of_objects(data)
@@ -339,7 +346,7 @@ def sort_and_deliver_scores(data)
 	allscores = sort_scores_by_date(data)
     scores = ar_to_array_of_objects(allscores)
     
-   return scores.to_json.html_safe
+   return scores
 end
 
 

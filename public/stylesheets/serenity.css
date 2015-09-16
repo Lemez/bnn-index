@@ -16,10 +16,10 @@ padding-left: 5px;
 }*/
 
 
-html {
+/*html {
   overflow: scroll;
 }
-
+*/
 table
 { 
     margin-left: auto;
@@ -29,66 +29,27 @@ table
 
                             /* nav */
 
-nav, #lowernav {
-  width: 15%;
+nav{
+  width: 150px;
   float: left;
   margin-left: 10px;
-  min-width: 130px;
-  min-height: 50%;
   clear: both;
-
-}
-
- #lowernav {
   position: fixed;
-
- }
-
-nav div {
-  display: block;
 }
 
-nav p {
-  margin-left: 5px;
-  font-size: 16px;
-  min-width: 20px;
-  opacity: 0.75;
+#lowernav, #uppernav {
+  
 }
 
-nav a {
-  line-height: 1em;
-  font-size: 30px;
-  text-align: center;
+#desc {
+  font-size: 12px;
+  padding: 10px 0 10px 10px;
 }
-
-
-nav h6 {
-  text-align: right;
-}
-
-nav h3{
-  text-align: center;
-}
-
-
-
-.myButton {
-  font-size: 18px;
-  display: block;
-  text-align: right;
-  padding: 5px 5px 5px 5px;
-  margin: 5px 0 5px 0;
-  min-width: 100px;
-  display: block;
-
-}
-
 
 .selected {
   font-weight: 700;
   background-color: pink;
   border-left: 2px solid black;
-  
   }
 
 .tabselected {
@@ -96,17 +57,17 @@ nav h3{
   opacity: 1;
   }
 
-
   nav {
     position: fixed;
   }
 
-  .tab, #lowernav {
-    display: block;
+  .tab {
+    text-align: left;
     margin: 10px 0 10px 0;
     padding: 10px 0 10px 10px;
-    text-align: left;
     border-left: 2px solid white;
+    font-size: 30px;
+    display: block;
   }
 
   .tab:hover, .sub_tab:hover, .myButton:hover {
@@ -126,139 +87,13 @@ nav h3{
     display: none;
   }
 
-#desc {
-  font-size: 12px;
+
+  /* chart*/
+
+#data {
+  margin-left: 170px;
 }
 
-
-
-              /* today */
-
-#papers {
-  width: 100%;
-  line-height: 2em;
- display: inline;
-}
-
-#papers h6 {
-  margin: 0;
-  font-weight: 400;
-  float: right;
-}
-
-.paperscore {
-  padding: 5px 5px 5px 5px;
-}
-
-.active {
-  font-weight: 700;
-  background-color: gold;
-}
-
-#next_headlines{
-  display: none;
-  position: fixed;
-  width: 80%;
-}
-
-#next_headlines a {
-  line-height: 2em;
-  text-align: center;
-  margin-left: 5px;
-  background-color: blue;
-  color: white;
-  font-size: 18px;
-  border: 2px black solid;
-  border-radius: 10px;
-  padding: 5px 5px 5px 5px;
-}
-
-#next_headlines a:hover {
-  cursor: pointer;
-  background-color: gold;
-  color: black;
-}
-
-section {
-  width: 80%;
-  float: left;
-  margin-left: 150px;
-  text-align: center;
-
-}
-
-#headerdiv {
-  min-width: 300px;
-  height: 200px;
-
-}
-
-.e {
-
-  font-size: 80px;
-  margin: 0;
-}
-
-
-article {
-  display: inline-block;
-}
-
-h1 {
-  display: inline-block;
-  font-size: 66.6px;
-  margin: 0;
-}
-
-h2 {
-  display: inline-block;
-  font-size: 33.6px;
-  margin: 0;
-}
-
-p {
-  display: inline-block;
-  font-size: 22.6px;
-  margin-left: 5px;
-}
-
-a {
-  text-decoration: none;
-}
-
-
-p#misery_score {
-  font-size: 30px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.highlight {
-  color: #d83;
-  transition: color 2s ease;
-}
-
-.hidden {
-  opacity: 0;
-}
-
-#balls {
-  width: 50%;
-  text-align: center;
-  display: inline;
-  font-size: 100px;
-  margin: 0;
-  line-height: 30px;
-  vertical-align: -25px;
-}
-
-.highlightball {
-  color: red;
-}
-
-
-
-                              /* GRAPH over time */
 .chart__grid {
   stroke: #e7eef4;
   opacity: 0.3;
@@ -409,6 +244,137 @@ svg {
   max-font-size: 50px;
   min-font-size: 14px;
 }
+
+
+
+
+              /* today */
+
+#papers {
+  width: 100%;
+  line-height: 2em;
+ display: inline;
+}
+
+#papers h6 {
+  margin: 0;
+  font-weight: 400;
+  float: right;
+}
+
+.paperscore {
+  padding: 5px 5px 5px 5px;
+}
+
+.active {
+  font-weight: 700;
+  background-color: gold;
+}
+
+#next_headlines{
+  width: 80%;
+}
+
+#next_headlines a {
+  line-height: 2em;
+  text-align: center;
+  margin-left: 5px;
+  color: black;
+  font-size: 18px;
+  border: 2px black dotted;
+  border-radius: 10px;
+  padding: 5px 5px 5px 5px;
+  opacity: 0.75;
+}
+
+#next_headlines a:hover {
+  cursor: pointer;
+  background-color: gold;
+  color: black;
+  opacity: 1;
+}
+
+section {
+  width: 80%;
+  float: left;
+  margin-left: 150px;
+  text-align: center;
+
+}
+
+#headerdiv {
+  min-width: 300px;
+}
+
+.e {
+  font-size: 80px;
+  margin: 0;
+}
+
+#misery_heading, #misery_score, .e {
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+
+article {
+  display: inline-block;
+}
+
+h1 {
+  display: inline-block;
+  font-size: 66.6px;
+  margin: 0;
+}
+
+h2 {
+  display: inline-block;
+  font-size: 33.6px;
+  margin: 0;
+}
+
+p {
+  display: inline-block;
+  font-size: 22.6px;
+  margin-left: 5px;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+#misery_score {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.highlight {
+  color: #d83;
+  transition: color 2s ease;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+#balls {
+  width: 50%;
+  text-align: center;
+  display: inline;
+  font-size: 100px;
+  margin: 0;
+  line-height: 30px;
+  vertical-align: -25px;
+}
+
+.highlightball {
+  color: red;
+}
+
+
+
 
         /* info tab */
 
@@ -640,6 +606,28 @@ section#today {
 #side table {
   padding-top: 20px;
 }
+
+
+/* iPhone */
+@media (min-width: 320px) and (max-width: 480px) {
+
+}
+
+/* iPhone 5 */
+@media (min-width: 320px) and (max-width: 568px) {
+
+}
+
+/* Tablet */
+@media (min-width: 600px) and (max-width: 800px) {
+
+}
+
+/* iPad 2, 3, mini */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+} 
 
 
 
