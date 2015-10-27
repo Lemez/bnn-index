@@ -104,7 +104,7 @@ svg {
   float: right;
 }
 
-#top {
+#index {
   min-height: 20px;
 }
 .area {
@@ -427,7 +427,7 @@ a {
 
                     /* HALL OF SHAME */
 
-#side {
+#shame {
   width: 80%;
   height: 100%;
   min-height: 100%;
@@ -455,16 +455,16 @@ a {
   font-size: 36px;
 }
 
-/*#side h2, #side p, #side h3, #side h4 {
+/*#shame h2, #shame p, #shame h3, #shame h4 {
   margin: 0;
 }*/
 
-#side h3{
+#shame h3{
   font-size: 24px;
   margin:1% 0 1% 0;
 }
 
-#side h4 {
+#shame h4 {
   display: inline;
 }
 
@@ -598,12 +598,12 @@ section#today {
   margin-bottom: 100%;
 }
 
-#side {
+#shame {
   margin-bottom: 100%;
   padding-top: 20px;
 }
 
-#side table {
+#shame table {
   padding-top: 20px;
 }
 
