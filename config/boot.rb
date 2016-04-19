@@ -12,10 +12,10 @@ Bundler.require(:default, RACK_ENV)
 SOURCES =  {                 
 			'Express'=>"http://feeds.feedburner.com/daily-express-news-showbiz",
 			'Guardian'=>"http://www.theguardian.com/uk/rss",
-			'Independent'=>'http://rss.feedsportal.com/c/266/f/3503/index.rss',
+			'Independent'=>'http://independent.co.uk/news/rss',
 			'Mail'=>'http://www.dailymail.co.uk/news/index.rss',
-			'Telegraph'=>'http://www.telegraph.co.uk/news/worldnews/rss',
-			'Times'=>"http://www.thetimes.co.uk/tto/news/rss"
+			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml',
+			'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
 
 

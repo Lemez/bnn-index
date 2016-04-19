@@ -27,6 +27,7 @@ SerenityPadrino::Serenity.controllers :score do
     get :index, :map => '/' do
 
       # chart
+      p "getting scores"
         @scores = sort_and_deliver_scores(Score.all).to_json.html_safe
         # @bad_stories = get_worst_by_paper.uniq{|a|a.title.downcase}
         # @good_stories = get_best_by_paper.uniq{|a|a.title.downcase}
@@ -34,21 +35,33 @@ SerenityPadrino::Serenity.controllers :score do
         # @good_stories.each {|s|p s.title} 
 
       #info
+      p "formatting for D3"
         repo = Rugged::Repository.new('.')
         project = Linguist::Repository.new(repo, repo.head.target_id)
         @project = formatforD3(project.languages).to_json.html_safe 
         @total = project.languages.values.inject(:+)
 
       # today's stories
-        set_up_sentiment_analysers        
+      p "setting up sentiment analysers"
+        set_up_sentiment_analysers 
+        p "getting RSS"       
         data = get_todays_rss
+        p "DONE RSS" 
         @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
+
         @time,@date = @todays_data[0].split("-")
+        p "DONE todays stories"
 
       # awards
-        stories = Story.all.pluck(:title,:source,:date,:mixed).uniq{|t|t[0].downcase}.sort{|a,b|a[-1] <=> b[-1]}
+      p "getting awards"
+
+        stories = Story.all.pluck(:title,:source,:date,:mixed)
+          .uniq{|t|t[0].downcase}
+          .select{|a| !a[-1].nan?} #using Float.nan? to remove all quirks with floats
+          .sort{|a,b|a[-1] <=> b[-1]}
         @story_neg = stories[0..9]
         @story_pos = stories[-10..-1].reverse
+      p "DONE awards"
 
         render 'index'
 

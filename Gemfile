@@ -19,12 +19,14 @@ gem 'erubis', '~> 2.7.0'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
 gem 'pg'
 
+gem 'pry'
+
 # Test requirements
 
 # Padrino Stable Gem
 gem 'padrino', '0.12.5'
 gem 'httparty'
-
+gem 'nokogiri'
 # gem 'google_drive'
 # gem 'google-api-client', '0.9.pre3'
 

@@ -5,12 +5,20 @@ require_relative "../private/secret.rb"
 require 'csv'
 require 'sentimentalizer'
 require 'date'
+require 'nokogiri'
+require 'open-uri'
 
 
 def set_up_sentiment_analysers
 	# Sentimentalizer.setup
+	p "setting up afinn"
 	afinn_to_hash
+	p "afinn done"
+	p "----"
+	p "setting up wiebe"
 	wiebe_to_hash
+	p "wiebe done"
+	p "----"
 end
 
 def write_stories_title_to_file
@@ -74,6 +82,10 @@ class Hash
 				self['Guardian'],
 				self['Independent']]
 	end
+end
+
+class ItemKlass
+   attr_accessor :title
 end
 
 class String
@@ -191,18 +203,45 @@ def get_todays_rss
 	SOURCES.each_pair do |k,v|
 		# threads << Thread.new(k) {|key|
 
-				# p "fetching #{key} RSS"
 				key = k unless key
+
+				p "fetching #{key} RSS: #{v}"
+				
 				story_array = []
 				begin
 
 					rss = open(v).read
 					feed = RSS::Parser.parse(rss,false)
 					data = feed.items
+					p data
 				rescue SocketError #when there are connection problems
 					p "SOCKET ERROR #{Time.now}"
 					data = Story.where(source:key).order(:date)[0..9]
 					@offline=true
+
+				rescue RSS::NotWellFormedError #when it is not xml format
+					p "RSS ERROR #{Time.now}"
+
+					data = []
+
+					if k = "Times"
+						response = HTTParty.get("#{v}")
+					     doc = Nokogiri::XML(response)
+
+						doc.css('div.rss-list ul li a').each do |link|
+
+							title = link.content.gsub(/[^\p{Space}\p{Word}-]/, '')
+
+							# make a new object that mimics the RSS library to enable it to parse the Times data in the same way
+							story = ItemKlass.new
+							story.title = title
+
+							data << story
+						end
+
+					# else
+					# 	data = Story.where(source:key).order(:date)[0..9]
+					end
 
 				end
 				afinn_scores,wiebe_scores,mixed_scores = [],[],[]
@@ -222,6 +261,8 @@ def get_todays_rss
 						save_stories(params)
 
 						story_array << params
+
+						p params
 					end
 				end
 
@@ -235,14 +276,20 @@ def get_todays_rss
 				# add to today's data array
 				todays_data << mixed_normalized
 		# }
+
+		p "finishing #{key} RSS: #{v}"
 	end
 
 	# join concurrent threads to trigger them
 	# threads.each { |aThread|  aThread.join}
 
 	# return today's data
+
+
 	p todays_stories.each_pair{|k,v| p k; p v.length}
-	[todays_data, todays_stories]
+
+	return [todays_data, todays_stories]
+
 end
 
 
