@@ -224,7 +224,7 @@ def get_todays_rss
 
 					data = []
 
-					if k = "Times"
+					if k == "Times"
 						response = HTTParty.get("#{v}")
 					     doc = Nokogiri::XML(response)
 
