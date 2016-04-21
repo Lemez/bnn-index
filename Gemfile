@@ -37,7 +37,7 @@ gem 'whenever', :require => false
 
 gem 'classifier-reborn'
 gem 'gemoji'
-gem 'github-linguist'
+# gem 'github-linguist'
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

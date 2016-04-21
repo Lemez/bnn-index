@@ -1,7 +1,7 @@
 SerenityPadrino::Serenity.controllers :score do
   
   require 'rugged'
-  require 'linguist'
+  # require 'linguist' # sacking off as charlock holmes dependency doesnt work with heroku
   require 'json'
 
   # get :index, :map => '/foo/bar' do
@@ -35,11 +35,18 @@ SerenityPadrino::Serenity.controllers :score do
         # @good_stories.each {|s|p s.title} 
 
       #info
-      p "formatting for D3"
-        repo = Rugged::Repository.new('.')
-        project = Linguist::Repository.new(repo, repo.head.target_id)
-        @project = formatforD3(project.languages).to_json.html_safe 
-        @total = project.languages.values.inject(:+)
+      # p "formatting for D3"
+        # repo = Rugged::Repository.new('.')
+        # project = Linguist::Repository.new(repo, repo.head.target_id)
+        # @projectd3 = formatforD3(project.languages)
+        # @projectjson = @projectd3.to_json
+        # @project = @projectjson.html_safe 
+        # @total = project.languages.values.inject(:+)
+
+      # hardcoding project lines as charlock holmes dependency isn't working
+
+      @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},{"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe
+      @total = 261690
 
       # today's stories
       p "setting up sentiment analysers"
