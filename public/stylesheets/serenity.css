@@ -264,6 +264,7 @@ svg {
 
 .paperscore {
   padding: 5px 5px 5px 5px;
+  cursor: pointer;
 }
 
 .active {
