@@ -39,6 +39,8 @@ gem 'classifier-reborn'
 gem 'gemoji'
 # gem 'github-linguist'
 
+gem 'unicorn'
+
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'
 
