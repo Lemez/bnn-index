@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 # Server requirements
 # gem 'thin' # or mongrel
 # gem 'trinidad', :platform => 'jruby'
+gem 'puma'
 
 # Optional JSON codec (faster performance)
 # gem 'oj'
@@ -39,7 +40,7 @@ gem 'classifier-reborn'
 gem 'gemoji'
 # gem 'github-linguist'
 
-gem 'unicorn'
+
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

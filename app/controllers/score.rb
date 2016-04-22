@@ -1,6 +1,6 @@
 SerenityPadrino::Serenity.controllers :score do
   
-  require 'rugged'
+  # require 'rugged'
   # require 'linguist' # sacking off as charlock holmes dependency doesnt work with heroku
   require 'json'
 
