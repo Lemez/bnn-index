@@ -1,7 +1,7 @@
 require 'httparty' 
 require 'rss'
 require 'dropbox_sdk'
-require_relative "../private/secret.rb"
+# require_relative "../private/secret.rb"
 require 'csv'
 require 'sentimentalizer'
 require 'date'
