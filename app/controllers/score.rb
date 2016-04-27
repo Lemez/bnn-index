@@ -28,7 +28,30 @@ SerenityPadrino::Serenity.controllers :score do
 
       # chart
       p "getting scores"
-        @scores = sort_and_deliver_scores(Score.all).to_json.html_safe
+
+      # sources = SOURCES.keys.titleize
+      # sources.each do |s|
+
+      #   scores = Score.all.find_by_source(s).group_by{|b| b.formatted_date}
+      #   sorted_dates = scores.keys.to_a.sort
+
+      #   sorted_dates.each do |date|
+      #     if scores[date].size > 1
+      #       #find lowest score of the day
+
+      #     else 
+
+      #     end
+
+      #   end
+
+      # end
+
+      # dummy
+      # @scores = sort_and_deliver_scores(Score.all[0..10]).to_json.html_safe
+
+      # not needed if using CSV
+        # @scores = sort_and_deliver_scores(Score.all).to_json.html_safe
         # @bad_stories = get_worst_by_paper.uniq{|a|a.title.downcase}
         # @good_stories = get_best_by_paper.uniq{|a|a.title.downcase}
         # @bad_stories.each {|s|p s.title}
@@ -47,17 +70,33 @@ SerenityPadrino::Serenity.controllers :score do
 
       @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},{"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe
       @total = 261690
+      @current_time = Time.now
+      @current_time_formatted = @current_time.strftime('%X-%d/%m/%Y')
 
       # today's stories
       p "setting up sentiment analysers"
         set_up_sentiment_analysers 
-        p "getting RSS"       
-        data = get_todays_rss
-        p "DONE RSS" 
-        @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
 
-        @time,@date = @todays_data[0].split("-")
-        p "DONE todays stories"
+        # unless already_fetched_RSS_today?
+        #  SEE TO DO
+          p "getting RSS"       
+          # data = get_todays_rss
+          # p "DONE RSS" 
+          # @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
+          # @time,@date = @todays_data[0].split("-")
+
+          @todays_stories = get_todays_rss
+
+          @time = @current_time.strftime("%X")
+          @date = @current_time.strftime('%d/%m/%Y')
+
+          @todays_data = Score.where(date:@current_time).order(:score)
+          @todays_papers_ordered = @todays_data.collect(&:source)
+          @todays_scores = @todays_data.collect(&:score)
+
+          p "DONE todays stories"
+
+        # end
 
       # awards
       p "getting awards"

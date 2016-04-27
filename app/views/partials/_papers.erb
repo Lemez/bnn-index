@@ -4,9 +4,9 @@
      <!--  <h3>Current Average Scores</h3> -->
       <tbody>
         <tr class= 'tablerow'>
-        <% SOURCES.keys.each_with_index do |k,i| %>
+        <% @todays_data.each do |k| %>
           
-            <td class='<%=k%>'><span class='paperscore'><%=k%></span><span class='paperscore'><%=sprintf('%.2f', @todays_data[i+1])%></span></td>
+            <td class='<%=k.source%>'><span class='paperscore'><%=k.source%></span><span class='paperscore'><%=k.score%></span></td>
           
         <%end%>
         <h6> Updated: <%=@date %> at: <%=@time%> </h6>

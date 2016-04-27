@@ -176,29 +176,63 @@ end
 
 def save_scores(paper,score)
 
-	Score.where(date:Time.now, source:paper).first_or_create do |sc|
+	Score.where(date:@current_time, source:paper).first_or_create do |sc|
 		sc.score = score
 	end
 
 	#ensures only one per paper per day
 end
 
+def get_todays_saved_stories
+
+	@titles_today = {}
+	SOURCES.keys.each do |source|
+
+		@titles_today[source] = Story.all
+									.find_by_source(source)
+									.on_date(Time.now.formatted_date)
+									.uniq{|a| a.title}
+									.map(&:title)
+	end
+end
+
+def story_already_saved? (params)
+	source = params[:source]
+
+	@titles_today[source].include?(params[:title])
+end
+
+def add_title_to_saved (params)
+	@titles_today[params[:source]] << params[:title]
+
+	p "added #{params[:title]} to #{params[:source]}"
+end
+
 def save_stories(storyparams)
+
 	Story.where(source: storyparams[:source],title: storyparams[:title]).first_or_create do |st|
 		st.update(storyparams)
 		st.save!
 	end
+
+	add_title_to_saved(storyparams)
 end
 
+def already_fetched_RSS_today?
 
+	Story.last.formatted_date == Date.today.to_s
+
+end
 
 
 def get_todays_rss
 
-	todays_data = [Time.now.strftime('%X-%d/%m/%Y')]
+	todays_data = [@current_time_formatted]
 	todays_stories = {}
 	threads = []
 	@offline=false
+
+	get_todays_saved_stories
 
 	SOURCES.each_pair do |k,v|
 		# threads << Thread.new(k) {|key|
@@ -213,14 +247,14 @@ def get_todays_rss
 					rss = open(v).read
 					feed = RSS::Parser.parse(rss,false)
 					data = feed.items
-					p data
+
 				rescue SocketError #when there are connection problems
 					p "SOCKET ERROR #{Time.now}"
 					data = Story.where(source:key).order(:date)[0..9]
 					@offline=true
 
 				rescue RSS::NotWellFormedError #when it is not xml format
-					p "RSS ERROR #{Time.now}"
+					p "Fetching alternative RSS source"
 
 					data = []
 
@@ -249,20 +283,25 @@ def get_todays_rss
 				data.each.with_index do |item,i| 
 					if i<10
 						params = {:title=> '', :date=> Time.now, :mixed=>0.0, :afinn=>0.0, :wiebe=>0.0, :source =>'' }
-						params[:title] = item.title.strip
+						params[:title] = item.title.strip.gsub("&apos;","'")
 						params[:afinn] = params[:title].afinn_probability.round(2)*100
 						params[:wiebe] = params[:title].wiebe_probability.round(2)*100
+						params[:source]=key
 
 						#  combination of AFINN and WIEBE is by far best with least outliers
 						params[:mixed] = (params[:afinn]+params[:wiebe])/2
 						mixed_scores << params[:mixed]
-						params[:source]=key
+						
+						unless story_already_saved?(params)
 
-						save_stories(params)
+							save_stories(params)  
+							 "#{params[:title]} is new"
+					
+						else
+							story_array << params
 
-						story_array << params
-
-						p params
+							p "#{params[:title]} saved previously"
+						end
 					end
 				end
 
@@ -274,7 +313,7 @@ def get_todays_rss
 				save_scores(key,mixed_normalized)
 
 				# add to today's data array
-				todays_data << mixed_normalized
+				# todays_data << mixed_normalized
 		# }
 
 		p "finishing #{key} RSS: #{v}"
@@ -288,7 +327,9 @@ def get_todays_rss
 
 	p todays_stories.each_pair{|k,v| p k; p v.length}
 
-	return [todays_data, todays_stories]
+	return  todays_stories
+
+
 
 end
 
@@ -322,6 +363,8 @@ end
 
 def save_to_dropbox(dataToAdd)
 
+	p "saving to DropBox"
+
 	access_token = DB_ACCESS
 	client = DropboxClient.new(access_token)
 	location, name = '/Public',"papers_production.csv"
@@ -351,19 +394,15 @@ def sort_scores_by_date(data)
     data.each_with_index do |s,i|
       if i==0
         @tmp << s
-        p "FIRST: #{s}"
       elsif s.date.strftime("%h/%d/%m/%Y")==@previous.date.strftime("%h/%d/%m/%Y")
-      	p "SAME: #{s.date}==#{@previous.date}"
         @tmp << s
       else
-      	p "NEWDATE: #{s.date} != #{@previous.date}"
         @allscores << @tmp
         @tmp = [s]
       end
       @previous=s
     end
 
-    @allscores
     @allscores.sort{|a,b|a[0].date <=>b[0].date}.each{|a| a.each{|b| p b}}
 end
 

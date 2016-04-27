@@ -61,8 +61,8 @@ $(function(){
         sourceIndex=0,
         first=true;
 
-    var sources = ['Express','Guardian','Independent','Mail',"Telegraph",'Times'];
-    var DBScores = <%=@todays_data.to_json.html_safe %>;
+    var sources = <%=@todays_papers_ordered.to_json.html_safe %>;
+    var DBScores = <%=@todays_scores.to_json.html_safe %>;
     var DBStories = <%=@todays_stories %>;
 
     getContent(); // fire it up for the first time

@@ -84,7 +84,11 @@
    // 	 .append('g')
    // 	 .attr('class', 'chart__range-selection')
    // 	 .attr('transform', 'translate(110, 0)');
-   var scores = <%=@scores%>;
+
+
+	// scores not needed as using D3 CSV
+   // var scores = <%=@scores%>; 
+   
    var isOffline = <%=@offline%>;
    console.log(isOffline); 
    var testdata = [

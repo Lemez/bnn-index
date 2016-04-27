@@ -1,7 +1,7 @@
 require 'json'
 require_relative './rss'
 
-ActiveRecord::Base.logger.level = 1
+ActiveRecord::Base.logger.level = 3
 
 module SerenityPadrino
   class Serenity < Padrino::Application
