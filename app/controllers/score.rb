@@ -70,7 +70,10 @@ SerenityPadrino::Serenity.controllers :score do
 
       @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},{"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe
       @total = 261690
+
       @current_time = Time.now
+      @time = @current_time.strftime("%X")
+      @date = @current_time.strftime('%d/%m/%Y')
       @current_time_formatted = @current_time.strftime('%X-%d/%m/%Y')
 
       # today's stories
@@ -86,9 +89,6 @@ SerenityPadrino::Serenity.controllers :score do
           # @time,@date = @todays_data[0].split("-")
 
           @todays_stories = get_todays_rss
-
-          @time = @current_time.strftime("%X")
-          @date = @current_time.strftime('%d/%m/%Y')
 
           @todays_data = Score.where(date:@current_time).order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source)
