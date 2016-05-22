@@ -3,6 +3,10 @@ SerenityPadrino::Serenity.controllers :score do
   # require 'rugged'
   # require 'linguist' # sacking off as charlock holmes dependency doesnt work with heroku
   require 'json'
+  require 'active_record'
+  require 'pry'
+
+  require 'pluck_to_hash'
 
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
@@ -88,7 +92,7 @@ SerenityPadrino::Serenity.controllers :score do
           # @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
           # @time,@date = @todays_data[0].split("-")
 
-          @todays_stories = get_todays_rss
+          @todays_stories = get_todays_saved_stories[1]
 
           @todays_data = Score.where(date:@current_time).order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source)
@@ -108,6 +112,31 @@ SerenityPadrino::Serenity.controllers :score do
         @story_neg = stories[0..9]
         @story_pos = stories[-10..-1].reverse
       p "DONE awards"
+
+# D3 CSV js output
+#       [
+#   {"Year": "1997", "Make": "Ford", "Model": "E350", "Length": "2.34"},
+#   {"Year": "2000", "Make": "Mercury", "Model": "Cougar", "Length": "2.38"}
+# ]
+
+      p "getting chart data"
+
+      # @all_scores = DailyScore.all.pluck_to_hash(:date,:mail,:telegraph,:times,:guardian,:independent,:express,:average).to_json.html_safe
+
+      attribute_strings = [:date,:mail,:telegraph,:times,:guardian,:independent,:express,:average].map(&:to_s)
+      all_scores_array = []
+
+      all_scores = DailyScore.all.order(:date).pluck(:date,:mail,:telegraph,:times,:guardian,:independent,:express,:average).each{|m|m[0]=m[0].to_s[0..9]}
+      all_scores.each{|a| all_scores_array << Hash[*attribute_strings.zip(a).flatten] }
+
+      @all_scores_json = all_scores_array.to_json.html_safe
+     
+      # scores = sort_and_deliver_scores(Score.all)
+      # @all_scores = scores.to_json.html_safe
+
+      p "DONE chart data"
+
+
 
         render 'index'
 

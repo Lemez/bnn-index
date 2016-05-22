@@ -1,9 +1,18 @@
 class Score < ActiveRecord::Base
 
 	scope :find_by_source, -> (paper) { where(:source => paper) }
+	# scope :by_date, -> (needful_date) { where('date.formatted_date = ?', needful_date) }
 
 	def formatted_date
-		self.date.formatted_date
+		date.formatted_date
+	end
+
+	def self.sort_by_date
+		self.order('date')
+	end
+
+	def self.on_date(d)
+		self.select{|b| b.date.formatted_date == d}
 	end
 
 end

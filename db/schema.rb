@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
+ActiveRecord::Schema.define(version: 7) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "daily_scores", force: :cascade do |t|
+    t.float    "mail"
+    t.float    "telegraph"
+    t.float    "times"
+    t.float    "average"
+    t.float    "guardian"
+    t.float    "independent"
+    t.float    "express"
+    t.datetime "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "dateformat"
+  end
 
   create_table "scores", force: :cascade do |t|
     t.datetime "date"

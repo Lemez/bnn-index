@@ -1,12 +1,13 @@
 require 'httparty' 
 require 'rss'
 require 'dropbox_sdk'
-# require_relative "../private/secret.rb"
+Dir.glob('../models/*', &method(:require_relative))
 require 'csv'
 require 'sentimentalizer'
 require 'date'
 require 'nokogiri'
 require 'open-uri'
+require 'pry'
 
 
 def set_up_sentiment_analysers
@@ -70,70 +71,6 @@ def analyse_brown_output
             write.close
         end
 end
-
-
-class Hash
-	def format_for_dropbox
-		return [self['date'],
-				self['Mail'],
-				self['Times'],
-				self['Express'],
-				self['Telegraph'],
-				self['Guardian'],
-				self['Independent']]
-	end
-end
-
-class ItemKlass
-   attr_accessor :title
-end
-
-class String
-	def get_sentiments
-		return Sentimentalizer.analyze(self)
-	end
-
-	def sentimentalizer_probability
-		output = self.get_sentiments
-		sentiment = output.sentiment
-		probability = output.overall_probability
-		case sentiment
-		when ":("
-			probability=-probability
-		end
-
-		return probability
-	end
-
-	def afinn_probability
-		aggregate = 0.0
-		all_words = self.split(/\W+/)
-		all_words.each do |w|
-			word = w.strip.downcase
-		 	score=$afinn[word]
-		 	score.nil? ? result =0 : result=score/3.0
-		 	aggregate += result
-		end
-
-		aggregate/all_words.length
-	end
-
-	def wiebe_probability
-
-		aggregate = 0.0
-		all_words = self.split(/\W+/)
-		all_words.each do |w|
-			word = w.strip.downcase
-		 	score=$wiebe[word]
-		 	score.nil? ? result =0 : result=score[:sentiment]
-		 	aggregate += result
-		end
-
-		aggregate/all_words.length
-	
-	end
-end
-
 
 def afinn_to_hash
 	$afinn = {}
@@ -216,6 +153,7 @@ def save_stories(storyparams)
 	end
 
 	add_title_to_saved(storyparams)
+
 end
 
 def already_fetched_RSS_today?
@@ -254,28 +192,28 @@ def get_todays_rss
 					@offline=true
 
 				rescue RSS::NotWellFormedError #when it is not xml format
-					p "Fetching alternative RSS source"
+					p "Fetching alternative data"
 
-					data = []
+					data = Story.where(source:key).order(:date)[0..9]
 
-					if k == "Times"
-						response = HTTParty.get("#{v}")
-					     doc = Nokogiri::XML(response)
+					# if k == "Times"
+					# 	response = HTTParty.get("#{v}")
+					#      doc = Nokogiri::XML(response)
 
-						doc.css('div.rss-list ul li a').each do |link|
+					# 	doc.css('div.rss-list ul li a').each do |link|
 
-							title = link.content.gsub(/[^\p{Space}\p{Word}-]/, '')
+					# 		title = link.content.gsub(/[^\p{Space}\p{Word}-]/, '')
 
-							# make a new object that mimics the RSS library to enable it to parse the Times data in the same way
-							story = ItemKlass.new
-							story.title = title
+					# 		# make a new object that mimics the RSS library to enable it to parse the Times data in the same way
+					# 		story = ItemKlass.new
+					# 		story.title = title
 
-							data << story
-						end
+					# 		data << story
+					# 	end
 
-					# else
-					# 	data = Story.where(source:key).order(:date)[0..9]
-					end
+					# # else
+					# # 	data = Story.where(source:key).order(:date)[0..9]
+					# end
 
 				end
 				afinn_scores,wiebe_scores,mixed_scores = [],[],[]
@@ -313,7 +251,7 @@ def get_todays_rss
 				save_scores(key,mixed_normalized)
 
 				# add to today's data array
-				# todays_data << mixed_normalized
+				todays_data << mixed_normalized
 		# }
 
 		p "finishing #{key} RSS: #{v}"
@@ -325,9 +263,9 @@ def get_todays_rss
 	# return today's data
 
 
-	p todays_stories.each_pair{|k,v| p k; p v.length}
+	# p todays_stories.each_pair{|k,v| p k; p v.length}
 
-	return  todays_stories
+	return  [todays_data, todays_stories]
 
 
 
@@ -381,58 +319,24 @@ def save_to_dropbox(dataToAdd)
 
 end
 
-
-def classify
-end
-
 def sort_scores_by_date(data)
 
-	@allscores, @tmp = [],[]
-    @previous = data[-1]
-    # unique_data = data.each{|a| a.score && a.source && a.date.strftime("%h/%d/%m/%Y")}
+	# @allscores, @tmp = [],[]
+ #    @previous = data[-1]
+ #    # unique_data = data.each{|a| a.score && a.source && a.date.strftime("%h/%d/%m/%Y")}
 
-    data.each_with_index do |s,i|
-      if i==0
-        @tmp << s
-      elsif s.date.strftime("%h/%d/%m/%Y")==@previous.date.strftime("%h/%d/%m/%Y")
-        @tmp << s
-      else
-        @allscores << @tmp
-        @tmp = [s]
-      end
-      @previous=s
-    end
+ #    data.each_with_index do |s,i|
+ #      if i==0
+ #        @tmp << s
+ #      elsif s.date.strftime("%h/%d/%m/%Y")==@previous.date.strftime("%h/%d/%m/%Y")
+ #        @tmp << s
+ #      else
+ #        @allscores << @tmp
+ #        @tmp = [s]
+ #      end
+ #      @previous=s
+ #    end
 
-    @allscores.sort{|a,b|a[0].date <=>b[0].date}.each{|a| a.each{|b| p b}}
+ #    @allscores.sort{|a,b|a[0].date <=>b[0].date}.each{|a| a.each{|b| p b}}
 end
-
-def ar_to_array_of_objects(data)
-	finalscores=[]
-    
-    data.each do |date_array|
-      o={}
-
-      sources,scores = date_array.map(&:source),date_array.map(&:score)
-
-      sources.each_with_index do |d,i|
-        o['date']=date_array[0].date.strftime("%X-%d/%m/%Y")
-        o[sources[i].downcase]=scores[i]
-        o['average'] = (scores.inject(0.0) { |sum, el| sum + el } / scores.size).round(2)
-
-      end
-      finalscores << o
-    end
-
-    finalscores
-
-end
-
-def sort_and_deliver_scores(data)
-
-	allscores = sort_scores_by_date(data)
-    scores = ar_to_array_of_objects(allscores)
-    
-   return scores
-end
-
 

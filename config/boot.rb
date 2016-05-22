@@ -16,16 +16,17 @@ SOURCES =  {
 			'Guardian'=>"http://www.theguardian.com/uk/rss",
 			'Independent'=>'http://independent.co.uk/news/rss',
 			'Mail'=>'http://www.dailymail.co.uk/news/index.rss',
-			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml',
-			'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
+			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml'
+			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
+			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
 
 
 ##
 # ## Enable devel logging
 #
-# Padrino::Logger::Config[:development][:log_level] = :error
-Padrino::Logger::Config[:development] = { :log_level => :fatal}
+Padrino::Logger::Config[:development][:log_level] = :error
+# Padrino::Logger::Config[:development] = { :log_level => :fatal}
 # Padrino::Logger::Config[:development][:log_static] = true
 #
 # ## Configure your I18n

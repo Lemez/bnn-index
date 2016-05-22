@@ -63,7 +63,7 @@ $(function(){
 
     var sources = <%=@todays_papers_ordered.to_json.html_safe %>;
     var DBScores = <%=@todays_scores.to_json.html_safe %>;
-    var DBStories = <%=@todays_stories %>;
+    var DBStories = <%=@todays_stories.to_json.html_safe %>;
 
     getContent(); // fire it up for the first time
 

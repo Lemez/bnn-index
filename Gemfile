@@ -8,6 +8,7 @@ source 'https://rubygems.org'
 # gem 'trinidad', :platform => 'jruby'
 gem 'puma'
 
+
 # Optional JSON codec (faster performance)
 # gem 'oj'
 
@@ -18,11 +19,14 @@ gem 'rake'
 gem 'bcrypt'
 gem 'erubis', '~> 2.7.0'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
+gem 'pluck_to_hash', '~> 0.1.4'
 gem 'pg'
 
 gem 'pry'
 
 # Test requirements
+gem 'rspec', :group => 'test'
+gem 'rack-test', :require => 'rack/test', :group => 'test'
 
 # Padrino Stable Gem
 gem 'padrino', '0.12.5'

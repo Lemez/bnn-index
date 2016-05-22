@@ -29,7 +29,7 @@ job_type :padrino_rake, 'cd :path && padrino rake :task -e :environment'
 
 
 # every '0 0,6,12,18 * * *' do # every day, 3 times a day, do
-every :day do
+every '0 6 * * *' do
   p "\n\n #{Time.now} : score:get_and_save_today_to_db \n\n"
 padrino_rake "score:get_and_save_today_to_db"
 end
