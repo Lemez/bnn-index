@@ -30,6 +30,8 @@ SerenityPadrino::Serenity.controllers :score do
     layout :data
     get :index, :map => '/' do
 
+      @loading=true
+
       # chart
       p "getting scores"
 
@@ -76,26 +78,34 @@ SerenityPadrino::Serenity.controllers :score do
       @total = 261690
 
       @current_time = Time.now
+      @current_day = @current_time.formatted_date
       @time = @current_time.strftime("%X")
       @date = @current_time.strftime('%d/%m/%Y')
       @current_time_formatted = @current_time.strftime('%X-%d/%m/%Y')
 
       # today's stories
-      p "setting up sentiment analysers"
-        set_up_sentiment_analysers 
 
-        # unless already_fetched_RSS_today?
-        #  SEE TO DO
-          p "getting RSS"       
-          # data = get_todays_rss
-          # p "DONE RSS" 
-          # @todays_data, @todays_stories = data[0], data[1].to_json.html_safe
-          # @time,@date = @todays_data[0].split("-")
+            @titles_today = {
+              'express' => [],
+              'guardian' => [],
+              'telegraph' => [],
+              'independent' => [],
+              'mail' => []
+            }    
+                                 
+          if already_fetched_RSS_today?
+            @grimmest_articles_today = get_todays_saved_story_objects
+          else
+            p "getting RSS"  
+            set_up_sentiment_analysers 
+            @todays_stories = get_todays_rss[1]
+          end
+          
+          @todays_data = Score.select{|a| a.date.formatted_date == @current_day}
+                      .uniq{|a| a.source}
+                      .sort{|a,b| a.score<=>b.score}
 
-          @todays_stories = get_todays_saved_stories[1]
-
-          @todays_data = Score.where(date:@current_time).order(:score)
-          @todays_papers_ordered = @todays_data.collect(&:source)
+          @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
 
           p "DONE todays stories"
@@ -105,12 +115,16 @@ SerenityPadrino::Serenity.controllers :score do
       # awards
       p "getting awards"
 
-        stories = Story.all.pluck(:title,:source,:date,:mixed)
-          .uniq{|t|t[0].downcase}
-          .select{|a| !a[-1].nan?} #using Float.nan? to remove all quirks with floats
-          .sort{|a,b|a[-1] <=> b[-1]}
+        stories = Story.all
+                .select(:title,:source,:date,:mixed)
+                .select{|a| !a.mixed.nan?} #using Float.nan? to remove all quirks with floats
+                .sort{|a,b| a.mixed <=> b.mixed}
+
+        stories = stories.uniq{|a|a.title.downcase}
+
         @story_neg = stories[0..9]
         @story_pos = stories[-10..-1].reverse
+
       p "DONE awards"
 
 # D3 CSV js output
@@ -136,32 +150,32 @@ SerenityPadrino::Serenity.controllers :score do
 
       p "DONE chart data"
 
-
+       @loading=false
 
         render 'index'
 
     end
 end
 
-def get_worst_by_paper
-   return [Story.mail.order(:mixed).first,
-          Story.express.order(:mixed).first,
-          Story.guardian.order(:mixed).first,
-          Story.times.order(:mixed).first,
-          Story.independent.order(:mixed).first,
-          Story.telegraph.order(:mixed).first]
-                        .sort{|a,b| a.mixed <=> b.mixed}
-end
+# def get_worst_by_paper
+#    return [Story.mail.order(:mixed).first,
+#           Story.express.order(:mixed).first,
+#           Story.guardian.order(:mixed).first,
+#           Story.times.order(:mixed).first,
+#           Story.independent.order(:mixed).first,
+#           Story.telegraph.order(:mixed).first]
+#                         .sort{|a,b| a.mixed <=> b.mixed}
+# end
 
-def get_best_by_paper
-  return [Story.mail.order(:mixed).last,
-        Story.express.order(:mixed).last,
-        Story.guardian.order(:mixed).last,
-        Story.times.order(:mixed).last,
-        Story.independent.order(:mixed).last,
-        Story.telegraph.order(:mixed).last]
-                      .sort{|a,b| a.mixed <=> b.mixed}.reverse
-end
+# def get_best_by_paper
+#   return [Story.mail.order(:mixed).last,
+#         Story.express.order(:mixed).last,
+#         Story.guardian.order(:mixed).last,
+#         Story.times.order(:mixed).last,
+#         Story.independent.order(:mixed).last,
+#         Story.telegraph.order(:mixed).last]
+#                       .sort{|a,b| a.mixed <=> b.mixed}.reverse
+# end
 
 
 def stories_to_date_hash

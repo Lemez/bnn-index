@@ -122,15 +122,32 @@ end
 
 def get_todays_saved_stories
 
-	@titles_today = {}
 	SOURCES.keys.each do |source|
 
-		@titles_today[source] = Story.all
+		@titles_today[source.downcase] = Story.all
 									.find_by_source(source)
 									.on_date(Time.now.formatted_date)
 									.uniq{|a| a.title}
 									.map(&:title)
 	end
+
+end
+
+def get_todays_saved_story_objects
+
+	@grimmest_articles_today = {}
+	SOURCES.keys.each do |source|
+
+		@grimmest_articles_today[source.downcase] = Story.all
+									.find_by_source(source)
+									.order(:mixed)
+									.on_date(Time.now.formatted_date)
+									.uniq{|a| a.title}[0..4]
+								
+	end
+
+	@grimmest_articles_today
+
 end
 
 def story_already_saved? (params)

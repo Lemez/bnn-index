@@ -21,6 +21,16 @@ SOURCES =  {
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
 
+LOGOS =  {                 
+			'Express'=> "express.png",
+			'Guardian'=>"145x88_Guardian.png",
+			'Independent'=>"independent_small.png",
+			'Mail'=>"145x88_DailyMail.png",
+			'Telegraph'=>"145x88_DailyTelegraph.png"
+			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
+			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
+			}
+
 
 ##
 # ## Enable devel logging

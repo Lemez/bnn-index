@@ -15,6 +15,15 @@ namespace :score do
         @date = @current_time.strftime('%d/%m/%Y')
         @current_time_formatted = @current_time.strftime('%X-%d/%m/%Y')
 
+         @titles_today = {
+              'express' => [],
+              'guardian' => [],
+              'telegraph' => [],
+              'independent' => [],
+              'mail' => []
+            }
+
+            
     todays_data_for_dropbox = get_todays_rss[0] * "," # converts array to CS String
  		add_dailyscore_record_for_today(Time.now.strftime("%Y-%m-%d"))
     save_to_dropbox(todays_data_for_dropbox)

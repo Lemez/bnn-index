@@ -47,6 +47,7 @@ $(function(){
         articleUrl,
         article,
         articles,
+        balls,
         score,
         aEl,
         aEl2,
@@ -63,7 +64,7 @@ $(function(){
 
     var sources = <%=@todays_papers_ordered.to_json.html_safe %>;
     var DBScores = <%=@todays_scores.to_json.html_safe %>;
-    var DBStories = <%=@todays_stories.to_json.html_safe %>;
+    var DBStories = <%=@grimmest_articles_today.to_json.html_safe %>;
 
     getContent(); // fire it up for the first time
 
@@ -95,8 +96,10 @@ $(function(){
     });
 
      $('span.paperscore').on('click',function(){
-      console.log(sourceIndex);
+
       var newSource = $(this).parent('td').attr('class');
+      newSource = newSource.charAt(0).toLowerCase() + newSource.slice(1);
+
       if ( newSource.split(" ").length != 1){newSource=newSource.split(" ")[0]}; //deal with multiple classes
       sourceIndex = sources.indexOf(newSource);
       nextSource();
@@ -107,24 +110,25 @@ $(function(){
 
     paperName = sources[sourceIndex];
     articles = DBStories[paperName];
-    var balls = DBStories[paperName].length;
-    article = DBStories[paperName][articleIndex];
 
-    var headline = article.title;
+    balls = DBStories[paperName].length;
+    article = articles[articleIndex];
 
-    $('h1').html( '<span>'+ headline.split('').join('</span><span>') + '</span>');
+    var headline = article.title.replace("&apos;","'");
+
+    $('article > h1').html( '<span>'+ headline.split('').join('</span><span>') + '</span>');
          
      $('#misery_score').html(parseInt(article.mixed));
-     $('#currentpaper').html(sources[sourceIndex]);
 
-     $('.'+paperName).addClass("active");
+     var paper_uppercase = paperName.charAt(0).toUpperCase() + paperName.slice(1);
 
-      
+     $('#currentpaper').html(paper_uppercase);
+     $('.' + paper_uppercase).addClass("active");
+
       getEmotionsfromScore(article.mixed);
 
       makeBalls(balls);
 
-      
     };
 
     function makeBalls(num){
@@ -166,7 +170,7 @@ $(function(){
 
       }
       var emojiClass = 'emoji' + em;
-      console.log(emojiClass);
+
       $('.'+ emojiClass).siblings('.e').hide();
        $('.'+ emojiClass).show();
 
@@ -175,19 +179,19 @@ $(function(){
    //  //
    //  // One by one, momentarily highlight a char in the headline
    //  //
-    var dancingLights = function dancingLights() {
-        var i = 0,
-          elem = document.querySelector('h1');
+    // var dancingLights = function dancingLights() {
+    //     var i = 0,
+    //       elem = document.querySelector('h1');
 
-        setInterval(function() {
+    //     setInterval(function() {
 
-          elem.children[i].className = 'highlight';
-          var x = i;
-          setTimeout(function() { elem.children[x].className = ''; }, beatMs * 2);
-          i = ++i % headline.length;
+    //       elem.children[i].className = 'highlight';
+    //       var x = i;
+    //       setTimeout(function() { elem.children[x].className = ''; }, beatMs * 2);
+    //       i = ++i % headline.length;
 
-        }, beatMs);
-    };
+    //     }, beatMs);
+    // };
 
 
     

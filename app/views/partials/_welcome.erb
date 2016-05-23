@@ -1,0 +1,26 @@
+<section id='welcome'>
+	<h1 id='welcome_header'>The newspaper to avoid today is... </h1>
+	<p><%=image_tag LOGOS[todays_papers_ordered[0].titleize], :width => '300', :class => 'logo' %></p>
+	<h2 class="welcome_text"> with an average article negativity<sup>*</sup> score of </h2>
+	<h1 class="welcome_score"><%= @todays_scores[0] %></h1>
+	<h2>Don't say we didn't warn you :)</h2>
+
+		<!-- 
+	<table id='whatnottoread'>
+	<%# @todays_papers_ordered[0..2].each_with_index do |key, i| %>
+			<%# i==0 ? @width='300' : @width='100' %>
+			<tr>
+				<td><%# i+1 %></td>
+				<td><%#image_tag LOGOS[key.titleize], :width => @width, :class => 'logo' %></td>
+				<td><%#@todays_scores[i]%></td>
+
+			</tr>
+		<%# end %> 
+	</table>-->
+</section>
+<script type="text/javascript">
+var h = $(document).height();
+$('#welcome').css('min-height',h);
+$('.logo').css('min-width',h);
+</script>
+

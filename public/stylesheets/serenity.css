@@ -8,6 +8,11 @@
 html,
 body {
   margin: 0;
+    background: #fffafa; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#fffafa, white); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#fffafa, white); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#fffafa, white); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#fffafa, white); /* Standard syntax (must be last) */
 }
 
 /*.footer, .push {
@@ -46,6 +51,10 @@ nav{
   padding: 10px 0 10px 10px;
 }
 
+span#info_asterisk {
+  font-size: 18px;
+}
+
 .selected {
   font-weight: 700;
   background-color: pink;
@@ -63,10 +72,10 @@ nav{
 
   .tab {
     text-align: left;
-    margin: 10px 0 10px 0;
+    margin: 0;
     padding: 10px 0 10px 10px;
     border-left: 2px solid white;
-    font-size: 30px;
+    font-size: 24px;
     display: block;
   }
 
@@ -79,19 +88,41 @@ nav{
   nav a.sub_tab {
     text-align: right;
     display: block;
-    margin: 10px 0 10px 0;
-    font-size: 24px;
+    margin: 0;
+    font-size: 20px;
   }
 
   #categories {
     display: none;
   }
 
+#restofpage {
+  float: right;
+  margin-right: 10px;
+  overflow: y;
+}
 
+#welcome {
+  min-height: 100%;
+
+}
+
+.welcome_score {
+  margin-left: 5px;
+  line-height: 1.5em;
+  vertical-align: middle;
+}
+
+.welcome_text {
+  margin: 0;
+  padding: 0;
+  margin-left: 5%;
+  line-height: 1.5em;
+  vertical-align: middle;
+}
   /* chart*/
 
 #data {
-  margin-left: 170px;
 }
 
 .chart__grid {
@@ -101,11 +132,10 @@ nav{
 svg {
   font: 12px sans-serif;
   margin-top: 0px;
-  float: right;
 }
 
 #index {
-  min-height: 20px;
+  min-height: 1px;
 }
 .area {
   fill: rgba(255,100,100,0.5);
@@ -577,6 +607,11 @@ ol.news {
     border-radius: 12px;
     border: 1px dotted gray;
 }
+.awarddate {
+  font-size: 1rem;
+  padding-left: 20px;
+  vertical-align: middle;
+}
 
 /*.news li:first-child + li::before {
   background-color: rgb(200,200,200); 
@@ -601,7 +636,6 @@ section#today {
 
 #shame {
   margin-bottom: 100%;
-  padding-top: 20px;
 }
 
 #shame table {

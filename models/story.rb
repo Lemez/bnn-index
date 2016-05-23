@@ -20,5 +20,9 @@ class Story < ActiveRecord::Base
 		self.date.formatted_date
 	end
 
+	def pretty_date
+		self.date.pretty_date
+	end
+
 
 end
