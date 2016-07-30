@@ -1,11 +1,3 @@
-Require anything new inside serenity2.js then Browserify JS changes /
-	sudo browserify public/js/serenity2.js -o public/js/bundle.js
-
-(old)
-start with 
->> padrino start
-
-
 On Puma webserver:
 
 start with 
@@ -40,7 +32,32 @@ use pg-dump tool to copy over local pg db to online heroku db, which is currentl
 
 save cron jobs to AR
 
-get chart data from AR
+For days where DailyScore is absent, take data from production_papers
 
 filter d3 for uniq by day
+
+AR tips:
+ # get :index, :map => '/foo/bar' do
+  #   session[:foo] = 'bar'
+  #   render 'index'
+  # end
+
+  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
+  #   case content_type
+  #     when :js then ...
+  #     else ...
+  # end
+
+  # get :foo, :with => :id do
+  #   'Maps to url '/foo/#{params[:id]}''
+  # end
+
+  # get '/' do
+  #   'Hello world!'
+  # end
+
+  get word analysis scores
+  word.get_all_word_scores 
+  					or with writing to CV
+  word.get_all_word_scores(options = {:write => true}) 
 

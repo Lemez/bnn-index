@@ -1,5 +1,6 @@
 require 'json'
 require_relative './rss'
+require_relative './csv'
 
 ActiveRecord::Base.logger.level = 3
 

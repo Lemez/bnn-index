@@ -1,10 +1,10 @@
 <%= partial 'partials/info' %>
 <%= partial 'partials/nav' %>
 <div id='restofpage'>
-	<%= partial 'partials/welcome',:locals => { :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grimmest_articles_today => @grimmest_articles_today } %>
-	<%= partial 'partials/today',:locals => { :todays_data => @todays_data, :time => @time, :date => @date, :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grimmest_articles_today => @grimmest_articles_today } %>
+	<%= partial 'partials/welcome',:locals => { :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grimmest_articles_today => $grimmest_articles_today } %>
+	<%= partial 'partials/today',:locals => { :todays_data => @todays_data, :time => @time, :date => @date, :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grim_today => @grim_today } %>
 	<%= partial 'partials/chart', :locals => { :score => @score }  %>
-	<%= partial 'partials/awards' %>
+	<%= partial 'partials/awards', :locals => { :story_neg => @story_neg, :story_pos => @story_pos } %>
 </div>
 
 <script> 

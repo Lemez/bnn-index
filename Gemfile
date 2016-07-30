@@ -44,6 +44,8 @@ gem 'classifier-reborn'
 gem 'gemoji'
 # gem 'github-linguist'
 
+gem 'open_uri_redirections'
+gem 'lemmatizer'
 
 
 # Or Padrino Edge

@@ -1,7 +1,7 @@
 <section id='today'>
    <%= partial 'partials/papers' %>
  
-		<h3>Today's glummest <strike> tripe</strike> news, brought to you by The <span id='currentpaper'></span></h3>
+		<h3>Today's gutter news, brought to you by The <span id='currentpaper'></span></h3>
      <div id='balls'></div>
     
   <div id='headerdiv'>
@@ -64,7 +64,11 @@ $(function(){
 
     var sources = <%=@todays_papers_ordered.to_json.html_safe %>;
     var DBScores = <%=@todays_scores.to_json.html_safe %>;
-    var DBStories = <%=@grimmest_articles_today.to_json.html_safe %>;
+    var DBStories = <%=@grim_today %>;
+
+    console.log(sources);
+    console.log(DBScores);
+    console.log(DBStories);
 
     getContent(); // fire it up for the first time
 
@@ -113,7 +117,7 @@ $(function(){
 
     balls = DBStories[paperName].length;
     article = articles[articleIndex];
-
+    console.log(article);
     var headline = article.title.replace("&apos;","'");
 
     $('article > h1').html( '<span>'+ headline.split('').join('</span><span>') + '</span>');

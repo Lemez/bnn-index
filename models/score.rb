@@ -3,6 +3,10 @@ class Score < ActiveRecord::Base
 	scope :find_by_source, -> (paper) { where(:source => paper) }
 	# scope :by_date, -> (needful_date) { where('date.formatted_date = ?', needful_date) }
 
+	def self.from_today
+		self.where('created_at > ?', Date.today)
+	end
+
 	def formatted_date
 		date.formatted_date
 	end

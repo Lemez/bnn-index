@@ -92,10 +92,10 @@ span#info_asterisk {
     font-size: 20px;
   }
 
-  #categories {
+/*  #categories {
     display: none;
   }
-
+*/
 #restofpage {
   float: right;
   margin-right: 10px;
@@ -104,9 +104,12 @@ span#info_asterisk {
 
 #welcome {
   min-height: 100%;
-
 }
 
+
+#welcome img.logo {
+  min-width: 100px;
+}
 .welcome_score {
   margin-left: 5px;
   line-height: 1.5em;
@@ -469,10 +472,6 @@ a {
 #champion_pos, #champion_neg {
   text-align: center;
   width: 100%;
-}
-
-#champion_pos, #champion_neg {
-  display: none;
   padding-right: 10px;
 }
 
