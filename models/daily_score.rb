@@ -10,7 +10,7 @@ end
 
 def add_dailyscore_record_for_today_if_none
 
-  return if DailyScore.from_today.exists?
+  return if DailyScore.from_day(Date.today).exists?
 
   p "Adding DailyScore"
   

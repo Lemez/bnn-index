@@ -3,19 +3,19 @@ def set_up_sentiment_analysers
 	# Sentimentalizer.setup
 	p "setting up afinn"
 	afinn_to_hash
-	p "afinn done\n----"
+	p "afinn done----"
 
 	p "setting up wiebe"
 	wiebe_to_hash
-	p "wiebe done\n----"
+	p "wiebe done----"
 
-	p "setting up common words"
+	p "setting up common words list"
 	set_up_common_words_list
-	p "list done\n----"
+	p "list done----"
 
-	p "setting up common words"
+	p "setting up acronyms"
 	set_up_acronyms
-	p "acronyms done\n----"
+	p "acronyms done----"
 
 end
 

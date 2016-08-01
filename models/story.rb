@@ -13,8 +13,8 @@ class Story < ActiveRecord::Base
 		self.select{|b| b.date.formatted_date == Date.today.to_s}
 	end
 
-	def self.from_today
-		self.where('created_at > ?', Date.today)
+	def self.from_day(day)
+		self.where('created_at > ?', day)
 	end
 
 	def self.on_date(d)

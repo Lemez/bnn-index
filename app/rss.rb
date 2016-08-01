@@ -18,24 +18,17 @@ def save_scores(paper,score)
 	end
 end
 
-def get_todays_saved_stories
-
-	SOURCES.keys.each do |source|
-		$grimmest_articles_today[source.downcase] = Story.all
-									.find_by_source(source)
-									.on_date(Time.now.formatted_date)
-									.uniq{|a| a.title}
-									.map(&:title)
-	end
-
-end
-
-def get_todays_saved_story_objects
+def get_todays_saved_story_objects(options = {:date => date})
 
 	grimmest_stories_saved_from_today = {}
+	day = options[:date]
 
 	SOURCES.keys.map(&:downcase).each do |source|
-		grimmest_stories_saved_from_today[source] = Story.all.from_today.where(:source=>source).order(:mixed).uniq(:title)[0..4]						
+		grimmest_stories_saved_from_today[source] = Story.all
+		.from_day(day)
+		.where(:source=>source)
+		.order(:mixed)
+		.uniq(:title)[0..4]						
 	end
 
 	grimmest_stories_saved_from_today
@@ -43,17 +36,9 @@ def get_todays_saved_story_objects
 end
 
 def story_not_yet_saved? (params)
-
-	source = params[:source]
-	!$grimmest_articles_today[source].include?(params[:title])
-
+	Story.where(:title=>params[:title]).empty?
 end
 
-def add_title_to_saved (params)
-	$grimmest_articles_today[params[:source]] << params[:title]
-
-	p "added #{params[:title]} to #{params[:source]}"
-end
 
 def save_stories(storyparams)
 
@@ -62,7 +47,6 @@ def save_stories(storyparams)
 		st.save!
 	end
 
-	add_title_to_saved(storyparams)
 
 end
 
@@ -73,7 +57,7 @@ end
 def process_new_stories_by_source(data, key)
 
 	story_array = []
-	@mixed_scores = []
+	mixed_scores = []
 	data[0..9].each do |item| 
 		params = {
 			:title=> item.title.strip.gsub("&apos;","'"),
@@ -88,7 +72,7 @@ def process_new_stories_by_source(data, key)
 		params[:afinn] = params[:title].afinn_probability.round(2)*100
 		params[:wiebe] = params[:title].wiebe_probability.round(2)*100
 		params[:mixed] = (params[:afinn]+params[:wiebe])/2
-		@mixed_scores << params[:mixed]
+		mixed_scores << params[:mixed]
 
 		if story_not_yet_saved?(params)
 			save_stories(params) 
@@ -101,7 +85,7 @@ def process_new_stories_by_source(data, key)
 
 	end
 
-	story_array
+	[story_array,mixed_scores]
 	
 end
 
@@ -111,43 +95,46 @@ def get_todays_rss
 	todays_data = [$current_time_formatted]
 	todays_stories = {}
 	threads = []
-	
-	$grimmest_articles_today={}
-
-	get_todays_saved_stories
-
-	# binding.pry
+	$offline = false
+	$parsererror = false
 
 	SOURCES.each_pair do |key,v|
 		p "fetching #{key} RSS: #{v}"
 
-		@dummy_data = false
-
 		begin
 
-			rss = open(v).read
-			feed = RSS::Parser.parse(rss,false)
-			data = feed.items
+			unless $offline
+				rss = open(v).read
+				feed = RSS::Parser.parse(rss,false)
+				data = feed.items
+				story_array, @mixed_scores = process_new_stories_by_source(data, key)
+			end
 
-			story_array = process_new_stories_by_source(data, key)
+		rescue SocketError => e 
 
-		rescue SocketError || RSS::NotWellFormedError => e 
-			p "#{e} at #{Time.now}: fetching latest saved stories from #{key}"
-			
-			@dummy_data=true
-			records = Story.where(source:key).order(:date)[-10..-1]
-			
+			p "#{e} at #{Time.now}: #{key}"
+			$offline=true
+
+		rescue RSS::NotWellFormedError => e
+
+			p "#{e} at #{Time.now}: #{key}"
+			$parsererror=true
+					
 		end
 
-		if @dummy_data
-			todays_stories[key] = records.negative.order(:mixed)
-			mixed_normalized = records.average(:mixed).round(2)
-		else
-			todays_stories[key] = story_array.sort{|a,b|a[:mixed]<=>b[:mixed]}.select{|a|a[:mixed]<0}
-			mixed_normalized = average(@mixed_scores).round(2)
+		if $offline
+			# records = Story.where(source:key).order('date DESC').limit(10)
+			# $grimmest_articles_today[key] = records.negative.order(:mixed)
+			# mixed_normalized = records.average(:mixed).round(2)
+			next
+		elsif $parsererror
 
-			#save data to AR
-			save_scores(key,mixed_normalized)
+			# email me TO DO!
+			next
+		else
+			# todays_stories[key] = story_array.sort{|a,b|a[:mixed]<=>b[:mixed]}.select{|a|a[:mixed]<0}
+			mixed_normalized = average(@mixed_scores).round(2)
+			save_scores(key,mixed_normalized) #save data to AR
 		end
 
 		p "finishing #{key} RSS: #{v}"

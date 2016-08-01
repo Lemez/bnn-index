@@ -24,13 +24,21 @@ SerenityPadrino::Serenity.controllers :score do
           get_todays_rss
         end
 
-        add_dailyscore_record_for_today_if_none
+        if $offline 
+          @day = Date.parse(Story.last.date.formatted_date)
+        else
+          @day = Date.today
+          add_dailyscore_record_for_today_if_none
+          
+        end
 
-        $grimmest_articles_today = get_todays_saved_story_objects
-        
-        @todays_data = Score.from_today.uniq(:source).order(:score)
-        @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
-        @todays_scores = @todays_data.collect(&:score)
+          $grimmest_articles_today = get_todays_saved_story_objects({:date => @day})
+          @todays_data = Score.from_day(@day).uniq(:source).order(:score)
+          @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
+          @todays_scores = @todays_data.collect(&:score)
+
+          p $grimmest_articles_today
+          p @todays_data.collect(:id, :source)
 
         p "DONE todays stories"
     # END # today's stories ###########
@@ -79,9 +87,8 @@ SerenityPadrino::Serenity.controllers :score do
     
      @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},{"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe
      @total = 261690
-
      @grim_today=$grimmest_articles_today.to_json.html_safe
-     p "#{@grim_today}, #{$grimmest_articles_today}, #{@grim_today == $grimmest_articles_today}"
+
     # END prepare local variables for erb  ##############
 
     # START render #############
