@@ -168,6 +168,7 @@ svg {
   fill: none;
   stroke-width: 1.2px;
   clip-path: url("#clip");
+  opacity: 0.2;
 }
 .chart__times--focus{
   stroke-width: 2px;
@@ -208,7 +209,7 @@ svg {
 .chart__average--focus {
   stroke-width: 5px;
   stroke: #ff69b4;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .chart__average--focus:hover {
