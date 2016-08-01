@@ -32,9 +32,11 @@ use pg-dump tool to copy over local pg db to online heroku db, which is currentl
 
 save cron jobs to AR
 
-For days where DailyScore is absent, take data from production_papers
+remove old DB data
 
-filter d3 for uniq by day
+show only average on chart, with hover from individual data (initially v low paper opacity)
+
+add words to afinn / wiebe if they do not have one or the other (with similar level of +/-)
 
 AR tips:
  # get :index, :map => '/foo/bar' do

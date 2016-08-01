@@ -61,7 +61,7 @@ class String
 
 				word = lem.lemma(w.downcase)
 			 	afinnscore=$afinn[word]
-			 	afinnscore.nil? ? afinnscore=0 : afinnscore=(afinnscore/3.0).round(2)
+			 	afinnscore.nil? ? afinnscore=0 : afinnscore=afinnscore.round(2)
 			 	aggregate_afinn += afinnscore
 
 			 	wiebescore=$wiebe[word]

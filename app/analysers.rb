@@ -95,14 +95,14 @@ def wiebe_to_hash
 
 		case sentiment_word.strip
 		when "positive"
-			sentiment=1.0
+			sentiment=2.0
 		when "negative"
-			sentiment=-1.0
+			sentiment=-2.0
 		end
 
 		case strength
-		when "weaksubj"
-			t[:sentiment]=sentiment/2
+		when "strongsubj"
+			t[:sentiment]=sentiment*2
 		else
 			t[:sentiment]=sentiment
 		end
