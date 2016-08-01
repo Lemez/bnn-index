@@ -17,6 +17,10 @@ class Story < ActiveRecord::Base
 		self.where('created_at > ?', day)
 	end
 
+	def self.from_today
+		self.where('created_at > ?', Date.today)
+	end
+
 	def self.on_date(d)
 		self.select{|b| b.date.formatted_date == d}
 	end

@@ -2225,6 +2225,7 @@ terribly,-3
 terrific,4
 terrified,-3
 terror,-3
+terrorism,-3
 terrorist,-3
 terrorists,-3
 terrorize,-3

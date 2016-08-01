@@ -5,4 +5,8 @@ class DailyScore < ActiveRecord::Base
 	def self.from_day(day)
 		self.where('created_at > ?', day)
 	end
+
+	def self.from_today
+		self.where('created_at > ?', Date.today)
+	end
 end

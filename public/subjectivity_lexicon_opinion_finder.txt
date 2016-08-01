@@ -540,6 +540,7 @@ strongsubj atrocity noun negative
 strongsubj atrophy verb negative
 weaksubj attack noun negative
 weaksubj attack verb negative
+weaksubj attacker noun negative
 weaksubj attain verb positive
 weaksubj attainable adj positive
 strongsubj attentive adj positive

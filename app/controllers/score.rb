@@ -37,9 +37,6 @@ SerenityPadrino::Serenity.controllers :score do
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
 
-          p $grimmest_articles_today
-          p @todays_data.collect(:id, :source)
-
         p "DONE todays stories"
     # END # today's stories ###########
 

@@ -15,6 +15,7 @@ def save_scores(paper,score)
 									#ensures only one per paper per day
 	Score.where(date:$current_time, source:paper).first_or_create do |sc|
 		sc.score = score
+		# need to sc.update ?
 	end
 end
 
@@ -69,9 +70,17 @@ def process_new_stories_by_source(data, key)
 		}
 
 		#  combination of AFINN and WIEBE is by far best with least outliers
-		params[:afinn] = params[:title].afinn_probability.round(2)*100
-		params[:wiebe] = params[:title].wiebe_probability.round(2)*100
-		params[:mixed] = (params[:afinn]+params[:wiebe])/2
+		analysis_data = params[:title].get_all_word_scores
+
+		params[:afinn] = analysis_data[:afinn_aggregate]
+		params[:wiebe] = analysis_data[:wiebe_aggregate]
+		params[:mixed] = 0.0 - 
+						analysis_data[:shouts] +
+						((params[:afinn]+params[:wiebe])/2) 
+
+		# params[:afinn] = params[:title].afinn_probability.round(2)*100
+		# params[:wiebe] = params[:title].wiebe_probability.round(2)*100
+		# params[:mixed] = (params[:afinn]+params[:wiebe])/2
 		mixed_scores << params[:mixed]
 
 		if story_not_yet_saved?(params)
