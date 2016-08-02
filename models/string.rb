@@ -1,9 +1,14 @@
 require 'lemmatizer'
+require "sentimental"
 
 
 class String
-	def get_sentiments
-		return Sentimentalizer.analyze(self)
+	def get_sentiment
+		$analyzer.sentiment self
+	end
+
+	def get_sentiment_score
+		$analyzer.score self
 	end
 
 	def sentimentalizer_probability
@@ -33,6 +38,10 @@ class String
 		!$acronyms.key?(self)
 	end
 
+	def is_in_erratum_list?
+		!$erratum_list.include?(self)
+	end
+
 	def is_shouting?(word)
 		self.is_caps? && word.is_a_dictionary_word? && word.is_not_a_common_acronym?
 	end
@@ -60,12 +69,15 @@ class String
 			all_words.each do |w|
 
 				word = lem.lemma(w.downcase)
+
 			 	afinnscore=$afinn[word]
 			 	afinnscore.nil? ? afinnscore=0 : afinnscore=afinnscore.round(2)
+			 	afinnscore = 0 if $erratum_list.include?(w)
 			 	aggregate_afinn += afinnscore
 
 			 	wiebescore=$wiebe[word]
 		 		wiebescore.nil? ? wiebescore=0 : wiebescore=wiebescore[:sentiment]
+			 	wiebescore = 0 if $erratum_list.include?(w)
 			 	aggregate_wiebe += wiebescore
 
 			 	shouting = w.is_shouting?(word)
@@ -80,10 +92,8 @@ class String
 
 			 	params[:words][w] = word_object
 
-			 	penalty = (shouting ? 1 : 0)
-			 	aggregate = (aggregate_afinn+aggregate_wiebe-aggregate_shouts).round(2)
-
 			 	if @write_word_scores
+			 		aggregate = (aggregate_afinn+aggregate_wiebe-aggregate_shouts).round(2)
 			 		csv << [w,word,shouting,afinnscore,wiebescore, aggregate]
 				end
 			end

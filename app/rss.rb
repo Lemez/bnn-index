@@ -134,7 +134,7 @@ def get_todays_rss
 		if $offline
 			# records = Story.where(source:key).order('date DESC').limit(10)
 			# $grimmest_articles_today[key] = records.negative.order(:mixed)
-			# mixed_normalized = records.average(:mixed).round(2)
+			# mixed_normalized = records.get_average(:mixed).round(2)
 			next
 		elsif $parsererror
 
@@ -142,7 +142,7 @@ def get_todays_rss
 			next
 		else
 			# todays_stories[key] = story_array.sort{|a,b|a[:mixed]<=>b[:mixed]}.select{|a|a[:mixed]<0}
-			mixed_normalized = average(@mixed_scores).round(2)
+			mixed_normalized = get_average(@mixed_scores).round(2)
 			save_scores(key,mixed_normalized) #save data to AR
 		end
 

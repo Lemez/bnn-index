@@ -23,4 +23,5 @@ class Score < ActiveRecord::Base
 		self.select{|b| b.date.formatted_date == d}
 	end
 
+
 end

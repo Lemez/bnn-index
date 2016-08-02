@@ -12,18 +12,18 @@
 	guardianLine,guardianChart,guardianLabel,guardianHelper,guardianTooltip,guardianText,guardianLabelText,
 	independentLine,independentChart,independentLabel,independentHelper,independentTooltip,independentText,independentLabelText,
 	telegraphLine,telegraphChart,telegraphLabel,telegraphHelper,telegraphTooltip,telegraphText,telegraphLabelText,
-	timesLine,timesChart,timesLabel,timesHelper,timesTooltip,timesText,timesLabelText,averageLine,averageChart,averageLabel,averageHelper,averageTooltip,averageText,averageLabelText;
+	averageLine,averageChart,averageLabel,averageHelper,averageTooltip,averageText,averageLabelText;
 
-	var allPapers=['express','guardian','independent','mail','telegraph','times'];
+	var allPapers=['express','guardian','independent','mail','telegraph'];
    
-	var windowW = $(window).width();
+	var windowW = $('#restofpage').width()-25;
 	var windowH = $(window).height();
 
 	var windowM = windowW/8;
 	var responsiveTicks = Math.round(windowW/150);
-  	var margin = {top: 230, right: windowM, bottom: 100, left: windowM};
-  	var margin2  = {top: 410, right: 100, bottom: 100, left: 100};
-  	var width    = windowW - margin.left - margin.right;
+  	var margin = {top: 230, right: 0, bottom: 100, left: 50};
+  	var margin2  = {top: 410, right: 0, bottom: 100, left: 0};
+  	var width    = windowW - 300;
   	var height   = windowH - margin.top - margin.bottom;
   	var height2  = windowH - margin2.top - margin2.bottom;
     var x = d3.time.scale().range([0, width]);
@@ -134,9 +134,8 @@
 			    		data.map(function (d) {return (d.mail);}),
 			    		data.map(function (d) {return (d.independent);}),
 			    		data.map(function (d) {return (d.telegraph);}),
-			    		data.map(function (d) {return (d.express);}),
-			    		data.map(function (d) {return (d.times);})
-			    		);
+			    		data.map(function (d) {return (d.express);})
+			    	);
 
 			    var min = Math.min.apply(null, allValues),
 			    max = Math.max.apply(null, allValues);
@@ -204,7 +203,7 @@
 			  	independentLine =  makeLine('independent');
 			  	mailLine =  makeLine('mail');
 			  	telegraphLine =  makeLine('telegraph');
-			  	timesLine =  makeLine('times');
+			 
 			  	averageLine = makeLine('average');
 
 			  	var allObjects = {
@@ -267,17 +266,7 @@
 		        		'labelText': telegraphLabelText
 		        	},
 
-		        		'times' : {
-		        		'chartclass' : 'chart__times--focus',
-		        		'line' : timesLine,
-		        		'chart' : timesChart,
-		        		'label' : timesLabel,
-		        		'helper': timesHelper,
-		        		'tooltip': timesTooltip,
-		        		'tooltipclass' : 'chart__tooltip--times',
-		        		'text': timesText,
-		        		'labelText': timesLabelText
-		        	},
+		        	
 		        	'average' : {
 		        		'chartclass' : 'chart__average--focus',
 		        		'line' : averageLine,
@@ -304,7 +293,7 @@
 			  	independentChart =  makeChart('independent');
 			  	mailChart =  makeChart('mail');
 			  	telegraphChart =  makeChart('telegraph');
-			  	timesChart =  makeChart('times');
+			
 			  	averageChart =  makeChart('average');
 
 				// LABELS
@@ -320,11 +309,11 @@
 				independentLabel =  makeLabel('independent');
 				mailLabel =  makeLabel('mail');
 				telegraphLabel =  makeLabel('telegraph');
-				timesLabel =  makeLabel('times');
+			
 				averageLabel =  makeLabel('average');
 
 				// set up original legend display
-				var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,timesLabel,averageLabel];
+				var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,averageLabel];
 
 				for (p=0;p<labels.length;p++){
 					labels[p].attr('transform', 'translate(' + width + ',' + (p+5)*20 + ' )');
@@ -358,18 +347,17 @@
 			    independentHelper =  makeHelper('independent');
 			    mailHelper =  makeHelper('mail');
 			    telegraphHelper =  makeHelper('telegraph');
-			    timesHelper =  makeHelper('times');
+			
 			    averageHelper =  makeHelper('average');
 
 			    var globalHelpers = [helper,helperLabel,averageHelper];
-			    var helpers = [timesHelper,independentHelper,guardianHelper,mailHelper,telegraphHelper,expressHelper];
+			    var helpers = [independentHelper,guardianHelper,mailHelper,telegraphHelper,expressHelper];
 
 			    helperText = helper.append('text').attr('class', 'indented_details');
 			    mailText = mailHelper.append('text').attr('class', 'indented_details');
 			    guardianText = guardianHelper.append('text').attr('class', 'indented_details');
 			    expressText = expressHelper.append('text').attr('class', 'indented_details');
 			    independentText = independentHelper.append('text').attr('class', 'indented_details');
-			    timesText = timesHelper.append('text').attr('class', 'indented_details');
 			    telegraphText = telegraphHelper.append('text').attr('class', 'indented_details');
 			    averageText = averageHelper.append('text').attr('class', 'indented_details');
 
@@ -378,7 +366,6 @@
 			    guardianLabelText = guardianLabel.append('text').attr('class', 'indented_details');
 			    expressLabelText = expressLabel.append('text').attr('class', 'indented_details');
 			    independentLabelText = independentLabel.append('text').attr('class', 'indented_details');
-			    timesLabelText = timesLabel.append('text').attr('class', 'indented_details');
 			    telegraphLabelText = telegraphLabel.append('text').attr('class', 'indented_details');
 			    averageLabelText = averageLabel.append('text').attr('class', 'indented_details');
 
@@ -386,7 +373,6 @@
 			    mailLabelText.text("Mail");
 			    expressLabelText.text("Express");
 			    independentLabelText.text("Independent");
-			    timesLabelText.text("Times");
 			    telegraphLabelText.text("Telegraph");
 			    averageLabelText.text("average");
 
@@ -402,16 +388,14 @@
 			    independentEmoji =  makeEmoji('independent');
 			    mailEmoji =  makeEmoji('mail');
 			    telegraphEmoji =  makeEmoji('telegraph');
-			    timesEmoji =  makeEmoji('times');
 			    averageEmoji =  makeEmoji('average');
 
-			    var emojis = [timesEmoji,independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji,averageEmoji];
+			    var emojis = [independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji,averageEmoji];
 
 			    mailEmojiText = mailEmoji.append('text').attr('class', 'indented_details');
 			    guardianEmojiText = guardianEmoji.append('text').attr('class', 'indented_details');
 			    expressEmojiText = expressEmoji.append('text').attr('class', 'indented_details');
 			    independentEmojiText = independentEmoji.append('text').attr('class', 'indented_details');
-			    timesEmojiText = timesEmoji.append('text').attr('class', 'indented_details');
 			    telegraphEmojiText = telegraphEmoji.append('text').attr('class', 'indented_details');
 			    averageEmojiText = averageEmoji.append('text').attr('class', 'indented_details');
 
@@ -431,12 +415,11 @@
 			  	independentTooltip =  makeTooltip('independent');
 			  	mailTooltip =  makeTooltip('mail');
 			  	telegraphTooltip =  makeTooltip('telegraph');
-			  	timesTooltip =  makeTooltip('times');
 			  	averageTooltip =  makeTooltip('average');
 
 			  	averageTooltip.attr('r', 5);
 
-			  	var tooltips = [timesTooltip,independentTooltip,guardianTooltip,mailTooltip,telegraphTooltip,expressTooltip,averageTooltip];
+			  	var tooltips = [independentTooltip,guardianTooltip,mailTooltip,telegraphTooltip,expressTooltip,averageTooltip];
 
 			    var mouseArea = focus.append('g')
 			    	.attr('class', 'chart__mouse')
@@ -514,7 +497,7 @@
 
 				      function reorderLabels(d){
 
-				      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji,'times':timesEmoji, 'average':averageEmoji};
+				      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji, 'average':averageEmoji};
 
 				      		function makeEmoji(name){
 
@@ -563,8 +546,8 @@
 							        });
 							}
 
-					      	var labelNames = {'express':expressLabel, 'guardian':guardianLabel,'independent':independentLabel,'mail':mailLabel,'telegraph':telegraphLabel,'times':timesLabel, 'average':averageLabel};
-					      	var textHelperNames = {'express':expressHelper, 'guardian':guardianHelper,'independent':independentHelper,'mail':mailHelper,'telegraph':telegraphHelper,'times':timesHelper, 'average':averageHelper};
+					      	var labelNames = {'express':expressLabel, 'guardian':guardianLabel,'independent':independentLabel,'mail':mailLabel,'telegraph':telegraphLabel,'average':averageLabel};
+					      	var textHelperNames = {'express':expressHelper, 'guardian':guardianHelper,'independent':independentHelper,'mail':mailHelper,'telegraph':telegraphHelper, 'average':averageHelper};
 					      
 
 					      		keysSorted = Object.keys(d);
@@ -576,18 +559,21 @@
 			 
 						    for (w = 0;w<keysSorted.length;w++){ 
 						      		var paper =  keysSorted[w];
-						      		var textBoxX = x(parseDateNew(d.date))+180;
-						      		if (textBoxX>width){textBoxX=width;}
-					      			if (textBoxX<200){textBoxX=200;}
-
+						      		var textBoxX = x(parseDateNew(d.date));
 						      		var textBoxY = ((w+2)*25)+40;
 
-						      		labelNames[paper].attr('transform', 'translate(' + textBoxX + ',' + textBoxY + ' )');
-						      		textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+100) + ',' + textBoxY + ' )');
+						      		if (textBoxX>width){
+						      			textBoxX=width-200;
+						      			textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX-100) + ',' + textBoxY + ' )');
+						      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX-250) + ',' + textBoxY + ' )');
+						      		labelNames[paper].attr('transform', 'translate(' + parseInt(textBoxX) + ',' + textBoxY + ' )')
+
+						      		} else {
+						      			textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+100) + ',' + textBoxY + ' )');
 						      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+50) + ',' + textBoxY + ' )');
-
+						      		labelNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+200) + ',' + textBoxY + ' )');
+					      			}
 						      		makeEmoji(paper);
-
 						      	}
 			      	  }
 
@@ -597,7 +583,7 @@
 				      mailText.text(d.mail);
 				      expressText.text(d.express);
 				      independentText.text(d.independent);
-				      timesText.text(d.times);
+				
 				      telegraphText.text(d.telegraph);
 				      averageText.text(d.average);
 
@@ -606,7 +592,7 @@
 				      mailTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.mail) + ')');
 				      expressTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.express) + ')');
 				      independentTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.independent) + ')');
-				      timesTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.times) + ')');
+				   
 				      telegraphTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.telegraph) + ')'); 
 				      averageTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.average) + ')'); 
 
@@ -687,8 +673,7 @@
 			    		data.map(function (d) {return (d.mail);}),
 			    		data.map(function (d) {return (d.independent);}),
 			    		data.map(function (d) {return (d.telegraph);}),
-			    		data.map(function (d) {return (d.express);}),
-			    		data.map(function (d) {return (d.times);})
+			    		data.map(function (d) {return (d.express);})
 			    		);
 
 			    var min = Math.min.apply(null, allValues),
@@ -755,7 +740,7 @@
 			  	independentLine =  makeLine('independent');
 			  	mailLine =  makeLine('mail');
 			  	telegraphLine =  makeLine('telegraph');
-			  	timesLine =  makeLine('times');
+			
 			  	averageLine = makeLine('average');
 
 			  	var allObjects = {
@@ -818,17 +803,7 @@
 		        		'labelText': telegraphLabelText
 		        	},
 
-		        		'times' : {
-		        		'chartclass' : 'chart__times--focus',
-		        		'line' : timesLine,
-		        		'chart' : timesChart,
-		        		'label' : timesLabel,
-		        		'helper': timesHelper,
-		        		'tooltip': timesTooltip,
-		        		'tooltipclass' : 'chart__tooltip--times',
-		        		'text': timesText,
-		        		'labelText': timesLabelText
-		        	},
+		        		
 		        	'average' : {
 		        		'chartclass' : 'chart__average--focus',
 		        		'line' : averageLine,
@@ -856,7 +831,6 @@
 			  	independentChart =  makeChart('independent');
 			  	mailChart =  makeChart('mail');
 			  	telegraphChart =  makeChart('telegraph');
-			  	timesChart =  makeChart('times');
 			  	averageChart =  makeChart('average');
 
 				// LABELS
@@ -872,11 +846,10 @@
 				independentLabel =  makeLabel('independent');
 				mailLabel =  makeLabel('mail');
 				telegraphLabel =  makeLabel('telegraph');
-				timesLabel =  makeLabel('times');
 				averageLabel =  makeLabel('average');
 
 				// set up original legend display
-				var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,timesLabel,averageLabel];
+				var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,averageLabel];
 
 				for (p=0;p<labels.length;p++){
 					labels[p].attr('transform', 'translate(' + width + ',' + (p+5)*20 + ' )');
@@ -910,18 +883,16 @@
 			    independentHelper =  makeHelper('independent');
 			    mailHelper =  makeHelper('mail');
 			    telegraphHelper =  makeHelper('telegraph');
-			    timesHelper =  makeHelper('times');
 			    averageHelper =  makeHelper('average');
 
 			    var globalHelpers = [helper,helperLabel,averageHelper];
-			    var helpers = [timesHelper,independentHelper,guardianHelper,mailHelper,telegraphHelper,expressHelper];
+			    var helpers = [independentHelper,guardianHelper,mailHelper,telegraphHelper,expressHelper];
 
 			    helperText = helper.append('text').attr('class', 'indented_details');
 			    mailText = mailHelper.append('text').attr('class', 'indented_details');
 			    guardianText = guardianHelper.append('text').attr('class', 'indented_details');
 			    expressText = expressHelper.append('text').attr('class', 'indented_details');
 			    independentText = independentHelper.append('text').attr('class', 'indented_details');
-			    timesText = timesHelper.append('text').attr('class', 'indented_details');
 			    telegraphText = telegraphHelper.append('text').attr('class', 'indented_details');
 			    averageText = averageHelper.append('text').attr('class', 'indented_details');
 
@@ -930,7 +901,6 @@
 			    guardianLabelText = guardianLabel.append('text').attr('class', 'indented_details');
 			    expressLabelText = expressLabel.append('text').attr('class', 'indented_details');
 			    independentLabelText = independentLabel.append('text').attr('class', 'indented_details');
-			    timesLabelText = timesLabel.append('text').attr('class', 'indented_details');
 			    telegraphLabelText = telegraphLabel.append('text').attr('class', 'indented_details');
 			    averageLabelText = averageLabel.append('text').attr('class', 'indented_details');
 
@@ -938,7 +908,6 @@
 			    mailLabelText.text("Mail");
 			    expressLabelText.text("Express");
 			    independentLabelText.text("Independent");
-			    timesLabelText.text("Times");
 			    telegraphLabelText.text("Telegraph");
 			    averageLabelText.text("average");
 
@@ -954,16 +923,14 @@
 			    independentEmoji =  makeEmoji('independent');
 			    mailEmoji =  makeEmoji('mail');
 			    telegraphEmoji =  makeEmoji('telegraph');
-			    timesEmoji =  makeEmoji('times');
 			    averageEmoji =  makeEmoji('average');
 
-			    var emojis = [timesEmoji,independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji,averageEmoji];
+			    var emojis = [independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji,averageEmoji];
 
 			    mailEmojiText = mailEmoji.append('text').attr('class', 'indented_details');
 			    guardianEmojiText = guardianEmoji.append('text').attr('class', 'indented_details');
 			    expressEmojiText = expressEmoji.append('text').attr('class', 'indented_details');
 			    independentEmojiText = independentEmoji.append('text').attr('class', 'indented_details');
-			    timesEmojiText = timesEmoji.append('text').attr('class', 'indented_details');
 			    telegraphEmojiText = telegraphEmoji.append('text').attr('class', 'indented_details');
 			    averageEmojiText = averageEmoji.append('text').attr('class', 'indented_details');
 
@@ -983,12 +950,11 @@
 			  	independentTooltip =  makeTooltip('independent');
 			  	mailTooltip =  makeTooltip('mail');
 			  	telegraphTooltip =  makeTooltip('telegraph');
-			  	timesTooltip =  makeTooltip('times');
 			  	averageTooltip =  makeTooltip('average');
 
 			  	averageTooltip.attr('r', 5);
 
-			  	var tooltips = [timesTooltip,independentTooltip,guardianTooltip,mailTooltip,telegraphTooltip,expressTooltip,averageTooltip];
+			  	var tooltips = [independentTooltip,guardianTooltip,mailTooltip,telegraphTooltip,expressTooltip,averageTooltip];
 
 			    var mouseArea = svg.append('g')
 			      .attr('class', 'chart__mouse')
@@ -1059,7 +1025,7 @@
 
 				      function reorderLabels(d){
 
-				      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji,'times':timesEmoji, 'average':averageEmoji};
+				      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji, 'average':averageEmoji};
 
 				      		function makeEmoji(name){
 
@@ -1108,8 +1074,8 @@
 							        });
 							}
 
-					      	var labelNames = {'express':expressLabel, 'guardian':guardianLabel,'independent':independentLabel,'mail':mailLabel,'telegraph':telegraphLabel,'times':timesLabel, 'average':averageLabel};
-					      	var textHelperNames = {'express':expressHelper, 'guardian':guardianHelper,'independent':independentHelper,'mail':mailHelper,'telegraph':telegraphHelper,'times':timesHelper, 'average':averageHelper};
+					      	var labelNames = {'express':expressLabel, 'guardian':guardianLabel,'independent':independentLabel,'mail':mailLabel,'telegraph':telegraphLabel, 'average':averageLabel};
+					      	var textHelperNames = {'express':expressHelper, 'guardian':guardianHelper,'independent':independentHelper,'mail':mailHelper,'telegraph':telegraphHelper, 'average':averageHelper};
 					      
 
 					      		keysSorted = Object.keys(d);
@@ -1142,7 +1108,7 @@
 				      mailText.text(d.mail);
 				      expressText.text(d.express);
 				      independentText.text(d.independent);
-				      timesText.text(d.times);
+				 
 				      telegraphText.text(d.telegraph);
 				      averageText.text(d.average);
 
@@ -1151,7 +1117,7 @@
 				      mailTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.mail) + ')');
 				      expressTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.express) + ')');
 				      independentTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.independent) + ')');
-				      timesTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.times) + ')');
+			
 				      telegraphTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.telegraph) + ')'); 
 				      averageTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.average) + ')'); 
 
@@ -1237,8 +1203,8 @@
 			      express   : d.Express,
 			      telegraph   : d.Telegraph,
 			      independent   : d.Independent,
-			      times   : d.Times,
-			      average : Math.round(((parseInt(d.Times)+parseInt(d.Independent)+parseInt(d.Telegraph)+parseInt(d.Express)+parseInt(d.Mail)+parseInt(d.Guardian))/6) * 10 ) / 10
+		
+			      average : Math.round(((parseInt(d.Independent)+parseInt(d.Telegraph)+parseInt(d.Express)+parseInt(d.Mail)+parseInt(d.Guardian))/5) * 10 ) / 10
 					    }
 				  }
 

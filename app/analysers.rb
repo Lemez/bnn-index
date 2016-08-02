@@ -1,21 +1,23 @@
 
 def set_up_sentiment_analysers
-	# Sentimentalizer.setup
+
+	p "setting up mood analysis"
+	set_up_mood_analysis
+
 	p "setting up afinn"
 	afinn_to_hash
-	p "afinn done----"
 
 	p "setting up wiebe"
 	wiebe_to_hash
-	p "wiebe done----"
 
 	p "setting up common words list"
 	set_up_common_words_list
-	p "list done----"
 
 	p "setting up acronyms"
 	set_up_acronyms
-	p "acronyms done----"
+
+	p "setting up error list"
+	set_up_errors
 
 end
 
@@ -27,11 +29,24 @@ def set_up_common_words_list
 	end
 end
 
+def set_up_mood_analysis
+	$analyzer = Sentimental.new
+	$analyzer.load_defaults
+	$analyzer.threshold = 0.1
+end
+
 def set_up_acronyms
 	$acronyms = {}
 	IO.foreach(Padrino.root("public", "common_acronyms.txt")) do |x|
 		word = x.strip
 		$acronyms[word]=""
+	end
+end
+
+def set_up_errors
+	$erratum_list = []
+	IO.foreach(Padrino.root("public", "erratum.txt")) do |x|
+		$erratum_list << x.strip
 	end
 end
 
@@ -95,14 +110,14 @@ def wiebe_to_hash
 
 		case sentiment_word.strip
 		when "positive"
-			sentiment=2.0
+			sentiment=1.0
 		when "negative"
-			sentiment=-2.0
+			sentiment=-1.0
 		end
 
 		case strength
 		when "strongsubj"
-			t[:sentiment]=sentiment*2
+			t[:sentiment]=sentiment*3
 		else
 			t[:sentiment]=sentiment
 		end

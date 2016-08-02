@@ -2,13 +2,16 @@ require 'json'
 require_relative './rss'
 require_relative './csv'
 
-ActiveRecord::Base.logger.level = 3
+class Serenity < Padrino::Application
+  enable  :reload # enabled in all environments
+end
 
 module SerenityPadrino
   class Serenity < Padrino::Application
     use ConnectionPoolManagement
     register Padrino::Mailer
     register Padrino::Helpers
+    Padrino::Logger::Config[:development] = { :log_level => :error, :stream => :stdout }
 
     enable :sessions
     layout :layout 

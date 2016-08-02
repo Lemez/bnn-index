@@ -37,7 +37,7 @@ gem 'nokogiri'
 
 gem 'dropbox-sdk'
 
-gem "sentimentalizer"
+
 gem 'whenever', :require => false
 
 gem 'classifier-reborn'
@@ -46,6 +46,7 @@ gem 'gemoji'
 
 gem 'open_uri_redirections'
 gem 'lemmatizer'
+gem "sentimental"
 
 
 # Or Padrino Edge

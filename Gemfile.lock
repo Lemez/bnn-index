@@ -111,7 +111,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    sentimentalizer (0.2.2)
+    sentimental (1.4.0)
+      json (~> 1.8, >= 1.8.3)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -152,5 +153,5 @@ DEPENDENCIES
   rack-test
   rake
   rspec
-  sentimentalizer
+  sentimental
   whenever
