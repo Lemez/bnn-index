@@ -23,11 +23,11 @@
 	var responsiveTicks = Math.round(windowW/150);
   	var margin = {top: 230, right: 0, bottom: 100, left: 50};
   	var margin2  = {top: 410, right: 0, bottom: 100, left: 0};
-  	var width    = windowW - 300;
+  	var width    = windowW - 200;
   	var height   = windowH - margin.top - margin.bottom;
   	var height2  = windowH - margin2.top - margin2.bottom;
-    var x = d3.time.scale().range([0, width]);
-    var x2  = d3.time.scale().range([0, width]);
+    var x = d3.time.scale().range([0, width-200]);
+    var x2  = d3.time.scale().range([0, width-200]);
     var y = d3.scale.linear().range([height, 0]);
     var y1  = d3.scale.linear().range([height, 0]);
     var y2  = d3.scale.linear().range([height2, 0]);
@@ -203,7 +203,6 @@
 			  	independentLine =  makeLine('independent');
 			  	mailLine =  makeLine('mail');
 			  	telegraphLine =  makeLine('telegraph');
-			 
 			  	averageLine = makeLine('average');
 
 			  	var allObjects = {
@@ -499,6 +498,8 @@
 
 				      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji, 'average':averageEmoji};
 
+				      		// var listNames = {'express':expressList, 'guardian':guardianList,'independent':independentList,'List':mailList,'telegraph':telegraphList};
+
 				      		function makeEmoji(name){
 
 				      			var emojiKeys = Object.keys(allSmileys).map(function(a){return parseInt(a);});
@@ -552,29 +553,35 @@
 
 					      		keysSorted = Object.keys(d);
 
-					      		//keysSorted.splice(-1,1); // remove "average" value from sorted list
+					      		keysSorted.splice(-1,1); // remove "average" value from sorted list
 					      		keysSorted.sort(function(a,b){return d[a]-d[b]});
 					      		keysSorted.shift();// remove "date" value from sorted list
+
+
 
 			 
 						    for (w = 0;w<keysSorted.length;w++){ 
 						      		var paper =  keysSorted[w];
-						      		var textBoxX = x(parseDateNew(d.date));
+						      		// var textBoxX = x(parseDateNew(d.date));
+						      		var textBoxX = width;
 						      		var textBoxY = ((w+2)*25)+40;
+						      		// var averageTextBoxX = x(parseDateNew(d.date))+100;
+						      		var averageTextBoxY = 25+40;
 
-						      		if (textBoxX>width){
-						      			textBoxX=width-200;
+						      		
 						      			textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX-100) + ',' + textBoxY + ' )');
-						      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX-250) + ',' + textBoxY + ' )');
-						      		labelNames[paper].attr('transform', 'translate(' + parseInt(textBoxX) + ',' + textBoxY + ' )')
+						      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX-150) + ',' + textBoxY + ' )');
+						      		labelNames[paper].attr('transform', 'translate(' + parseInt(textBoxX) + ',' + textBoxY + ' )');
 
-						      		} else {
-						      			textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+100) + ',' + textBoxY + ' )');
-						      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+50) + ',' + textBoxY + ' )');
-						      		labelNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+200) + ',' + textBoxY + ' )');
-					      			}
+						      		textHelperNames['average'].attr('transform', 'translate(' + parseInt(textBoxX-100) + ',' + averageTextBoxY + ' )');
+						      		emojiNames['average'].attr('transform', 'translate(' + parseInt(textBoxX-150) + ',' + averageTextBoxY + ' )');
+						      		labelNames['average'].attr('transform', 'translate(' + parseInt(textBoxX) + ',' + averageTextBoxY + ' )');
+
 						      		makeEmoji(paper);
+						      		// TO DO - change this to OL with numbers instead of emojis
+						      		
 						      	}
+						      	makeEmoji('average');
 			      	  }
 
 				      reorderLabels(d);
@@ -586,6 +593,8 @@
 				
 				      telegraphText.text(d.telegraph);
 				      averageText.text(d.average);
+			
+				    
 
 				      // focusGraph.attr('transform', 'translate(' + x(typeJson(d).date) + ',' + 0 + ')');
 				      guardianTooltip.attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d.guardian) + ')');
@@ -646,552 +655,7 @@
 		  	
 	};// end drawData
 
-	function drawCSV(){
-		  	d3.csv('https://dl.dropboxusercontent.com/u/2448084/papers_production.csv', type, function(err, data) {
-		   
-		 		// var brush = d3.svg.brush().x(x2).on('brush', brushed);
-
-		 		// NEW
-		 		// trying to get one per day
-		 		// var dataMapped = data.map(function(d) { 
-		 		// 				return dayFormat(parseDate(d.date)); });
-		 		// var uniqueDays = dataMapped.keys();
-
-		 		// var nestedData = d3.nest()
-		   		//              .key(function(d)  { return dayFormat(parseDate(d.date)); })
-		   		//              .entries(data);
-		  		 //      logMe(nestedData);
-		  		
-
-			    var xRange = d3.extent(data.map(function(d) { return parseDate(d.date); }));
-			    var minDate = xRange[0];
-
-			    // add 3 mins to  last date to make it play nice with bars
-			    var maxDate = xRange[1];
-			    var allValues = [].concat(
-			    		data.map(function (d) {return (d.guardian);}), 
-			    		data.map(function (d) {return (d.mail);}),
-			    		data.map(function (d) {return (d.independent);}),
-			    		data.map(function (d) {return (d.telegraph);}),
-			    		data.map(function (d) {return (d.express);})
-			    		);
-
-			    var min = Math.min.apply(null, allValues),
-			    max = Math.max.apply(null, allValues);
-			    y.range([height, min]);
-			    y.domain([max+1,min-1]);
-			    x.domain([minDate,maxDate]);
-			    x2.domain(x.domain());
-			    y2.domain(y.domain());
-			    y3.domain(d3.extent(allValues));
-
-			    var make_y_axis = function () {
-			    	return d3.svg.axis()
-			      .scale(y)
-			      .orient('left')
-			      .ticks(3);
-			  	};
-
-			    focus.append('g')
-			        .attr('class', 'y chart__grid')
-			        .call(make_y_axis()
-			        .tickSize(-width, 0, 0)
-			        .tickFormat(''));
-
-			    focus.append('g')
-			        .attr('class', 'x axis x-responsive')
-			        .attr('transform', 'translate(0 ,' + height + ')')
-			        .call(xAxis);
-
-			    focus.append('g')
-			        .attr('class', 'y axis smiley_ticks_helper')
-			        .attr('transform', 'translate(-5, 0)')
-			        .call(yAxis);
-
-			    var yAxisSmileys   = d3.svg.axis().scale(y).orient('left').ticks(4).orient("left");
-
-			   	var allSmileys={
-			    	'2':  'http://blog.openconnection.com/wp-content/uploads/2015/04/closed-eyes-smiley.png',
-			    	'0': 'http://afv.com/wp-content/uploads/2014/11/Neutral.png',
-			    	'-2':  'http://vaks.in/wp-content/uploads/2012/07/e416.png',
-			    	'-4':  'http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png',
-			    	'-6': 'https://image.freepik.com/free-photo/evil-bad-emoticon_318-40219.jpg'
-			    };
-
-			    focus.select(".smiley_ticks_helper").selectAll(".tick").each(function(d,i) {
-					  d3.select(this).append("image").attr({"xlink:href": allSmileys[d.toString()],
-					         "width": 25,
-					         "height": 25,
-					         "transform":"translate(-45, -10)"
-					        })
-					});
-
-
-			   // LINES
-			    function makeLine(name){
-					   return d3.svg.line()
-					    .interpolate('monotone')
-					    .x(function(d) { return x(parseDate(d.date)); })
-					    .y(function(d) { return y(d[name]); });
-			    }
-
-			    expressLine =  makeLine('express');
-			  	guardianLine = makeLine('guardian');
-			  	independentLine =  makeLine('independent');
-			  	mailLine =  makeLine('mail');
-			  	telegraphLine =  makeLine('telegraph');
-			
-			  	averageLine = makeLine('average');
-
-			  	var allObjects = {
-		        	'express' : {
-		        		'chartclass' : 'chart__express--focus',
-		        		'line' : expressLine,
-		        		'chart' : expressChart,
-		        		'label' : expressLabel,
-		        		'helper': expressHelper,
-		        		'tooltip': expressTooltip,
-		        		'tooltipclass' : 'chart__tooltip--express',
-		        		'text': expressText,
-		        		'labelText': expressLabelText
-		        	},
-
-		        	'guardian' : {
-		        		'chartclass' : 'chart__guardian--focus',
-		        		'line' : guardianLine,
-		        		'chart' : guardianChart,
-		        		'label' : guardianLabel,
-		        		'helper': guardianHelper,
-		        		'tooltip': guardianTooltip,
-		        		'tooltipclass' : 'chart__tooltip--guardian',
-		        		'text': guardianText,
-		        		'labelText': guardianLabelText
-		        	},
-		        		'independent' : {
-		        		'chartclass' : 'chart__independent--focus',
-		        		'line' : independentLine,
-		        		'chart' : independentChart,
-		        		'label' : independentLabel,
-		        		'helper': independentHelper,
-		        		'tooltip': independentTooltip,
-		        		'tooltipclass' : 'chart__tooltip--independent',
-		        		'text': independentText,
-		        		'labelText': independentLabelText
-		        	},
-
-		        	'mail' : {
-		        		'chartclass' : 'chart__mail--focus',
-		        		'line' : mailLine,
-		        		'chart' : mailChart,
-		        		'label' : mailLabel,
-		        		'helper': mailHelper,
-		        		'tooltip': mailTooltip,
-		        		'tooltipclass' : 'chart__tooltip--mail',
-		        		'text': mailText,
-		        		'labelText': mailLabelText
-		        	},
-
-		        	'telegraph' : {
-		        		'chartclass' : 'chart__telegraph--focus',
-		        		'line' : telegraphLine,
-		        		'chart' : telegraphChart,
-		        		'label' : telegraphLabel,
-		        		'helper': telegraphHelper,
-		        		'tooltip': telegraphTooltip,
-		        		'tooltipclass' : 'chart__tooltip--telegraph',
-		        		'text': telegraphText,
-		        		'labelText': telegraphLabelText
-		        	},
-
-		        		
-		        	'average' : {
-		        		'chartclass' : 'chart__average--focus',
-		        		'line' : averageLine,
-		        		'chart' : averageChart,
-		        		'label' : averageLabel,
-		        		'helper': averageHelper,
-		        		'tooltip': averageTooltip,
-		        		'tooltipclass' : 'chart__tooltip--average',
-		        		'text': averageText,
-		        		'labelText': averageLabelText
-		        	}
-		        }
-
-			  	// CHARTS
-			  	function makeChart(name){
-
-			    	return focus.append('path')
-			        .datum(data)
-			        .attr('class', 'chart__line line ' + allObjects[name]['chartclass'])
-			        .attr('d', allObjects[name]['line']);
-			    }
-
-		      	expressChart =  makeChart('express');
-			  	guardianChart = makeChart('guardian');
-			  	independentChart =  makeChart('independent');
-			  	mailChart =  makeChart('mail');
-			  	telegraphChart =  makeChart('telegraph');
-			  	averageChart =  makeChart('average');
-
-				// LABELS
-				function makeLabel(name){
-			    	return svg.append('g')
-			      .attr('class', 'chart__helper')
-			      .style('text-anchor', 'end')
-			      .attr('class', name);
-			    }
-
-				expressLabel =  makeLabel('express');
-				guardianLabel = makeLabel('guardian');
-				independentLabel =  makeLabel('independent');
-				mailLabel =  makeLabel('mail');
-				telegraphLabel =  makeLabel('telegraph');
-				averageLabel =  makeLabel('average');
-
-				// set up original legend display
-				var labels = [expressLabel,guardianLabel,independentLabel,mailLabel,telegraphLabel,averageLabel];
-
-				for (p=0;p<labels.length;p++){
-					labels[p].attr('transform', 'translate(' + width + ',' + (p+5)*20 + ' )');
-				}
-
-				// HELPERS
-				function makeHelper(name){
-			    	return svg.append('g')
-			      .attr('class', 'chart__helper')
-			      .style('text-anchor', 'end')
-			      .style('display', null)
-			      .attr('class', name);
-			    }
-
-			    var labelx = parseInt(width-70+margin.left);
-
-			    helper = svg.append('g')
-			      .attr('class', 'chart__helper')
-			      .style('text-anchor', 'end')
-			      .style('font-size', '14px')
-			      .attr('transform', 'translate(' + labelx + ', 15)');
-
-			    helperLabel = svg.append('g')
-			      .attr('class', 'chart__helper')
-			      .style('text-anchor', 'end')
-			      .style('font-size', '14px')
-			      .attr('transform', 'translate(' + parseInt(width+margin.left) + ', 15)');
-
-			    expressHelper =  makeHelper('express');
-			    guardianHelper = makeHelper('guardian');
-			    independentHelper =  makeHelper('independent');
-			    mailHelper =  makeHelper('mail');
-			    telegraphHelper =  makeHelper('telegraph');
-			    averageHelper =  makeHelper('average');
-
-			    var globalHelpers = [helper,helperLabel,averageHelper];
-			    var helpers = [independentHelper,guardianHelper,mailHelper,telegraphHelper,expressHelper];
-
-			    helperText = helper.append('text').attr('class', 'indented_details');
-			    mailText = mailHelper.append('text').attr('class', 'indented_details');
-			    guardianText = guardianHelper.append('text').attr('class', 'indented_details');
-			    expressText = expressHelper.append('text').attr('class', 'indented_details');
-			    independentText = independentHelper.append('text').attr('class', 'indented_details');
-			    telegraphText = telegraphHelper.append('text').attr('class', 'indented_details');
-			    averageText = averageHelper.append('text').attr('class', 'indented_details');
-
-			    helperLabelText = helperLabel.append('text').attr('class', 'indented_details');
-			    mailLabelText = mailLabel.append('text').attr('class', 'indented_details');
-			    guardianLabelText = guardianLabel.append('text').attr('class', 'indented_details');
-			    expressLabelText = expressLabel.append('text').attr('class', 'indented_details');
-			    independentLabelText = independentLabel.append('text').attr('class', 'indented_details');
-			    telegraphLabelText = telegraphLabel.append('text').attr('class', 'indented_details');
-			    averageLabelText = averageLabel.append('text').attr('class', 'indented_details');
-
-			    guardianLabelText.text("Guardian");
-			    mailLabelText.text("Mail");
-			    expressLabelText.text("Express");
-			    independentLabelText.text("Independent");
-			    telegraphLabelText.text("Telegraph");
-			    averageLabelText.text("average");
-
-			    function makeEmoji(name){
-			    	return svg.append('g')
-			      .attr('class', 'emoji')
-			      .style('text-anchor', 'end')
-			      .attr('class', name);
-			    }
-
-			    expressEmoji =  makeEmoji('express');
-			    guardianEmoji = makeEmoji('guardian');
-			    independentEmoji =  makeEmoji('independent');
-			    mailEmoji =  makeEmoji('mail');
-			    telegraphEmoji =  makeEmoji('telegraph');
-			    averageEmoji =  makeEmoji('average');
-
-			    var emojis = [independentEmoji,guardianEmoji,mailEmoji,telegraphEmoji,expressEmoji,averageEmoji];
-
-			    mailEmojiText = mailEmoji.append('text').attr('class', 'indented_details');
-			    guardianEmojiText = guardianEmoji.append('text').attr('class', 'indented_details');
-			    expressEmojiText = expressEmoji.append('text').attr('class', 'indented_details');
-			    independentEmojiText = independentEmoji.append('text').attr('class', 'indented_details');
-			    telegraphEmojiText = telegraphEmoji.append('text').attr('class', 'indented_details');
-			    averageEmojiText = averageEmoji.append('text').attr('class', 'indented_details');
-
-		 		function makeTooltip(name){
-			    	return focus.append('g')
-			      .attr('class', allObjects[name]['tooltipclass'])
-			      .append('circle')
-			      .style('display', 'none')
-			      .attr('r', 2.5)
-			      .attr('class', name)
-			      .style("fill", "white")
-			      .style("stroke-width","3");
-			    }
-
-			   	expressTooltip =  makeTooltip('express');
-			  	guardianTooltip = makeTooltip('guardian');
-			  	independentTooltip =  makeTooltip('independent');
-			  	mailTooltip =  makeTooltip('mail');
-			  	telegraphTooltip =  makeTooltip('telegraph');
-			  	averageTooltip =  makeTooltip('average');
-
-			  	averageTooltip.attr('r', 5);
-
-			  	var tooltips = [independentTooltip,guardianTooltip,mailTooltip,telegraphTooltip,expressTooltip,averageTooltip];
-
-			    var mouseArea = svg.append('g')
-			      .attr('class', 'chart__mouse')
-			      .append('rect')
-			      .attr('class', 'chart__overlay')
-			      .attr('width', width)
-			      .attr('height', height)
-			      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-			      .on('mouseover', function() {
-			      		// focusGraph.style('display', null);
-			      		globalHelpers[0].style('display', null);
-				      	globalHelpers[1].style('display', null);
-				      	globalHelpers[2].style('display', null);
-				      	d3.select(".chart__subtitle").style('display', 'none');
-
-				      	for (q=0;q<helpers.length;q++){
-				      		helpers[q].style('display', null);
-				      	}
-
-				      	for (k=0;k<tooltips.length;k++){
-				      		tooltips[k].style('display', null);
-				      	}
-
-				      	for (t=0;t<emojis.length;t++){
-				      		emojis[t].style('display', null);
-				      	}
-
-				      	for (p=0;p<labels.length;p++){
-							labels[p].style('display', null);
-						}
-			      })
-			      .on('mouseout', function() {
-
-			     		// focusGraph.style('display', 'none');
-			     		globalHelpers[0].style('display', 'none');
-				      	globalHelpers[1].style('display', 'none');
-				      	globalHelpers[2].style('display', 'none');
-				      	d3.select(".chart__subtitle").style('display', null);
-
-				      	for (p=0;p<labels.length;p++){
-							labels[p].style('display', 'none');
-						}
-
-
-			        	for (r=0;r<helpers.length;r++){
-				      		helpers[r].style('display', 'none');
-				      	}    	  
-				      	for (w=0;w<tooltips.length;w++){
-				      		tooltips[w].style('display', 'none');
-				      	}
-
-				      	for (t=0;t<emojis.length;t++){
-				      		emojis[t].style('display', 'none');
-				      	}
-			      })
-			      .on('mousemove', mousemove);
-
-			    function mousemove() {
-
-				      var x0 = x.invert(d3.mouse(this)[0]);
-				      var i = bisectDate(data, x0, 1);
-				      var d0 = data[i - 1];
-				      var d1 = data[i];
-				      var d = x0 - parseDate(d0.date) > parseDate(d1.date) - x0 ? d1 : d0;
-
-				      helperText.text(legendFormat(new Date(parseDate(d.date))));
-				      helperLabelText.text(timeFormat(new Date(parseDate(d.date))));
-
-				      function reorderLabels(d){
-
-				      		var emojiNames = {'express':expressEmoji, 'guardian':guardianEmoji,'independent':independentEmoji,'mail':mailEmoji,'telegraph':telegraphEmoji, 'average':averageEmoji};
-
-				      		function makeEmoji(name){
-
-				      			var emojiKeys = Object.keys(allSmileys).map(function(a){return parseInt(a);});
-
-				      			var emojiScore;
-				      			var neutralKey = emojiKeys[0],  smileyKey = emojiKeys[1], sadKey = emojiKeys[2],angryKey = emojiKeys[3], deathKey = emojiKeys[4];
-				      		
-
-				      			function roundNeatly(number){
-
-				      				return number < 0 ? number-(1+(number%2)) : number+(1-(number%2));
-				      			}
-
-				      			var paperScore = parseFloat(d[name]);
-				      			// condition = Math.abs(paperScore)%2>1;
-
-				      			// if (condition) {paperScore=roundNeatly(paperScore);}
-
-								switch (true) {
-								    case (paperScore >= ((smileyKey+neutralKey)/2)):
-										emojiScore = smileyKey.toString();
-								        break;
-								    case (paperScore >= ((neutralKey+sadKey)/2)):
-								    	emojiScore = neutralKey.toString();
-								        break;
-								    case (paperScore > ((sadKey+angryKey)/2)):
-								    	emojiScore = sadKey.toString();
-								        break;
-								    case (paperScore > ((angryKey+deathKey)/2)):
-								    	emojiScore = angryKey.toString();
-								        break;
-
-								    case (paperScore <= ((angryKey+deathKey)/2)):
-								    	emojiScore = deathKey.toString();
-								        break;			       
-								}
-
-								// console.log(name,paperScore,emojiScore);
-
-							   emojiNames[name].append("image")
-							  .attr({"xlink:href": allSmileys[emojiScore],
-							         "width": 20,
-							         "height": 20,
-							         "transform":"translate(-25, -15)"
-							        });
-							}
-
-					      	var labelNames = {'express':expressLabel, 'guardian':guardianLabel,'independent':independentLabel,'mail':mailLabel,'telegraph':telegraphLabel, 'average':averageLabel};
-					      	var textHelperNames = {'express':expressHelper, 'guardian':guardianHelper,'independent':independentHelper,'mail':mailHelper,'telegraph':telegraphHelper, 'average':averageHelper};
-					      
-
-					      		keysSorted = Object.keys(d);
-
-					      		//keysSorted.splice(-1,1); // remove "average" value from sorted list
-					      		keysSorted.sort(function(a,b){return d[a]-d[b]});
-					      		keysSorted.shift();// remove "date" value from sorted list
-
-			 
-						    for (w = 0;w<keysSorted.length;w++){ 
-						      		var paper =  keysSorted[w];
-						      		var textBoxX = x(parseDate(d.date))+180;
-						      		if (textBoxX>width){textBoxX=width;}
-					      			if (textBoxX<200){textBoxX=200;}
-
-						      		var textBoxY = ((w+2)*25)+40;
-
-						      		labelNames[paper].attr('transform', 'translate(' + textBoxX + ',' + textBoxY + ' )');
-						      		textHelperNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+100) + ',' + textBoxY + ' )');
-						      		emojiNames[paper].attr('transform', 'translate(' + parseInt(textBoxX+50) + ',' + textBoxY + ' )');
-
-						      		makeEmoji(paper);
-
-						      	}
-			      	  }
-
-				      reorderLabels(d);
-
-					  guardianText.text(d.guardian);
-				      mailText.text(d.mail);
-				      expressText.text(d.express);
-				      independentText.text(d.independent);
-				 
-				      telegraphText.text(d.telegraph);
-				      averageText.text(d.average);
-
-				      // focusGraph.attr('transform', 'translate(' + x(d.date) + ',' + 0 + ')');
-				      guardianTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.guardian) + ')');
-				      mailTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.mail) + ')');
-				      expressTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.express) + ')');
-				      independentTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.independent) + ')');
-			
-				      telegraphTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.telegraph) + ')'); 
-				      averageTooltip.attr('transform', 'translate(' + x(parseDate(d.date)) + ',' + y(d.average) + ')'); 
-
-				      // console.log(d3.mouse(this));
-			    }
-
-			    function resize() {
-				  /* Update graph using new width and height (code below) */
-				  /* Find the new window dimensions */
-					var width = $(window).width(),
-					height = $(window).height();
-					 
-					/* Update the range of the scale with new width/height */
-					x.range([0, width]).nice();
-					y.range([height, min]).nice();
-
-					/* Update the axis with the new scale */
-					focus.select('x axis')
-					  .attr("transform", "translate(0," + height + ")")
-					  .call(xAxis);
-					 
-					focus.select('y axis')
-					  .call(yAxis);
-					 
-					 // Force D3 to recalculate and update the line 
-					 for (var h=0;h<charts.length;h++){
-					 		charts[h].attr("d", lines[h]);
-					 }	
-				}
-
-			 // d3.select(window).on('resize', resize); 
-
-
-			    function focusOnRange(range) {
-				      var today = new Date(data[data.length - 1].date)
-				      var ext = new Date(data[data.length - 1].date)
-
-				      if (range === '1m')
-				        ext.setMonth(ext.getMonth() - 1)
-
-				      if (range === '1w')
-				        ext.setDate(ext.getDate() - 7)
-
-				      if (range === '1y')
-				        ext.setFullYear(ext.getFullYear() - 1)
-
-				      brush.extent([ext, today])
-				      brushed()
-			      // context.select('g.x.brush').call(brush.extent([ext, today]))
-			    }
-
-		  	});// end Data
-		  	
-
-			// function logMe(e){console.log(e);}
-
-		 // 	function type(d) {
-			//     	return {
-			// 		      date    : d.Date,
-			// 		      guardian   : d.Guardian,
-			// 		      mail   : d.Mail,
-			// 		      express   : d.Express,
-			// 		      telegraph   : d.Telegraph,
-			// 		      independent   : d.Independent,
-			// 		      times   : d.Times,
-			// 		      average : Math.round(((parseInt(d.Times)+parseInt(d.Independent)+parseInt(d.Telegraph)+parseInt(d.Express)+parseInt(d.Mail)+parseInt(d.Guardian))/6) * 10 ) / 10
-			// 		    }
-			// }
-
-		  // function placePageElements(){
-		  // 	var svgH = $('svg').height();
-		  // 	$('#shame').css('top',svgH+'px');
-		  // }
-	}
+	
 
 	function logMe(e){console.log(e);}
 

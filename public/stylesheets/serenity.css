@@ -219,7 +219,9 @@ g.focus {
 }
 .telegraph{stroke: #7f8c8d;}
 
-.average{stroke: #ff69b4; }
+.average{stroke: #ff69b4;
+text-decoration: underline; }
+
 .chart__average--focus {
   stroke-width: 5px;
   stroke: #ff69b4;
