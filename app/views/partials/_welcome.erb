@@ -1,6 +1,8 @@
 <section id='welcome'>
 	<h1 id='welcome_header'>The newspaper to avoid today is... </h1>
-	<%=image_tag LOGOS[todays_papers_ordered[0].titleize], :width => 300, :class => 'logo' %>
+	<div id="today_logo">
+		<%=image_tag LOGOS[todays_papers_ordered[0].titleize], :width => 300, :class => 'logo' %>
+	</div>
 	<h2 class="welcome_text"> with an average article negativity<sup>*</sup> score of </h2>
 	<h1 class="welcome_score"><%= @todays_scores[0] %></h1>
 	<h2>Don't say we didn't warn you :)</h2>
@@ -21,6 +23,6 @@
 <script type="text/javascript">
 var h = $(document).height();
 $('#welcome').css('min-height',h);
-$('.logo').css('min-width',h);
+// $('.logo').css('min-width',h);
 </script>
 

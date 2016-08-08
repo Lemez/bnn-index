@@ -24,7 +24,7 @@ def get_todays_saved_story_objects(options = {:date => date})
 	grimmest_stories_saved_from_today = {}
 	day = options[:date]
 
-	SOURCES.keys.map(&:downcase).each do |source|
+	CURRENT_NAMES.each do |source|
 		grimmest_stories_saved_from_today[source] = Story.all
 		.from_day(day)
 		.where(:source=>source)
@@ -43,23 +43,27 @@ end
 
 def save_stories(storyparams)
 
-	Story.where(source: storyparams[:source],title: storyparams[:title]).first_or_create do |st|
-		st.update(storyparams)
-		st.save!
+	st = Story.create(storyparams)
+	st.save!
+	p "SAVING: #{storyparams[:title]} is new" if st.persisted?
+
+end
+
+
+def any_sources_not_fetched_via_RSS_today?
+	@not_yet_fetched = []
+	CURRENT_NAMES.each do |key|
+		fetched = Story.where(:source=>key).last.date.formatted_date == Date.today.to_s
+		@not_yet_fetched << key if not fetched
 	end
-
-
+	@not_yet_fetched
 end
 
-def already_fetched_RSS_today?
-	Story.last.formatted_date == Date.today.to_s
-end
-
-def process_new_stories_by_source(data, key)
+def process_new_stories_by_source(titles, key)
 
 	story_array = []
 	mixed_scores = []
-	data[0..9].each do |item| 
+	titles[0..9].each do |item| 
 		params = {
 			:title=> item.title.strip.gsub("&apos;","'"),
 			:source =>key.downcase,
@@ -85,9 +89,10 @@ def process_new_stories_by_source(data, key)
 
 		if story_not_yet_saved?(params)
 			save_stories(params) 
-			p "SAVING: #{params[:title]} is new"
+			
 		else
-			p "EXISTS: #{params[:title]} saved previously"
+			p "EXISTS: #{params[:source]}: #{params[:title]} saved previously on #{Story.where(:title=>params[:title]).first.date.formatted_date}"
+
 		end
 
 		story_array << params
@@ -99,21 +104,24 @@ def process_new_stories_by_source(data, key)
 end
 
 
-def get_todays_rss
+def get_todays_rss(options={:papers=>[]})
 
 	todays_data = [$current_time_formatted]
 	todays_stories = {}
 	threads = []
 	$offline = false
 	$parsererror = false
+	options[:papers] ? sources = options[:papers] : sources = CURRENT_NAMES
 
-	SOURCES.each_pair do |key,v|
-		p "fetching #{key} RSS: #{v}"
+	sources.each do |key|
+		key = key.titleize
+		feedUrl = SOURCES[key]
+		p "fetching #{key} RSS: #{feedUrl}"
 
 		begin
 
 			unless $offline
-				rss = open(v).read
+				rss = open(feedUrl).read
 				feed = RSS::Parser.parse(rss,false)
 				data = feed.items
 				story_array, @mixed_scores = process_new_stories_by_source(data, key)
@@ -146,37 +154,18 @@ def get_todays_rss
 			save_scores(key,mixed_normalized) #save data to AR
 		end
 
-		p "finishing #{key} RSS: #{v}"
+		p "finishing #{key} RSS: #{feedUrl}"
 	end
 end
 
-def make_new_csv (olddata,newdata)
-	@new_csv = CSV.open("new.csv", "wb") do |csv|
-		olddata.each do |line|
-			csv << line
-		end
-		csv << newdata
-	end
+def check_and_fetch_today_if_needed
+	  to_be_fetched = any_sources_not_fetched_via_RSS_today?
+	  if to_be_fetched
+	      p "getting RSS"  
+	      set_up_sentiment_analysers 
+	      get_todays_rss(options={:papers=>to_be_fetched})
+	  end
 end
 
 
-def save_to_dropbox(dataToAdd)
-
-	p "saving to DropBox"
-
-	access_token = DB_ACCESS
-	client = DropboxClient.new(access_token)
-	location, name = '/Public',"papers_production.csv"
-	result = client.search(location, name)[0]
-	contents, metadata = client.get_file_and_metadata(result['path'])
-
-	@current = CSV.parse(contents)
-	make_new_csv @current,dataToAdd.split(",")
-
-	newfile = open("new.csv")
-	response = client.put_file(result['path'], newfile, overwrite=true, parent_rev=nil)
-	puts "uploaded:", response.inspect
-
-
-end
 

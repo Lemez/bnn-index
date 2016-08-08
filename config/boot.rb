@@ -16,17 +16,21 @@ SOURCES =  {
 			'Guardian'=>"https://www.theguardian.com/uk/rss",
 			'Independent'=>'http://independent.co.uk/news/rss',
 			'Mail'=>'http://www.dailymail.co.uk/news/index.rss',
-			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml'
+			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml',
+			'Standard'=>"http://www.standard.co.uk/rss"
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
+CURRENT_NAMES = ['guardian','telegraph','mail','independent']
+EXCLUDE = ['express']
 
 LOGOS =  {                 
 			'Express'=> "express.png",
 			'Guardian'=>"145x88_Guardian.png",
 			'Independent'=>"independent_small.png",
 			'Mail'=>"145x88_DailyMail.png",
-			'Telegraph'=>"145x88_DailyTelegraph.png"
+			'Telegraph'=>"145x88_DailyTelegraph.png",
+			"Standard"=>"145x88_ES.png"
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}

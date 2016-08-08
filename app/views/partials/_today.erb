@@ -66,9 +66,9 @@ $(function(){
     var DBScores = <%=@todays_scores.to_json.html_safe %>;
     var DBStories = <%=@grim_today %>;
 
-    console.log(sources);
-    console.log(DBScores);
-    console.log(DBStories);
+    // console.log(sources);
+    // console.log(DBScores);
+    // console.log(DBStories);
 
     getContent(); // fire it up for the first time
 
@@ -117,7 +117,7 @@ $(function(){
 
     balls = DBStories[paperName].length;
     article = articles[articleIndex];
-    console.log(article);
+    // console.log(article);
     var headline = article.title.replace("&apos;","'");
 
     $('article > h1').html( '<span>'+ headline.split('').join('</span><span>') + '</span>');
@@ -145,7 +145,7 @@ $(function(){
       }
 
       ballSpan = $('#balls span');
-      console.log(ballSpan.length, articleIndex);
+      // console.log(ballSpan.length, articleIndex);
       ballSpan.eq(articleIndex).addClass('highlightball')
                           .siblings('span').removeClass('highlightball');
 
@@ -157,16 +157,16 @@ $(function(){
       score=parseInt(score);
 
         switch (true) {
-         case (score<=-10): em='5';
+         case (score<=-7.5): em='5';
          break;
          
-         case (score<=-7): em='4';
+         case (score<=-5.5): em='4';
          break;
 
-          case (score<=-5): em='3';
+          case (score<=-3.5): em='3';
          break;
          
-         case (score<=-2): em='2';
+         case (score<=-1.5): em='2';
          break;
 
          case (score<=0): em='1';

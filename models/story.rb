@@ -1,12 +1,12 @@
 class Story < ActiveRecord::Base
 
-	scope :express, -> { where(source:"Express") }
-	scope :guardian, -> { where(source:"Guardian") }
-	scope :independent, -> { where(source:"Independent") }
-	scope :mail, -> { where(source:"Mail") }
-	scope :telegraph, -> { where(source:"Telegraph") }
-	scope :times, -> { where(source:"Times") }
-	scope :find_by_source, -> (paper) { where(:source => paper) }
+	scope :express, -> { where(source:"express") }
+	scope :guardian, -> { where(source:"guardian") }
+	scope :independent, -> { where(source:"independent") }
+	scope :mail, -> { where(source:"mail") }
+	scope :telegraph, -> { where(source:"telegraph") }
+	scope :times, -> { where(source:"times") }
+	scope :find_by_source, -> (paper) { where(:source => paper.downcase) }
 	scope :negative, -> { where('mixed < ?', 0) }
 
 	def self.today

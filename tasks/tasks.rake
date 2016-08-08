@@ -1,11 +1,14 @@
 namespace :score do
 	require_relative '../app/rss.rb'
   require_relative '../private/secret.rb'
+
   Dir.glob('../model/*'){|f| require_relative f}
   
   task :seed_scores => :environment do
     sort_and_deliver_scores(Score.all)
   end
+
+
 
 	task :get_and_save_today_to_db => :environment do
 		set_up_sentiment_analysers
@@ -18,7 +21,7 @@ namespace :score do
 
       get_todays_rss
 
- 		 add_dailyscore_record_for_today_if_none
+ 		  add_dailyscore_record_for_today_if_none
 	end
 
 

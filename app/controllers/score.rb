@@ -4,6 +4,7 @@ SerenityPadrino::Serenity.controllers :score do
   require 'active_record'
   require 'pry'
 
+
   layout :data
   get :index, :map => '/' do
 
@@ -23,11 +24,7 @@ SerenityPadrino::Serenity.controllers :score do
 
     # START today's stories ###########
 
-        if not already_fetched_RSS_today?
-          p "getting RSS"  
-          set_up_sentiment_analysers 
-          get_todays_rss
-        end
+        check_and_fetch_today_if_needed
 
         if $offline 
           @day = Date.parse(Story.last.date.formatted_date)
@@ -40,6 +37,9 @@ SerenityPadrino::Serenity.controllers :score do
           @todays_data = Score.from_day(@day).uniq(:source).order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
+
+          p $grimmest_articles_today
+          p @todays_data
 
           p "DONE todays stories"
     # END # today's stories ###########
@@ -88,6 +88,8 @@ SerenityPadrino::Serenity.controllers :score do
     # START prepare local variables for erb  ##############
     
      @grim_today=$grimmest_articles_today.to_json.html_safe
+     @date =$date.to_json.html_safe
+     @time =$time.to_json.html_safe
 
     # END prepare local variables for erb  ##############
 
