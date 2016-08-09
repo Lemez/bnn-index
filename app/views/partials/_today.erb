@@ -18,7 +18,7 @@
      
   </div>
 
-  <article><h1></h1> </article>
+  <article id='mainarticle'><h1><span></span></h1> </article>
 
 </section>
 
@@ -119,8 +119,9 @@ $(function(){
     article = articles[articleIndex];
     // console.log(article);
     var headline = article.title.replace("&apos;","'");
-
-    $('article > h1').html( '<span>'+ headline.split('').join('</span><span>') + '</span>');
+   
+    $('#mainarticle h1 span').text(headline);
+    $('#mainarticle h1').textfill({maxFontPixels:45});
          
      $('#misery_score').html(parseInt(article.mixed));
 

@@ -33,5 +33,14 @@ class Story < ActiveRecord::Base
 		self.date.pretty_date
 	end
 
+	def self.source_not_updated_today?(source)
+		Date.parse(self.where(source:source).last.date.formatted_date) != Date.today
+	end
+
+	def self.count_todays_stories(source)
+		self.where(source:source).from_today.count
+	end
+
+
 
 end

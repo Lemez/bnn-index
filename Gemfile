@@ -30,8 +30,6 @@ gem 'rack-test', :require => 'rack/test', :group => 'test'
 
 # Padrino Stable Gem
 gem 'padrino', '0.12.5'
-gem 'httparty'
-gem 'nokogiri'
 # gem 'google_drive'
 # gem 'google-api-client', '0.9.pre3'
 
@@ -47,6 +45,10 @@ gem 'gemoji'
 gem 'open_uri_redirections'
 gem 'lemmatizer'
 gem "sentimental"
+
+gem 'httparty'
+gem 'nokogiri'
+gem 'user-agent-randomizer'
 
 
 # Or Padrino Edge

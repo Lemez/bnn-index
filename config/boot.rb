@@ -10,20 +10,26 @@ Bundler.require(:default, RACK_ENV)
 # configure { set :server, :puma }
 
 
-
+DAILY_NUMBER = 10
 SOURCES =  {                 
 			'Express'=>"http://feeds.feedburner.com/daily-express-news-showbiz",
 			'Guardian'=>"https://www.theguardian.com/uk/rss",
 			'Independent'=>'http://independent.co.uk/news/rss',
 			'Mail'=>'http://www.dailymail.co.uk/news/index.rss',
-			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml',
-			'Standard'=>"http://www.standard.co.uk/rss"
+			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml'
+			# 'Standard'=>"http://www.standard.co.uk/rss"
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
-CURRENT_NAMES = ['guardian','telegraph','mail','independent']
+CURRENT_NAMES = ['guardian','telegraph','mail','independent','express']
 EXCLUDE = ['express']
 
+SCRAPERS = {
+	'express' => "https://www.bing.com/news/search?q=site%3A+www.express.co.uk%2Fnews&go=Search&qs=bs&form=QBNT",
+	'sun' => "https://www.bing.com/news/search?q=site%3awww.thesun.co.uk&ArticleSource=1",
+	'times' => "https://www.bing.com/news/search?q=site%3awww.thetimes.co.uk&qft=sortbydate%3d%221%22&form=YFNR",
+	'independent' => "https://www.bing.com/news/search?q=site%3awww.independent.co.uk%2Fnews&qft=sortbydate%3d%221%22&form=YFNR"
+}
 LOGOS =  {                 
 			'Express'=> "express.png",
 			'Guardian'=>"145x88_Guardian.png",

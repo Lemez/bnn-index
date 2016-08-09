@@ -26,7 +26,7 @@ SerenityPadrino::Serenity.controllers :score do
 
         check_and_fetch_today_if_needed
 
-        if $offline 
+        if not $online 
           @day = Date.parse(Story.last.date.formatted_date)
         else
           @day = Date.today

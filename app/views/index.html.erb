@@ -1,10 +1,10 @@
-<%= partial 'partials/info' %>
 <%= partial 'partials/nav' %>
 <div id='restofpage'>
 	<%= partial 'partials/welcome',:locals => { :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grimmest_articles_today => $grimmest_articles_today } %>
 	<%= partial 'partials/today',:locals => { :todays_data => @todays_data, :time => @time, :date => @date, :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grim_today => @grim_today } %>
 	<%= partial 'partials/awards', :locals => { :story_neg => @story_neg, :story_pos => @story_pos } %>
 	<%= partial 'partials/chart', :locals => { :score => @score }  %>
+	<%= partial 'partials/info' %>
 </div>
 
 <script> 
@@ -14,14 +14,14 @@ $(document).on('ready',function(){
 
 		var windowH = $(window).height();
 
-		$('#showmethods').on('click',function(){
-			$('#info').slideDown(1000);
-		});
+		// $('#showmethods').on('click',function(){
+		// 	$('#info').slideDown(1000);
+		// });
 
 
-		$('#info').on('click',function(){
-			$(this).slideUp(1000);
-		});
+		// $('#info').on('click',function(){
+		// 	$(this).slideUp(1000);
+		// });
 
 		//  smooth scrolling on click
 		$('a[href^="#"]').on('click',function (e) {

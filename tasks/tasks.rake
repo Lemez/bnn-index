@@ -8,8 +8,6 @@ namespace :score do
     sort_and_deliver_scores(Score.all)
   end
 
-
-
 	task :get_and_save_today_to_db => :environment do
 		set_up_sentiment_analysers
 
@@ -19,7 +17,7 @@ namespace :score do
       $date = $current_time.strftime('%d/%m/%Y')
       $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
 
-      get_todays_rss
+      check_and_fetch_today_if_needed
 
  		  add_dailyscore_record_for_today_if_none
 	end
