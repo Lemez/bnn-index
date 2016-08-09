@@ -27,6 +27,7 @@ GEM
     erubis (2.7.0)
     fast-stemmer (1.0.2)
     gemoji (2.1.0)
+    gsl (2.1.0.1)
     http_router (0.11.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -113,6 +114,8 @@ GEM
     rspec-support (3.3.0)
     sentimental (1.4.0)
       json (~> 1.8, >= 1.8.3)
+    similarity (0.2.5)
+      gsl
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -142,6 +145,7 @@ DEPENDENCIES
   dropbox-sdk
   erubis (~> 2.7.0)
   gemoji
+  gsl
   httparty
   lemmatizer
   nokogiri
@@ -155,5 +159,6 @@ DEPENDENCIES
   rake
   rspec
   sentimental
+  similarity
   user-agent-randomizer
   whenever

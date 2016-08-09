@@ -22,20 +22,27 @@ end
 
 def get_todays_saved_story_objects(options = {:date => date})
 
-	grimmest_stories_saved_from_today = {}
+	grimmest = {}
 	day = options[:date]
 
+
 	CURRENT_NAMES.each do |source|
-		grimmest_stories_saved_from_today[source] = Story.all
+		$passed = []
+		stories = Story.all
 		.from_day(day)
 		.uniq(:title)
 		.where(:source=>source)
 		.order(:mixed)
-		.limit(5)						
+		.select{|a| a.is_uniqish(source)}
+
+		grimmest[source] = stories[0..4]
+
 	end
 
-	grimmest_stories_saved_from_today
-
+	grimmest.each_pair do |k,v|
+		p k
+		v.each{|a| p a}
+	end
 end
 
 def story_not_yet_saved? (params)

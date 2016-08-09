@@ -1,5 +1,6 @@
 require 'lemmatizer'
 require "sentimental"
+require 'similarity'
 
 
 class String

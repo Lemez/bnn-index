@@ -41,6 +41,8 @@ gem 'whenever', :require => false
 gem 'classifier-reborn'
 gem 'gemoji'
 # gem 'github-linguist'
+gem 'gsl'
+gem 'similarity'
 
 gem 'open_uri_redirections'
 gem 'lemmatizer'

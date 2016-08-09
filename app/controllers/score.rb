@@ -30,7 +30,7 @@ SerenityPadrino::Serenity.controllers :score do
           @day = Date.parse(Story.last.date.formatted_date)
         else
           @day = Date.today
-          add_dailyscore_record_for_today_if_none
+          add_dailyscore_record_for_today_if_none if all_sources_fetched?
         end
 
           $grimmest_articles_today = get_todays_saved_story_objects({:date => @day})
@@ -38,8 +38,6 @@ SerenityPadrino::Serenity.controllers :score do
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
 
-          p $grimmest_articles_today
-          p @todays_data
 
           p "DONE todays stories"
     # END # today's stories ###########

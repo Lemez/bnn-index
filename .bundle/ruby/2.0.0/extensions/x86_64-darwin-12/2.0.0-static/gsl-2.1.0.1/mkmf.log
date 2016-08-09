@@ -1,0 +1,722 @@
+have_func: checking for round()... -------------------- yes
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas  -lruby-static  -lpthread -ldl -lobjc "
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas  -lruby-static  -lpthread -ldl -lobjc "
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { void ((*volatile p)()); p = (void ((*)()))round; return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+--------------------
+
+have_header: checking for alf/alf.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'alf/alf.h' file not found
+#include <alf/alf.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <alf/alf.h>
+/* end */
+
+--------------------
+
+have_header: checking for qrngextra/qrngextra.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'qrngextra/qrngextra.h' file not found
+#include <qrngextra/qrngextra.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <qrngextra/qrngextra.h>
+/* end */
+
+--------------------
+
+have_header: checking for rngextra/rngextra.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'rngextra/rngextra.h' file not found
+#include <rngextra/rngextra.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <rngextra/rngextra.h>
+/* end */
+
+--------------------
+
+have_header: checking for tensor/tensor.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'tensor/tensor.h' file not found
+#include <tensor/tensor.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <tensor/tensor.h>
+/* end */
+
+--------------------
+
+have_header: checking for gsl/gsl_multimin_fsdf.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'gsl/gsl_multimin_fsdf.h' file not found
+#include <gsl/gsl_multimin_fsdf.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <gsl/gsl_multimin_fsdf.h>
+/* end */
+
+--------------------
+
+have_header: checking for gsl/gsl_cqp.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'gsl/gsl_cqp.h' file not found
+#include <gsl/gsl_cqp.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <gsl/gsl_cqp.h>
+/* end */
+
+--------------------
+
+have_header: checking for jacobi.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'jacobi.h' file not found
+#include <jacobi.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <jacobi.h>
+/* end */
+
+--------------------
+
+have_header: checking for ndlinear/gsl_multifit_ndlinear.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'ndlinear/gsl_multifit_ndlinear.h' file not found
+#include <ndlinear/gsl_multifit_ndlinear.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ndlinear/gsl_multifit_ndlinear.h>
+/* end */
+
+--------------------
+
+have_header: checking for ool/ool_version.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'ool/ool_version.h' file not found
+#include <ool/ool_version.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ool/ool_version.h>
+/* end */
+
+--------------------
+
+have_library: checking for gsl_eigen_francis() in -lgsl... -------------------- yes
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:5:57: error: use of undeclared identifier 'gsl_eigen_francis'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_eigen_francis; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_eigen_francis; return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:5:15: warning: implicit declaration of function 'gsl_eigen_francis' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_eigen_francis(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { gsl_eigen_francis(); return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_eigen_francis()... -------------------- yes
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:5:57: error: use of undeclared identifier 'gsl_eigen_francis'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_eigen_francis; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_eigen_francis; return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:5:15: warning: implicit declaration of function 'gsl_eigen_francis' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_eigen_francis(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { gsl_eigen_francis(); return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+--------------------
+
+have_library: checking for gsl_poly_solve_quartic() in -lgsl... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl -lgsl  -lpthread -ldl -lobjc "
+conftest.c:5:57: error: use of undeclared identifier 'gsl_poly_solve_quartic'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_poly_solve_quartic; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_poly_solve_quartic; return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl -lgsl  -lpthread -ldl -lobjc "
+conftest.c:5:15: warning: implicit declaration of function 'gsl_poly_solve_quartic' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_poly_solve_quartic(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_poly_solve_quartic", referenced from:
+      _t in conftest-2e2518.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int t(void) { gsl_poly_solve_quartic(); return 0; }
+ 6: int main(int argc, char **argv)
+ 7: {
+ 8:   if (argc > 1000000) {
+ 9:     printf("%p", &t);
+10:   }
+11: 
+12:   return 0;
+13: }
+/* end */
+
+--------------------
+
+find_executable: checking for graph... -------------------- no
+
+--------------------
+
+have_header: checking for tamu_anova/tamu_anova.h... -------------------- no
+
+"/usr/bin/clang -E -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'tamu_anova/tamu_anova.h' file not found
+#include <tamu_anova/tamu_anova.h>
+         ^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <tamu_anova/tamu_anova.h>
+/* end */
+
+--------------------
+
+have_struct_member: checking for gsl_multifit_fdfsolver.J in gsl/gsl_multifit_nlin.h... -------------------- yes
+
+"/usr/bin/clang -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include  -arch x86_64  -c conftest.c"
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_multifit_nlin.h>
+ 4: 
+ 5: /*top*/
+ 6: int s = (char *)&((gsl_multifit_fdfsolver*)0)->J - (char *)0;
+ 7: int main(int argc, char **argv)
+ 8: {
+ 9:   if (argc > 1000000) {
+10:     printf("%p", &s);
+11:   }
+12: 
+13:   return 0;
+14: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_sf_mathieu_a_e() in gsl/gsl_sf_mathieu.h... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:57: error: use of undeclared identifier 'gsl_sf_mathieu_a_e'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_a_e; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_a_e; return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:15: warning: implicit declaration of function 'gsl_sf_mathieu_a_e' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_sf_mathieu_a_e(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_sf_mathieu_a_e", referenced from:
+      _t in conftest-3652b5.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { gsl_sf_mathieu_a_e(); return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_sf_mathieu_b_e() in gsl/gsl_sf_mathieu.h... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:57: error: use of undeclared identifier 'gsl_sf_mathieu_b_e'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_b_e; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_b_e; return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:15: warning: implicit declaration of function 'gsl_sf_mathieu_b_e' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_sf_mathieu_b_e(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_sf_mathieu_b_e", referenced from:
+      _t in conftest-f64ab8.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { gsl_sf_mathieu_b_e(); return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_sf_mathieu_ce_e() in gsl/gsl_sf_mathieu.h... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:57: error: use of undeclared identifier 'gsl_sf_mathieu_ce_e'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_ce_e; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_ce_e; return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:15: warning: implicit declaration of function 'gsl_sf_mathieu_ce_e' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_sf_mathieu_ce_e(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_sf_mathieu_ce_e", referenced from:
+      _t in conftest-a6b235.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { gsl_sf_mathieu_ce_e(); return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_sf_mathieu_se_e() in gsl/gsl_sf_mathieu.h... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:57: error: use of undeclared identifier 'gsl_sf_mathieu_se_e'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_se_e; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_se_e; return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:15: warning: implicit declaration of function 'gsl_sf_mathieu_se_e' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_sf_mathieu_se_e(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_sf_mathieu_se_e", referenced from:
+      _t in conftest-326edd.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { gsl_sf_mathieu_se_e(); return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_sf_mathieu_Mc_e() in gsl/gsl_sf_mathieu.h... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:57: error: use of undeclared identifier 'gsl_sf_mathieu_Mc_e'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_Mc_e; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_Mc_e; return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:15: warning: implicit declaration of function 'gsl_sf_mathieu_Mc_e' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_sf_mathieu_Mc_e(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_sf_mathieu_Mc_e", referenced from:
+      _t in conftest-03746a.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { gsl_sf_mathieu_Mc_e(); return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+--------------------
+
+have_func: checking for gsl_sf_mathieu_Ms_e() in gsl/gsl_sf_mathieu.h... -------------------- no
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:57: error: use of undeclared identifier 'gsl_sf_mathieu_Ms_e'
+int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_Ms_e; return 0; }
+                                                        ^
+1 error generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { void ((*volatile p)()); p = (void ((*)()))gsl_sf_mathieu_Ms_e; return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+"/usr/bin/clang -o conftest -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/x86_64-darwin12.5.0 -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0/ruby/backward -I/Users/JW/.rvm/rubies/ruby-2.0.0-p353/include/ruby-2.0.0 -I. -I./.gem.20160809-80692-q3ujgk -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -I/Users/mpapis/.sm/pkg/active/include -fPIC -mmacosx-version-min=10.6 -pipe -Wall -Iinclude -I/usr/local/Cellar/gsl/1.16/include conftest.c  -L. -L/Users/JW/.rvm/rubies/ruby-2.0.0-p353/lib -L./.gem.20160809-80692-q3ujgk -L.  -L/Users/mpapis/.sm/pkg/active/lib -L/usr/lib -fPIC -Bstatic -fstack-protector   -arch x86_64  -L/usr/local/Cellar/gsl/1.16/lib -lgsl -lgslcblas -lgsl  -lruby-static -lgsl  -lpthread -ldl -lobjc "
+conftest.c:7:15: warning: implicit declaration of function 'gsl_sf_mathieu_Ms_e' is invalid in C99 [-Wimplicit-function-declaration]
+int t(void) { gsl_sf_mathieu_Ms_e(); return 0; }
+              ^
+1 warning generated.
+ld: warning: directory not found for option '-L/Users/mpapis/.sm/pkg/active/lib'
+Undefined symbols for architecture x86_64:
+  "_gsl_sf_mathieu_Ms_e", referenced from:
+      _t in conftest-2f2075.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <gsl/gsl_sf_mathieu.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int t(void) { gsl_sf_mathieu_Ms_e(); return 0; }
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     printf("%p", &t);
+12:   }
+13: 
+14:   return 0;
+15: }
+/* end */
+
+--------------------
+

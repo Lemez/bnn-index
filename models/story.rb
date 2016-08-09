@@ -9,6 +9,8 @@ class Story < ActiveRecord::Base
 	scope :find_by_source, -> (paper) { where(:source => paper.downcase) }
 	scope :negative, -> { where('mixed < ?', 0) }
 
+	require 'similarity'
+
 	def self.today
 		self.select{|b| b.date.formatted_date == Date.today.to_s}
 	end
@@ -39,6 +41,11 @@ class Story < ActiveRecord::Base
 
 	def self.count_todays_stories(source)
 		self.where(source:source).from_today.count
+	end
+
+	def is_uniqish(source)
+		stories = Story.all.from_today.where(:source=>source).order(:mixed).reject{|a| a.nil? || a.title.empty?}.to_a - [self]
+		result = is_uniqish_enough?(stories,self)
 	end
 
 

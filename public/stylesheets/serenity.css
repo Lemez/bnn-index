@@ -27,7 +27,14 @@ float: left;
 text-align: center;
 }
 
-#mainarticle h1 {
+#welcome > h1
+{font-size: 3rem;} 
+#welcome > h2
+ {font-size: 2.5rem;} 
+#welcome > h2
+ {font-size: 2rem;} 
+
+#mainarticle > h1 {
 display: inline-block;
 font-size: 3rem;
 margin: 0;
@@ -35,13 +42,13 @@ width:80vw;
 height:50vh;
 }
 
-#mainarticle h2 {
+#mainarticle > h2 {
 display: inline-block;
 font-size: 2.5rem;
 margin: 0;
 }
 
-#mainarticle p {
+#mainarticle > p {
 display: inline-block;
 font-size: 2rem;
 margin-left: 5px;
@@ -87,7 +94,7 @@ padding-top: 1vh;
 }
 
 #shame {
-width: 80%;
+width: 90%;
 background-color: white;
 }
 
@@ -445,7 +452,7 @@ display: inline;
 
 #champion_pos, #champion_neg {
 text-align: center;
-width: 100%;
+font-size: 2rem;
 padding-right: 10px;
 }
 
