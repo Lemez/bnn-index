@@ -57,6 +57,10 @@ SerenityPadrino::Serenity.controllers :score do
         end
 
         @all_scores_json = @all_scores_array.to_json.html_safe
+
+        @logomap = {}
+        LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }
+        @logos = @logomap.to_json.html_safe
        
         # scores = sort_and_deliver_scores(Score.all)
         # @all_scores = scores.to_json.html_safe

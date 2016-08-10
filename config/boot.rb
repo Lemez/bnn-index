@@ -31,11 +31,11 @@ SCRAPERS = {
 	'independent' => "https://www.bing.com/news/search?q=site%3awww.independent.co.uk%2Fnews&qft=sortbydate%3d%221%22&form=YFNR"
 }
 LOGOS =  {                 
-			'Express'=> "express.png",
-			'Guardian'=>"145x88_Guardian.png",
-			'Independent'=>"independent_small.png",
-			'Mail'=>"145x88_DailyMail.png",
-			'Telegraph'=>"145x88_DailyTelegraph.png",
+			'Express'=> "Express-long.png",
+			'Guardian'=>"Guardian-long.jpg",
+			'Independent'=>"Independent-long.png",
+			'Mail'=>"Mail-long.png",
+			'Telegraph'=>"Telegraph-long.jpg",
 			"Standard"=>"145x88_ES.png"
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"

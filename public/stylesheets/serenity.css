@@ -176,6 +176,11 @@ opacity: 0.3;
 font: 12px sans-serif;
 }
 
+.chart_logo {
+	position: absolute;
+	z-index: 999;
+}
+
 
 .area {
 fill: rgba(255,100,100,0.5);
@@ -315,6 +320,11 @@ font-weight: 400;
 float: right;
 }
 
+tr > td {
+	border-radius: 5px 5px;
+}
+
+
 .paperscore {
 padding: 5px 5px 5px 5px;
 cursor: pointer;
@@ -327,6 +337,7 @@ background-color: gold;
 
 #next_headlines{
 width: 100%;
+padding-top: 5px;
 }
 
 #next_headlines a {

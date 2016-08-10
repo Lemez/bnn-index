@@ -1,4 +1,8 @@
-<div id='data'></div>
+
+<div id='data'>
+</div>
+
+
 <script type="text/javascript">
 /* global d3, _ */
 (function() {
@@ -15,6 +19,7 @@
 	    var roundedTempNumber = Math.round(tempNumber);
 	    return roundedTempNumber / factor;
 	};
+
 
 	var guardian,independent,express,telegraph,mail,average,helper,helperLabel,mailLine,mailChart,mailLabel,mailHelper,mailTooltip,mailText,mailLabelText,mailEmoji,mailEmojiText;
 	var expressLine,expressChart,expressLabel,expressHelper,expressTooltip,expressText,expressLabelText;
@@ -34,6 +39,7 @@
 					        		'tooltip': guardianTooltip,
 					        		'tooltipclass' : 'chart__tooltip--guardian',
 					        		'text': guardianText,
+					        		'logo': '145x88_Guardian.png',
 					        		'labeltext': guardianLabelText
 		        					},
 						'independent' : {'chartclass' : 'chart__independent--focus',
@@ -46,6 +52,7 @@
 					        		'tooltip': independentTooltip,
 					        		'tooltipclass' : 'chart__tooltip--independent',
 					        		'text': independentText,
+					        		'logo': 'independent_small.png',
 					        		'labeltext': independentLabelText
 					        	},
 
@@ -59,6 +66,7 @@
 					        		'tooltip': mailTooltip,
 					        		'tooltipclass' : 'chart__tooltip--mail',
 					        		'text': mailText,
+					        		'logo': '145x88_DailyMail.png',
 					        		'labeltext': mailLabelText
 					        	},
 
@@ -72,18 +80,20 @@
 					        		'tooltip': telegraphTooltip,
 					        		'tooltipclass' : 'chart__tooltip--telegraph',
 					        		'text': telegraphText,
+					        		'logo': '145x88_DailyTelegraph.png',
 					        		'labeltext': telegraphLabelText
 					        	},
-					        		// 'express' : {'chartclass' : 'chart__express--focus',
-		        		// 'line' : expressLine,
-		        		// 'chart' : expressChart,
-		        		// 'label' : expressLabel,
-		        		// 'helper': expressHelper,
-		        		// 'tooltip': expressTooltip,
-		        		// 'tooltipclass' : 'chart__tooltip--express',
-		        		// 'text': expressText,
-		        		// 'labelText': expressLabelText
-		        		// },
+					        		'express' : {'chartclass' : 'chart__express--focus',
+		        		'line' : expressLine,
+		        		'chart' : expressChart,
+		        		'label' : expressLabel,
+		        		'helper': expressHelper,
+		        		'tooltip': expressTooltip,
+		        		'tooltipclass' : 'chart__tooltip--express',
+		        		'text': expressText,
+		        		'logo': 'express.png',
+		        		'labelText': expressLabelText
+		        		},
 
 					        	// average must be the last in this list
 					    'average' : {'chartclass' : 'chart__average--focus',
@@ -132,7 +142,7 @@
   	var svg = d3.select('#data').append('svg')
 	    .attr('class', 'chart')
 	    .attr('id', 'svg')
-	    .attr('width', width + margin.right + 10)
+	    .attr('width', width + margin.right + 100)
 	    .attr('height', height + margin.top + margin.bottom );
 
   	var focus = svg.append('g')
@@ -171,6 +181,7 @@
 
 	// scores needed as not using D3 CSV
    var scores = <%=@all_scores_json%>; 
+   var logoUrls = <%=@logos%>; 
 
    // var isOffline = <%#@offline%>; console.log(isOffline); 
    var testdata = [
@@ -212,6 +223,8 @@
 			   // var brush = d3.svg.brush()
 					 //      .x(x2)
 					 //      .on('brush', brushed);
+
+
 			   var data=data;
 		       var xRange = d3.extent(
 		       					data.map(
@@ -315,6 +328,7 @@
 				   	'text' : makeText,
 				   	'labeltext' : makeLabelText,
 				   	'emojitext': makeEmojiText,
+				   	'logo' : makeLogo,
 				   	'tooltip': makeTooltip
 				   }
 
@@ -414,7 +428,7 @@
 			    make('helper');
 
 			    function makeText(name){
-			    	return allObjects[name]['helper'].append('text').attr('class', 'indented_details labels');
+			    	return allObjects[name]['helper'].append('text').attr('class', 'indented_details labels').style('vertical-align','top');
 			    }
 
 			   make('text');
@@ -432,7 +446,8 @@
 			    	return svg.append('g')
 			      .attr('class', 'emoji')
 			      .style('text-anchor', 'end')
-			      .attr('class', name);
+			      .attr('class', name)
+			      ;
 			    }
 
 			   make('emoji');
@@ -443,6 +458,23 @@
 
 
 			  make('emojitext');
+
+			   function makeLogo(name){
+
+			   	var titleName = name.capitalizeFirstLetter();
+
+		    	return svg.append('g')
+		      .style('text-anchor', 'end')
+		      .attr('class', name + ' chart_logo')
+		      .append("svg:image")
+		      .attr({"xlink:href": "/images/" + logoUrls[titleName],
+						         "width": 90,
+						         "height": 60,
+						         "transform":"translate(-25, -15)"
+						        });
+			    }
+
+			    make('logo');
 
 		 		function makeTooltip(name){
 			    	return focus.append('g')
@@ -467,6 +499,8 @@
 			  	var emojiNames = makeAllAsObject('emoji');
 			  	var labelNames = makeAllAsObject('label');
 			  	var textHelperNames = makeAllAsObject('helper');
+			  	var logoNames = makeAllAsObject('logo');
+			  	var logos = getAll('logo');
 
 			  	function loopDisplay(array,state){
 			  		for (q=0;q<array.length;q++){
@@ -492,7 +526,9 @@
 				      	loopDisplay(helpers,null);
 				      	loopDisplay(tooltips,null);
 				      	loopDisplay(emojis,null);
+				      	loopDisplay(logos,null);
 				      	loopDisplay(labels,null);
+				      	allObjects['average']['logo'].style('display', 'none');
 
 			      	})
 			      	.on('mouseout', function() {
@@ -505,6 +541,7 @@
 				        loopDisplay(helpers,'none');
 				      	loopDisplay(tooltips,'none');
 				      	loopDisplay(emojis,'none');
+				      	loopDisplay(logos,'none');
 				      	loopDisplay(labels,'none');
 			      	})
 			      	.on('mousemove', mousemove);
@@ -515,6 +552,7 @@
 				    	// 		"translate(" + d3.event.translate + ")" 
 				    	// 		+ " scale(" + d3.event.scale + ",1)"
 				    	// 		)}));
+
 
 			    function mousemove() {
 
@@ -584,10 +622,10 @@
 						    for (w = 0;w<keysSorted.length;w++){ 
 						      		var paper =  keysSorted[w];
 						      		// var textBoxX = x(parseDateNew(d.date));
-						      		var textBoxX = width;
-						      		var textBoxY = ((w+2)*25)+40;
+						      		var textBoxX = width + 30;
+						      		var textBoxY = ((w+2)*25)+20;
 						      		// var averageTextBoxX = x(parseDateNew(d.date))+100;
-						      		var averageTextBoxY = 25+40;
+						      		var averageTextBoxY = 25+20;
 						      		var tbOffset = -20;
 
 						      		changePositions(paper,textBoxX,textBoxY,tbOffset);
@@ -604,15 +642,17 @@
 
 			      	  function changePositions(paper,x,y,offset){
 				      			textHelperNames[paper].attr('transform', 'translate(' + parseInt(x-150-offset) + ',' + y + ' )');
-						      	emojiNames[paper].attr('transform', 'translate(' + parseInt(x-220-offset) + ',' + y + ' )');
-						      	labelNames[paper].attr('transform', 'translate(' + parseInt(x-40-offset) + ',' + y + ' )');
+						      	emojiNames[paper].attr('transform', 'translate(' + parseInt(x-185-offset) + ',' + y + ' )');
+						      	// labelNames[paper].attr('transform', 'translate(' + parseInt(x-40-offset) + ',' + y + ' )');
+						      	labelNames['average'].attr('transform', 'translate(' + parseInt(x-40-offset) + ',' + y + ' )');
+						      	logoNames[paper].attr('transform', 'translate(' + parseInt(x-120-offset) + ',' + (y-37) + ' )');
 				      }
 			 
 			      	  function applyNewTextValues(){
 				      		for (var prop in allObjects){
 				      			var rounded = myMath.round(parseFloat(d[prop]),1);
 				      			allObjects[prop]['text'].text(rounded);
-				      			logMe(rounded);
+				      		
 				      		}
 				      }
 

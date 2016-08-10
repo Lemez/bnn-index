@@ -52,6 +52,8 @@ gem 'httparty'
 gem 'nokogiri'
 gem 'user-agent-randomizer'
 
+# gem 'gon-sinatra' #easy js access for ruby vars
+
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

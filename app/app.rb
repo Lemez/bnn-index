@@ -11,6 +11,7 @@ module SerenityPadrino
     use ConnectionPoolManagement
     register Padrino::Mailer
     register Padrino::Helpers
+    # register Gon::Sinatra
     Padrino::Logger::Config[:development] = { :log_level => :error, :stream => :stdout }
 
     enable :sessions
