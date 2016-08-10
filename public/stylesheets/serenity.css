@@ -7,7 +7,6 @@ opacity: 1;
 html,
 body {
 height:100%;
-background: white;
 font-size: 18px;
 }
 
@@ -28,11 +27,11 @@ text-align: center;
 }
 
 #welcome > h1
-{font-size: 3rem;} 
+{font-size: 3em;} 
 #welcome > h2
- {font-size: 2.5rem;} 
+ {font-size: 2.5em;} 
 #welcome > h2
- {font-size: 2rem;} 
+ {font-size: 2em;} 
 
 #mainarticle > h1 {
 display: inline-block;
@@ -61,7 +60,7 @@ text-decoration: none;
 div.page-container {
 z-index:999;   
 position: fixed;
-width: 95%;
+width: 85vw;
 bottom: 0px;
 }
 
@@ -76,6 +75,8 @@ overflow: y;
 #welcome, #today, #data, #shame {
 clear: both;
 display: block;
+background-color: white;
+
 }
 
 #welcome, #today, #shame{
@@ -131,7 +132,7 @@ text-align: left;
 margin: 0;
 padding: 10px 0 10px 10px;
 border-left: 2px solid white;
-font-size: 1.67vw;
+font-size: 1em;
 display: block;
 }
 
@@ -582,22 +583,47 @@ vertical-align: middle;
 }
 
 
+
 /*LAYOUT*/
 
 /* iPhone */
 @media (min-width: 320px) and (max-width: 480px) {
+		html,
+body {
+height:100%;
+background: white;
+font-size: 10px;
+}
 }
 
 /* iPhone 5 */
 @media (min-width: 320px) and (max-width: 568px) {
+		html,
+body {
+height:100%;
+background: white;
+font-size: 12px;
+}
 }
 
 /* Tablet */
-@media (min-width: 600px) and (max-width: 800px) {
+@media (min-width: 569px) and (max-width: 767px) {
+		html,
+body {
+height:100%;
+background: white;
+font-size: 14px;
+}
 }
 
 /* iPad 2, 3, mini */
 @media (min-width: 768px) and (max-width: 1024px) {
+	html,
+body {
+height:100%;
+background: white;
+font-size: 16px;
+}
 } 
 
 
