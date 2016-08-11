@@ -1,22 +1,3 @@
-
-  <div id='papers'>
-    <table>
-     <!--  <h3>Current Average Scores</h3> -->
-      <tbody>
-        <tr class= 'tablerow'>
-        <% @todays_data.each do |k| %>
-          
-            <td class='<%=k.source%>'><span class='paperscore'><%=k.source%></span><span class='paperscore'><%=k.score%></span></td>
-          
-        <%end%>
-        <h6> Updated: <%=@date %> at: <%=@time%> </h6>
-        </tr>
-      </tbody>
-  </table>
-  
-    
-  </div>
-
    <div id='next_headlines'>
         <a id="changestory" >Next Story >></a>
         <a id="changesource" >Next Paper >></a>

@@ -7,20 +7,30 @@
     <%= stylesheet_link_tag 'serenity' %>
     <%= javascript_include_tag 'jquery', 'd3.min', 'jquery.textfill.min' %>
 
-     <script src="https://d3js.org/d3-time.v0.2.min.js"></script>
-    <script src="https://d3js.org/d3-time-format.v0.3.min.js"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
     <link href='https://fonts.googleapis.com/css?family=Dosis:400,200,500,700' rel='stylesheet' type='text/css' />
   </head>
   <body>
 
     <div id='index'></div>
-   
+
+    <%= partial 'partials/nav' %>
+
+    <div id='restofpage'>
         <%= yield %>
+    </div>
       
     <div class="footer">made by Jonathan Walton, using D3.js and Padrino. The code is available on <a href="https://github.com/Lemez/bnn-index" target ="_blank">Github</a>.
     </div>
+
+      <script type="text/javascript">
+    var url = window.location.pathname;
+    var endIndex = url.indexOf(".html");
+    var urlSlug = url.slice(1,endIndex);
+    if (urlSlug === "") {urlSlug = "index";}
+    $('.tab').removeClass("selected");
+    $('#nav_' + urlSlug).addClass("selected");
+    
+     </script>
 
   </body>
 

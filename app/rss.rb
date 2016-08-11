@@ -14,7 +14,8 @@ require 'user_agent_randomizer'
 
 def save_scores(paper,score)
 									#ensures only one per paper per day
-	Score.where(date:$current_time, source:paper).first_or_create do |sc|
+	Score.where(source:paper).first_or_create do |sc|
+		sc.date = $current_time
 		sc.score = score
 		# need to sc.update ?
 	end

@@ -1,24 +1,52 @@
 <section id='today'>
-   <%= partial 'partials/papers' %>
- 
-		<h3>Today's gutter news, brought to you by The <span id='currentpaper'></span></h3>
-     <div id='balls'></div>
-    
-  <div id='headerdiv'>
+<!-- <h6> Updated: <%=@date %> at: <%=@time%> </h6> -->
+<h1>Today's Gutter</h1>
+    <div id='papers'>
 
-  	<h2 id='misery_heading'>Misery Rating: </h2> 
-      
+    <table>
+     <!--  <h3>Current Average Scores</h3> -->
+      <tbody>
 
-    	<span class='emoji5 e'><%= Emoji.find_by_alias("rage").raw%></span>
-    	<span class='emoji4 e'><%= Emoji.find_by_alias("anguished").raw%></span>
-    	<span class='emoji3 e'><%= Emoji.find_by_alias("grimacing").raw%></span>
-    	<span class='emoji2 e'><%= Emoji.find_by_alias("unamused").raw%></span>
-    	<span class='emoji1 e'><%= Emoji.find_by_alias("neutral_face").raw%></span>
-      <span id='misery_score'></span>
-     
+        <tr class= 'tablerow'>
+        <% @todays_data.each do |k| %>
+          
+            <td class='<%=k.source%>'><span class='paperscore'><%= image_tag(LOGOS[k.source], :class => "logo_today") %></span><span class='paperscore'><%=k.score%></span></td>
+          
+        <%end%>
+        
+        </tr>
+      </tbody>
+  </table>
   </div>
 
-  <article id='mainarticle'><h1><span></span></h1> </article>
+  <div id='balls'> <span id="balls_container"></span></div>
+ 
+		<!-- <h3>Today's gutter news, brought to you by The <span id='currentpaper'></span></h3> -->
+   
+   
+     
+  <div id='headerdiv'>
+  	
+      <div id='today_emojis'>
+          <a id="previous_story" class="next_headlines"><<</a>
+     
+        	<span class='emoji5 e'><%= Emoji.find_by_alias("rage").raw%></span>
+        	<span class='emoji4 e'><%= Emoji.find_by_alias("anguished").raw%></span>
+        	<span class='emoji3 e'><%= Emoji.find_by_alias("grimacing").raw%></span>
+        	<span class='emoji2 e'><%= Emoji.find_by_alias("unamused").raw%></span>
+        	<span class='emoji1 e'><%= Emoji.find_by_alias("neutral_face").raw%></span>
+      
+          <a id="next_story" class="next_headlines">>></a>
+      </div>
+      <h2 id='misery_heading'>Misery Rating: <span id='misery_score'></span></h2> 
+      
+  </div>
+
+  <article id='mainarticle'>
+    <h1></h1> 
+
+  </article>
+  
 
 </section>
 
@@ -72,18 +100,22 @@ $(function(){
 
     getContent(); // fire it up for the first time
 
-    function nextArticle(){
-        articleIndex++;
+    function nextArticle(e){
+        articleIndex += e;
         paperName = sources[sourceIndex];
         articles = DBStories[paperName];
 
-        if (articleIndex == (articles.length)) { articleIndex=0;}
+        if (articleIndex === (articles.length)) { articleIndex=0;}
+        if (articleIndex === -1) { articleIndex=(articles.length)-1;}
 
         getContent();
     };
 
-     $('#changestory').on('click',function(){
-      nextArticle();
+     $('#next_story').on('click',function(){
+      nextArticle(1);
+    });
+      $('#previous_story').on('click',function(){
+      nextArticle(-1);
     });
 
     function nextSource(){
@@ -120,8 +152,7 @@ $(function(){
     // console.log(article);
     var headline = article.title.replace("&apos;","'");
    
-    $('#mainarticle h1 span').text(headline);
-    $('#mainarticle h1').textfill({maxFontPixels:45});
+    $('#mainarticle h1').text(headline);
          
      $('#misery_score').html(parseInt(article.mixed));
 
@@ -137,15 +168,15 @@ $(function(){
     };
 
     function makeBalls(num){
-      $('#balls').html("");
+      $('#balls_container').html("");
 
       for (i=0;i<num;i++){
         
-        $('#balls').append("<span class='ball'>&middot</span>");
+        $('#balls_container').append("<span class='ball'>&middot</span>");
 
       }
 
-      ballSpan = $('#balls span');
+      ballSpan = $('#balls_container span');
       // console.log(ballSpan.length, articleIndex);
       ballSpan.eq(articleIndex).addClass('highlightball')
                           .siblings('span').removeClass('highlightball');

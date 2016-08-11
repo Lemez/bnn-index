@@ -3,20 +3,28 @@
 
      <!--    :title,:source,:date,:mixed -->
         
-         <span class='neg_award_headline award'>Misery Guts award</span><br/><h2>The <%= @story_neg.first.source %></h2>
-         <!-- <h3>with a score of <span class='score_award'><%#@story_neg.first[3] %></span></h3> -->
+         <span class='neg_award_headline award'>Misery Guts award</span><br/>
+         <h2><%= image_tag(LOGOS[@story_neg.first.source], :width => 300) %></h2>
         
-         <ul class="news badnews" start="1">
+         <ol class="news badnews" start="1">
             <li class='winner'>
-            <span class='score_neg'><%=@story_neg.first.mixed%></span><span class='title'><%=@story_neg.first.title.gsub("&apos;","'")%>, </span><span class='source'><%=@story_neg.first.source%> </span>
+            <span class='score_neg'><%=@story_neg.first.mixed%></span>
+            <span class='title'><%=@story_neg.first.title.gsub("&apos;","'")%></span>
             <span class='awarddate'><%=@story_neg.first.date.pretty_date%> </span>
             </li>
           <%@story_neg[1..9].each do |s|%>
             <li>
-            <span class='score_neg'><%=s.mixed%></span><span class='title'><%=s.title.gsub("&apos;","'")%>, </span><span class='source'><%=s.source%> </span><span class='awarddate'><%=s.date.pretty_date%> </span>
+            <span class='score_neg'><%=s.mixed%></span>
+            <span class='awardpic_wrapper'>
+              <%= image_tag(LOGOS[s.source], :width => 100, :class => 'awardpic') %>
+            </span>
+            <span class='headline_and_date'>
+              <span class='title'><%=s.title.gsub("&apos;","'")%></span>
+              <span class='awarddate'><%=s.date.pretty_date%> </span>
+            </span>
             </li>
           <%end%>
-        </ul> 
+        </ol> 
       </div>
 
       <div id='champion_pos'>

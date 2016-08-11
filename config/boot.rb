@@ -30,8 +30,7 @@ SCRAPERS = {
 	'times' => "https://www.bing.com/news/search?q=site%3awww.thetimes.co.uk&qft=sortbydate%3d%221%22&form=YFNR",
 	'independent' => "https://www.bing.com/news/search?q=site%3awww.independent.co.uk%2Fnews&qft=sortbydate%3d%221%22&form=YFNR"
 }
-LOGOS =  {                 
-			'Express'=> "Express-long.png",
+LOGOS =  {'Express'=> "Express-long-better.jpg",
 			'Guardian'=>"Guardian-long.jpg",
 			'Independent'=>"Independent-long.png",
 			'Mail'=>"Mail-long.png",
@@ -71,12 +70,37 @@ Padrino::Logger::Config[:development][:log_level] = :error
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
+
 end
 
 ##
 # Add your after (RE)load hooks here
 #
 Padrino.after_load do
+	$current_time = Time.now
+    $current_day = $current_time.formatted_date
+    $time = $current_time.strftime("%X")
+    $date = $current_time.strftime('%d/%m/%Y')
+    $date_ds_format = Time.now.strftime("%Y-%m-%d")
+    $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
+
+    $reset_date = Date.parse("2016-08-01")
+
+    require_relative("#{PADRINO_ROOT}/app/rss.rb")
+	check_and_fetch_today_if_needed
+
+	if not $online 
+          $day = Date.parse(Story.last.date.formatted_date)
+        else
+          $day = Date.today
+          add_dailyscore_record_for_today_if_none if all_sources_fetched?
+     end
+
+     $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
+
+     @logomap = {}
+     LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }
+     $logos = @logomap.to_json.html_safe
 end
 
 Padrino.load!
