@@ -12,9 +12,15 @@ require_relative './analysers.rb'
 require 'user_agent_randomizer'
 
 
+def destroy_all_today
+	Story.from_today.destroy_all
+	Score.from_today.destroy_all
+	DailyScore.from_today.destroy_all
+end
+
 def save_scores(paper,score)
 									#ensures only one per paper per day
-	Score.where(source:paper).first_or_create do |sc|
+	Score.from_today.find_or_create_by(source:paper) do |sc|
 		sc.date = $current_time
 		sc.score = score
 		# need to sc.update ?
@@ -50,6 +56,10 @@ def story_not_yet_saved? (params)
 	Story.where(:title=>params[:title]).empty?
 end
 
+def enough_stories_for_source_already_saved_today?(params)
+	Story.from_today.where(source:params[:source]).count == DAILY_NUMBER
+end
+
 
 def save_stories(storyparams)
 
@@ -62,13 +72,10 @@ end
 
 def process_new_stories_by_source(data, key,type, options)
 
+	data.reject!{|d| d.date.to_date != Date.today}
 	story_array = []
 	mixed_scores = []
-	got = options[:got]
-	amount = DAILY_NUMBER - 1
-	starting,ending = got,got+amount
-
-	data[starting..ending].each do |item| 
+	data.each do |item| 
 
 		 if type=='RSS' 
 		 	processed_title = item.title
@@ -95,25 +102,17 @@ def process_new_stories_by_source(data, key,type, options)
 						analysis_data[:shouts] +
 						((params[:afinn]+params[:wiebe])/2) 
 
-		# params[:afinn] = params[:title].afinn_probability.round(2)*100
-		# params[:wiebe] = params[:title].wiebe_probability.round(2)*100
-		# params[:mixed] = (params[:afinn]+params[:wiebe])/2
-		mixed_scores << params[:mixed]
+		if enough_stories_for_source_already_saved_today?(params)
+			p "#{DAILY_NUMBER} Saved stories from #{key} today"
+			return
 
-		if story_not_yet_saved?(params)
+		elsif story_not_yet_saved?(params)
 			save_stories(params) 
 
 		else
 			p "EXISTS: #{params[:source]}: #{params[:title]} saved previously on #{Story.where(:title=>params[:title]).first.date.formatted_date}"
-
 		end
-
-		story_array << params
-
 	end
-
-	[story_array,mixed_scores]
-	
 end
 
 def get_random_ua
@@ -137,7 +136,8 @@ def scrape_instead(source_array)
 			data << item
 		end
 
-		story_array,@mixed_scores = process_new_stories_by_source(data,source, method)
+		process_new_stories_by_source(data,source, method)
+		@mixed_scores = Story.from_today.where(source:source).map(&:mixed)
 
 		mixed_normalized = get_average(@mixed_scores).round(2)
 		save_scores(source,mixed_normalized) #save data to AR
@@ -175,7 +175,7 @@ def get_todays_rss(options={:name=>'',:got=>0})
 			rss = open(feedUrl).read
 			feed = RSS::Parser.parse(rss,false)
 			data = feed.items
-			story_array, @mixed_scores = process_new_stories_by_source(data, key, method,options)
+			process_new_stories_by_source(data, key, method,options)
 		end
 
 	rescue SocketError => e 
@@ -194,13 +194,11 @@ def get_todays_rss(options={:name=>'',:got=>0})
 				
 	end
 
-
 	if $parsererror || $servererror
 		# email me TO DO!
 	else
-		# todays_stories[key] = story_array.sort{|a,b|a[:mixed]<=>b[:mixed]}.select{|a|a[:mixed]<0}
-		mixed_normalized = get_average(@mixed_scores).round(2)
-		save_scores(key,mixed_normalized) #save data to AR
+		@mixed_scores = Story.from_today.where(source:options[:name]).map(&:mixed)
+		save_scores(options[:name], get_average(@mixed_scores).round(2)) 
 	end
 
 	p "finishing #{key} RSS: #{feedUrl}"
@@ -214,6 +212,7 @@ def check_and_fetch_today_if_needed
 	      set_up_sentiment_analysers 
 	      to_be_fetched.each {|params|get_todays_rss(options=params)}
 	 end
+
 
 	 # check_and_get_missing_sources
 end

@@ -16,7 +16,7 @@
             <li>
             <span class='score_neg'><%=s.mixed%></span>
             <span class='awardpic_wrapper'>
-              <%= image_tag(LOGOS[s.source], :width => 100, :class => 'awardpic') %>
+              <%= image_tag(LOGOS[s.source], :width => 100, :class => 'awardpic ' + s.source.downcase) %>
             </span>
             <span class='headline_and_date'>
               <span class='title'><%=s.title.gsub("&apos;","'")%></span>

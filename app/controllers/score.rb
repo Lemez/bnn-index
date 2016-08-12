@@ -11,6 +11,7 @@ SerenityPadrino::Serenity.controllers :score do
       @todays_data = Score.from_day($day).uniq(:source).order(:score)
       @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
       @todays_scores = @todays_data.collect(&:score)
+      @logos = $logos
 
     render 'index'
   end

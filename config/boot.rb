@@ -87,20 +87,16 @@ Padrino.after_load do
     $reset_date = Date.parse("2016-08-01")
 
     require_relative("#{PADRINO_ROOT}/app/rss.rb")
+
 	check_and_fetch_today_if_needed
+	add_dailyscore_record_for_today_if_none if all_sources_fetched?
 
-	if not $online 
-          $day = Date.parse(Story.last.date.formatted_date)
-        else
-          $day = Date.today
-          add_dailyscore_record_for_today_if_none if all_sources_fetched?
-     end
+	$day = ($online ?  Date.today : Date.parse(Story.last.date.formatted_date))
+    $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
 
-     $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
-
-     @logomap = {}
-     LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }
-     $logos = @logomap.to_json.html_safe
+    @logomap = {}
+    LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }
+    $logos = @logomap.to_json.html_safe
 end
 
 Padrino.load!

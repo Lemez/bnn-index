@@ -8,6 +8,7 @@ html,
 body {
 height:100%;
 font-size: 18px;
+margin: 0;
 }
 
 table { 
@@ -29,9 +30,9 @@ text-align: center;
 #welcome > h1
 {font-size: 3em;} 
 #welcome > h2
- {font-size: 2.5em;} 
-#welcome > h2
  {font-size: 2em;} 
+#welcome > h3
+ {font-size: 1.5em;} 
 
 #mainarticle > h1 {
 display: inline-block;
@@ -71,6 +72,7 @@ clear: both;
 position: fixed;
 display: inline-block;
 overflow: hidden;
+min-height: 100vh;
 }
 
 #restofpage {
@@ -342,6 +344,10 @@ tr > td {
 	border-radius: 5px 5px;
 }
 
+td.clickableA, td.clickableB {
+	min-height: 100%;
+}
+
 
 .paperscore {
 padding: 5px 5px 5px 5px;
@@ -354,10 +360,14 @@ font-size: 1.5em;
 }
 
 .active {
-font-weight: 700;
-border-top: 4px solid gold;
-border-bottom: 4px solid gold;
+visibility: visible
 }
+
+.hidden {
+visibility: hidden;
+}
+
+
 
 a#previous_story {
 	float: left;
@@ -402,18 +412,11 @@ font-size: 80px;
 margin: 0;
 }
 
-#misery_heading{
-line-height: 2em;
-}
-
-#misery_score {
+#misery_score, #misery_heading {
 font-size: 30px;
-font-weight: 700;
+line-height: 2em;
+font-weight: 400;
 margin: 0;
-}
-
-#misery_heading {
-	margin-top: 0;
 }
 
 .highlight {
@@ -425,13 +428,11 @@ transition: color 2s ease;
 opacity: 0;
 }
 
-#balls {
-width: 50%;
+.balls_container {
 margin: 0;
-line-height: 30px;
-vertical-align: -25px;
+line-height: 10px;
 display: inline;
-font-size: 100px;
+font-size: 5rem;
 }
 
 .highlightball {
@@ -562,11 +563,14 @@ color: green;
 }
 
 span.awardpic_wrapper{
-	
 }
 
 img.awardpic {
 	vertical-align: bottom;
+}
+
+img.awardpic.express {
+	vertical-align: top;
 }
 
 span.headline_and_date {
@@ -579,6 +583,7 @@ span.awarddate {
 font-size: 1rem;
 padding-left: 20px;	
 display: inline-block;
+opacity: 0.75;
 }
 
 span.source {
@@ -658,10 +663,13 @@ nav {
 	position: relative;
 	text-align: center;
 	float: none;
+	min-height: inherit;
+	min-width: 100vw;
 }
 
-nav > #uppernav > #desc {
-	font-size: 16px;
+nav > #lowernav {
+	min-width: 100vw;
+	text-align: center;
 }
 
 nav > #lowernav > a.tab  {
@@ -689,7 +697,16 @@ nav > #mobilenav {
 }
 
 img.logo_today {
-	width: 15.5vw;
+	width: 17vw;
+}
+
+span.award {
+	margin-top: 10px;
+	font-size: 2rem;
+}
+
+.news li {
+	font-size: 1.2rem;
 }
 }
 
@@ -705,6 +722,8 @@ font-size: 14px;
 img.logo_today {
 	width: 12.5vw;
 }
+
+
 }
 
 /* iPad 2, 3, mini */

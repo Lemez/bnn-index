@@ -7,19 +7,35 @@
      <!--  <h3>Current Average Scores</h3> -->
       <tbody>
 
-        <tr class= 'tablerow'>
-        <% @todays_data.each do |k| %>
-          
-            <td class='<%=k.source%>'><span class='paperscore'><%= image_tag(LOGOS[k.source], :class => "logo_today") %></span><span class='paperscore'><%=k.score%></span></td>
-          
-        <%end%>
-        
+         <tr class= 'tablerow'>
+          <% @todays_data.each do |k| %>
+          <td class='<%=k.source%> clickable'>
+              <%= image_tag(LOGOS[k.source.titleize], :class => "logo_today") %>
+          </td>
+        <%end%> 
         </tr>
+
+         <tr class= 'tablerow'>
+          <% @todays_data.each do |k| %>
+            <td class='<%=k.source%> clickable'>
+                <span class='paperscore'>
+                  <%=k.score%>
+                </span>
+              </td>
+          <%end%>   
+        </tr>
+
+          <tr class= 'tablerow'>
+          <% @todays_data.each do |k| %>
+            <td>
+                <span class="balls_container hidden" id='balls_<%=k.source%>'></span>
+              </td>
+          <%end%>   
+        </tr>     
       </tbody>
   </table>
   </div>
 
-  <div id='balls'> <span id="balls_container"></span></div>
  
 		<!-- <h3>Today's gutter news, brought to you by The <span id='currentpaper'></span></h3> -->
    
@@ -99,6 +115,8 @@ $(function(){
     // console.log(DBStories);
 
     getContent(); // fire it up for the first time
+    $('#balls_' + sources[0]).removeClass("hidden");
+    highlightBalls(sources[0],0);
 
     function nextArticle(e){
         articleIndex += e;
@@ -120,7 +138,7 @@ $(function(){
 
     function nextSource(){
       articleIndex = 0;
-      $('.active').removeClass('active');  
+      $('#balls_' + sources[sourceIndex]).addClass('active');  
       getContent(); 
     };
 
@@ -131,14 +149,15 @@ $(function(){
       nextSource();
     });
 
-     $('span.paperscore').on('click',function(){
+     $('td.clickable').on('click',function(){
 
-      var newSource = $(this).parent('td').attr('class');
+      var newSource = $(this).attr('class');
       newSource = newSource.charAt(0).toLowerCase() + newSource.slice(1);
 
       if ( newSource.split(" ").length != 1){newSource=newSource.split(" ")[0]}; //deal with multiple classes
       sourceIndex = sources.indexOf(newSource);
-      nextSource();
+      $('#balls_' + sources[sourceIndex]).removeClass('hidden'); 
+      nextSource(sourceIndex);
     });
  
 
@@ -156,31 +175,35 @@ $(function(){
          
      $('#misery_score').html(parseInt(article.mixed));
 
-     var paper_uppercase = paperName.charAt(0).toUpperCase() + paperName.slice(1);
+     // var paper_uppercase = paperName.charAt(0).toUpperCase() + paperName.slice(1);
 
-     $('#currentpaper').html(paper_uppercase);
-     $('.' + paper_uppercase).addClass("active");
-
+     // $('#currentpaper').html(paperName);
+     
       getEmotionsfromScore(article.mixed);
 
-      makeBalls(balls);
+      makeBalls(balls,paperName);
 
     };
 
-    function makeBalls(num){
-      $('#balls_container').html("");
+    function makeBalls(num,paperName){
+      $('.balls_container').html("");
+      $('#balls_' + paperName).addClass("active");
 
       for (i=0;i<num;i++){
         
-        $('#balls_container').append("<span class='ball'>&middot</span>");
+        $('#balls_' + paperName).append("<span class='balls'>&middot</span>");
 
       }
 
-      ballSpan = $('#balls_container span');
+      highlightBalls(paperName,articleIndex);
+
+     }
+
+     function highlightBalls(paperName,articleIndex){
+      ballSpan = $('#balls_'+ paperName +' span');
       // console.log(ballSpan.length, articleIndex);
       ballSpan.eq(articleIndex).addClass('highlightball')
                           .siblings('span').removeClass('highlightball');
-
      }
 
 
