@@ -1,2 +1,1 @@
-https://github.com/nolman/heroku-gsl-buildpack.git
-https://github.com/heroku/heroku-buildpack-ruby.git#v119
+https://github.com/tomwolfe/heroku-buildpack-gsl-ruby.git
