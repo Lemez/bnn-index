@@ -1,7 +1,9 @@
 <section id='welcome'>
 	<h1 id='welcome_header'>The newspaper to avoid today is... </h1>
 	<div id="today_logo">
+		<a href='/today.html'>
 		<%=image_tag LOGOS[@todays_papers_ordered[0].titleize], :width => 300, :class => 'logo' %>
+		</a>
 	</div>
 	<h2 class="welcome_text"> with an average article negativity<sup>*</sup> score of </h2>
 	<h1 class="welcome_score"><%= @todays_scores[0] %></h1>

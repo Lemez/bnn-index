@@ -112,6 +112,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    sass (3.4.22)
     sentimental (1.4.0)
       json (~> 1.8, >= 1.8.3)
     similarity (0.2.5)
@@ -158,6 +159,7 @@ DEPENDENCIES
   rack-test
   rake
   rspec
+  sass (~> 3.4, >= 3.4.22)
   sentimental
   similarity
   user-agent-randomizer

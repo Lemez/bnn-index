@@ -70,13 +70,19 @@ Padrino::Logger::Config[:development][:log_level] = :error
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
-
+	# @command = 'sass ./public/stylesheets/serenity.scss ./public/stylesheets/serenity.css'
+	# system @command
+	# p "reloading sass: #{@command}"
+	# @watch = "sass --watch public/stylesheets"
+	# system @watch
+	# p "watching sass: #{@watch}"
 end
 
 ##
 # Add your after (RE)load hooks here
 #
 Padrino.after_load do
+	
 	$current_time = Time.now
     $current_day = $current_time.formatted_date
     $time = $current_time.strftime("%X")

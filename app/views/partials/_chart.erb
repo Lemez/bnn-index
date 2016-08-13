@@ -1,14 +1,13 @@
 
 <div id='data'>
+	<svg>
+		<g class="focus"></g>
+	</svg>	
 </div>
-
-   <script src="https://d3js.org/d3-time.v0.2.min.js"></script>
-    <script src="https://d3js.org/d3-time-format.v0.3.min.js"></script>
-
 
 <script type="text/javascript">
 /* global d3, _ */
-(function() {
+
 
 	String.prototype.capitalizeFirstLetter = function() {
     	return this.charAt(0).toUpperCase() + this.slice(1);
@@ -113,22 +112,25 @@
 					        	}   	
 		        	};
    
-	var windowW = $('#restofpage').width()-25;
+	var windowW = $('#data').css('width');
+	alert(windowW);
 	var windowH = $(window).height();
 
 	var windowM = windowW/8;
 	var responsiveTicks = Math.round(windowW/150);
-  	var margin = {top: 130, right: 0, bottom: 250, left: 50};
+  	var margin = {top: 130, right: 50, bottom: 250, left: 50};
   	var margin2  = {top: (450), right: 0, bottom: 100, left: 0};
-  	var width    = windowW - 200;
+  	var width    = windowW;
   	var height   = windowH - margin.top - margin.bottom;
   	var height2  = windowH - margin2.top - margin2.bottom;
-    var x = d3.time.scale().range([0, width-200]);
-    var x2  = d3.time.scale().range([0, width-200]);
+    var x = d3.time.scale().range([0, width-margin.right]);
+    var x2  = d3.time.scale().range([0, width-margin.right]);
     var y = d3.scale.linear().range([height, 0]);
     var y1  = d3.scale.linear().range([height, 0]);
     var y2  = d3.scale.linear().range([height2, 0]);
     var y3  = d3.scale.linear().range([800, 0]);
+
+    console.log(width);
 
 	// var dayFormat = d3_time_format.timeFormat("%x"); //(NEW!) date
 
@@ -142,15 +144,15 @@
     var xAxis2  = d3.svg.axis().scale(x2).orient('bottom');
     var yAxis   = d3.svg.axis().scale(y).orient('left');
 
-  	var svg = d3.select('#data').append('svg')
+  	var svg = d3.select('svg')
 	    .attr('class', 'chart')
 	    .attr('id', 'svg')
-	    .attr('width', width + margin.right + 100)
+	    .attr('width', width)
 	    .attr('height', height + margin.top + margin.bottom );
+	    console.log(svg.node().getBBox());
 
-  	var focus = svg.append('g')
-    	.attr('class', 'focus')
-    	.attr('width', width + 10)
+  	var focus = d3.select('g.focus')
+    	.attr('width', width)
     	.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
     var context = svg.append('g')
@@ -213,7 +215,7 @@
 					 "times": "-1.9",
 					 "average": '1.0'}
 					];
-
+	console.log(width);
 	drawData(scores);
 	// drawCSV();
 
@@ -246,7 +248,7 @@
 			    	);
 
 			    var min = Math.round(Math.min.apply(null, allValues)),
-			    max = Math.round(Math.max.apply(null, allValues));
+			    max = Math.round(Math.max.apply(null, allValues)),
 			    y.range([height, min]);
 			    y.domain([max+1,min-1]);
 			    x.domain([minDate,maxDate]);
@@ -726,4 +728,4 @@
 	function logMe(e){console.log(e);}
 
 
-}());</script>
+</script>

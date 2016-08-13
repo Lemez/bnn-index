@@ -110,18 +110,20 @@
 					        	}   	
 		        	};
    
-	var windowW = $('#restofpage').width()-25;
+	var windowW = $('#data').width();
 	var windowH = $(window).height();
+
+	var navDisplayState = $('#uppernav').css('display');
+	var width = windowW - 100;
 
 	var windowM = windowW/8;
 	var responsiveTicks = Math.round(windowW/150);
-  	var margin = {top: 130, right: 0, bottom: 250, left: 50};
+  	var margin = {top: 220, right: 0, bottom: 70, left: 50};
   	var margin2  = {top: (450), right: 0, bottom: 100, left: 0};
-  	var width    = windowW - 200;
   	var height   = windowH - margin.top - margin.bottom;
   	var height2  = windowH - margin2.top - margin2.bottom;
-    var x = d3.time.scale().range([0, width-200]);
-    var x2  = d3.time.scale().range([0, width-200]);
+    var x = d3.time.scale().range([0, width]);
+    var x2  = d3.time.scale().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
     var y1  = d3.scale.linear().range([height, 0]);
     var y2  = d3.scale.linear().range([height2, 0]);

@@ -44,12 +44,24 @@ SerenityPadrino::Serenity.controllers :score do
         @story_neg_ever,@story_neg_month,@story_neg_week  = stories_ever[0..9],stories_month[0..9],stories_week[0..9]
         @story_pos_ever,@story_pos_month,@story_pos_week = stories_ever[-10..-1].reverse,stories_month[-10..-1].reverse,stories_week[-10..-1].reverse
 
+        @trophies = {
+          'ever'=>{'trophies'=>"", 'max'=>0},
+         'month'=>{'trophies'=>"", 'max'=>0},
+         'week'=>{'trophies'=>"", 'max'=>0}
+       }
         @trophies_ever = DailyScore.get_trophies_since($reset_date)
         @trophies_month = DailyScore.get_trophies_since(Date.today-30)
         @trophies_week = DailyScore.get_trophies_since(Date.today-7)
 
-        render 'awards'
+        @trophies['ever']['trophies'] = @trophies_ever
+        @trophies['ever']['max'] = @trophies_ever.map{|a|a[1]}.max
+        @trophies['month']['trophies'] = @trophies_month
+        @trophies['month']['max'] = @trophies_month.map{|a|a[1]}.max
+        @trophies['week']['trophies'] = @trophies_week
+        @trophies['week']['max'] = @trophies_week.map{|a|a[1]}.max
+        @trophiesJS = @trophies.to_json.html_safe
 
+        render 'awards'
   end
 
 

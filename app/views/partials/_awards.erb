@@ -2,24 +2,18 @@
   <table id='button-table'>
             <tbody>
               <tr>
+
+                <td id='_stories' class='trophy_buttons btn-highlight'>Stories </td> 
+                <td id='_trophies' class='trophy_buttons'>Awards</td>        
+                <td>from</td>
                 <td id='_ever' class='award_buttons btn-highlight'>All Time</td>
                 <td id='_month' class='award_buttons'>Month </td>
                 <td id='_week' class='award_buttons'>Week</td>               
               </tr>
             </tbody>
     </table>
-      <table id='button-table-data'>
-            <tbody>
-              <tr>
-                <td id='_stories' class='trophy_buttons btn-highlight'>Stories </td> 
-                <td id='_trophies' class='trophy_buttons'>Trophies</td>        
-              </tr>
-            </tbody>
-    </table>
 
- 
-
-
+    <h2 id='trophy_title'>Number of Avoid Today Awards</h2>
       <div id='champion_neg_ever' class='champion ever'>
         <!--  <span class='neg_award_headline award'>Misery Guts award</span><br/> -->
           
@@ -48,22 +42,28 @@
       </div>
 
       <div id='champion_trophies_ever' class="trophies ever">
-        <table>
-          <tbody>
-            <% @trophies_ever.each do |item|%>
-              <tr>
-                  <td>
-                    <%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'awardpic ' + item[0].downcase) %>
-                  </td>
-                  <% item[1].times do %>
-                  <td>
-                    <%= image_tag('cup.jpg', :width => '30') %>
-                  </td>
-                  <% end %>
-                </tr>
+        <dl>
+
+            
+            <% @trophies['ever']['trophies'].each do |item|%>
+                  <dd>
+                    
+                   <%# item[1].times do %>
+                    <%# image_tag('cup.jpg', :class => 'trophy_pic') %>
+                  <%# end %> 
+                  <span class="trophy_name_wrapper"><%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
+                  
+                   <span class='manyblocks'>
+
+                      <span id='ever_bar_<%=item[0]%>' class='block'></span>
+                        <span class='text'><%=item[1]%></span>
+                    </span>
+                
+
+                  </dd>
             <% end %>
-          </tbody>
-        </table>
+              
+        </dl>
       </div>
 
        <div id='champion_neg_month' class='champion month'>
@@ -93,22 +93,27 @@
       </div>
 
        <div id='champion_trophies_month' class="trophies month">
-          <table>
-            <tbody>
-              <% @trophies_month.each do |item|%>
-                <tr>
-                  <td>
-                    <%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'awardpic ' + item[0].downcase) %>
-                  </td>
-                  <% item[1].times do %>
-                  <td>
-                    <%= image_tag('cup.jpg', :width => '30') %>
-                  </td>
-                  <% end %>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+           <dl>
+            
+            <% @trophies['month']['trophies'].each do |item|%>
+                  <dd>
+                    
+                   <%# item[1].times do %>
+                    <%# image_tag('cup.jpg', :class => 'trophy_pic') %>
+                  <%# end %> 
+                  <span class="trophy_name_wrapper"><%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
+                  
+                   <span class='manyblocks'>
+                    
+                      <span id='month_bar_<%=item[0]%>' class='block'></span>
+                      <span class='text'><%=item[1]%></span>
+                    </span>
+                
+
+                  </dd>
+            <% end %>
+              
+        </dl>
       </div>
 
        <div id='champion_neg_week' class='champion week'>
@@ -139,22 +144,27 @@
       </div>
 
        <div id='champion_trophies_week' class="trophies week">
-          <table>
-            <tbody>
-              <% @trophies_week.each do |item|%>
-                <tr>
-                  <td>
-                    <%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'awardpic ' + item[0].downcase) %>
-                  </td>
-                  <% item[1].times do %>
-                  <td>
-                    <%= image_tag('cup.jpg', :width => '30') %>
-                  </td>
-                  <% end %>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+         <dl>
+            
+            <% @trophies['week']['trophies'].each do |item|%>
+                  <dd>
+                    
+                   <%# item[1].times do %>
+                    <%# image_tag('cup.jpg', :class => 'trophy_pic') %>
+                  <%# end %> 
+                  <span class="trophy_name_wrapper"><%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
+                  
+                   <span class='manyblocks'>
+                    
+                      <span id='week_bar_<%=item[0]%>' class='block'></span>
+                      <span class='text'><%=item[1]%></span>
+                    </span>
+                
+
+                  </dd>
+            <% end %>
+              
+        </dl>
       </div>
 
       <div id='champion_pos'>
@@ -180,22 +190,75 @@
 
   $('td.award_buttons').on('click', function(){
     $this = $(this);
-    $this.addClass('btn-highlight');
-    $this.siblings('td').removeClass('btn-highlight');
     var idName = $this.attr('id');
+    var alight = $('#_stories').attr('class').split(" ").length;
+    console.log(alight);
+
+    $this.addClass('btn-highlight');
+    $this.siblings('td').removeClass('btn-highlight'); 
+
+    if (alight===2)  {
+        $('#champion_neg' + idName).show();
+        $('#champion_neg' + idName).siblings('div').hide();
+        $('#_stories').trigger('click');
+      }
+        else {
+          $('#champion_trophies' + idName).show();
+        $('#champion_trophies' + idName).siblings('div').hide();
+      $('#_trophies').trigger('click');
+
+        }
+
     
-    $('#champion_neg' + idName).show();
-    $('#champion_neg' + idName).siblings('div').hide();
+    
+    
   });
 
-    $('td.trophy_buttons').on('click', function(){
+
+    $('#_trophies').on('click', function(){
     $this = $(this);
     $this.addClass('btn-highlight');
-    $this.siblings('td').removeClass('btn-highlight');
+    $('#_stories').removeClass('btn-highlight');
 
-    var idName = $this.attr('id');
+    var idName = $('td.award_buttons.btn-highlight').attr('id');
     
-    $('#champion_neg' + idName).show();
-    $('#champion_neg' + idName).siblings('div').hide();
+    $('.champion').hide();
+    $('#trophy_title').show();
+    $('#champion_trophies' + idName).show();
   });
+
+      $('#_stories').on('click', function(){
+    $this = $(this);
+    $this.addClass('btn-highlight');
+    $('#_trophies').removeClass('btn-highlight');
+
+    var idName = $('td.award_buttons.btn-highlight').attr('id');
+    
+    $('.trophies').hide();
+    $('#trophy_title').hide();
+    $('#champion_neg' + idName).show();
+  });
+
+    var trophies = <%= @trophiesJS %>;
+    getTrophies('ever');
+    getTrophies('month');
+    getTrophies('week');
+
+    function getTrophies(area){
+      var max = parseInt(trophies[area]['max']);
+         for (var d=0;d<trophies[area]['trophies'].length;d++) {
+          var entry = trophies[area]['trophies'][d][1];
+           var w = entry*50/max + "%";
+           
+           var paper = trophies[area]['trophies'][d][0];
+           console.log(area,entry,w,paper);
+    
+        $('#' + area + '_bar_' + paper).css({'width':w,
+          'min-height':'50px'});
+         }
+       }
+    
+    
+
+
 </script>

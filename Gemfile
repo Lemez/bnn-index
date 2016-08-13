@@ -51,6 +51,8 @@ gem 'httparty'
 gem 'nokogiri'
 gem 'user-agent-randomizer'
 
+gem 'sass', '~> 3.4', '>= 3.4.22'
+
 # gem 'gon-sinatra' #easy js access for ruby vars
 
 

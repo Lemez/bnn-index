@@ -1,10 +1,9 @@
 require 'json'
+require 'sass'
 require_relative './rss'
 require_relative './csv'
+# require 'sass/plugin/rack'
 
-class Serenity < Padrino::Application
-  enable  :reload # enabled in all environments
-end
 
 module SerenityPadrino
   class Serenity < Padrino::Application
@@ -13,6 +12,9 @@ module SerenityPadrino
     register Padrino::Helpers
     # register Gon::Sinatra
     Padrino::Logger::Config[:development] = { :log_level => :error, :stream => :stdout }
+    
+    # use Sass::Plugin::Rack
+    enable  :reload
 
     enable :sessions
     layout :layout 
