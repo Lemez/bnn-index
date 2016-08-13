@@ -73,6 +73,8 @@ position: fixed;
 display: inline-block;
 overflow: hidden;
 min-height: 100vh;
+border-top: 2px solid pink;
+border-bottom: 2px solid pink;
 }
 
 #restofpage {
@@ -340,11 +342,8 @@ float: right;
 }
 
 
-tr > td {
-	border-radius: 5px 5px;
-}
 
-td.clickableA, td.clickableB {
+td.clickable {
 	min-height: 100%;
 }
 
@@ -498,19 +497,44 @@ margin:1% 0 1% 0;
 display: inline;
 }
 
-#champion_pos, #champion_neg {
+.champion {
 text-align: center;
 font-size: 2rem;
 padding-right: 10px;
 }
 
+#champion_neg_month,
+#champion_neg_week,
 #champion_pos {
 display: none;
 }
 
-#champion_neg h2, #champion_pos h2{
+.champion_neg h2, .champion_pos h2{
 margin: 10px 0 10px 0;
 font-size: 1rem;
+}
+
+#button-table {
+	min-width: inherit;
+	text-align: center;
+}
+
+.btn-highlight {
+	background-color: gold;
+}
+
+td.award_buttons, td.trophy_buttons {
+	padding: 5px 5px 5px 5px;
+	border: 1px solid gray;
+	cursor: pointer;
+}
+#top_logo > img {
+	float: left;
+	display: block;
+}
+
+li.winner {
+	clear: both;
 }
 
 .cup {
@@ -655,9 +679,10 @@ background: white;
 font-size: 12px;
 }
 
-#restofpage, #welcome, nav {
+
+#today, #data, #shame, #restofpage, #welcome, nav {
 	width: 100vw;
-	margin-left: 0;
+	margin: 0;
 }
 nav {
 	position: relative;

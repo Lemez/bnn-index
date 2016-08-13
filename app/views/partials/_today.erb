@@ -110,13 +110,18 @@ $(function(){
     var DBScores = <%=@todays_scores.to_json.html_safe %>;
     var DBStories = <%=@grim_today %>;
 
-    // console.log(sources);
-    // console.log(DBScores);
-    // console.log(DBStories);
-
     getContent(); // fire it up for the first time
     $('#balls_' + sources[0]).removeClass("hidden");
     highlightBalls(sources[0],0);
+    changeImgOpacity(sources[0]);
+
+    function changeImgOpacity(paper){
+
+      var element = $('td.' + paper);
+      element.css('opacity','1');
+      element.siblings('td').css('opacity','0.4');
+     
+    }
 
     function nextArticle(e){
         articleIndex += e;
@@ -155,8 +160,11 @@ $(function(){
       newSource = newSource.charAt(0).toLowerCase() + newSource.slice(1);
 
       if ( newSource.split(" ").length != 1){newSource=newSource.split(" ")[0]}; //deal with multiple classes
-      sourceIndex = sources.indexOf(newSource);
-      $('#balls_' + sources[sourceIndex]).removeClass('hidden'); 
+      ;
+      $('#balls_' + newSource).removeClass('hidden');
+      changeImgOpacity(newSource);
+
+      sourceIndex = sources.indexOf(newSource)
       nextSource(sourceIndex);
     });
  
@@ -212,26 +220,15 @@ $(function(){
       score=parseInt(score);
 
         switch (true) {
-         case (score<=-7.5): em='5';
-         break;
-         
-         case (score<=-5.5): em='4';
-         break;
-
-          case (score<=-3.5): em='3';
-         break;
-         
-         case (score<=-1.5): em='2';
-         break;
-
-         case (score<=0): em='1';
-         break;
-
+          case (score<=-7.5): em='5'; break;
+          case (score<=-5.5): em='4'; break;
+          case (score<=-3.5): em='3'; break;
+          case (score<=-1.5): em='2'; break;
+          case (score<=0):    em='1'; break;
       }
-      var emojiClass = 'emoji' + em;
 
-      $('.'+ emojiClass).siblings('.e').hide();
-       $('.'+ emojiClass).show();
+      $('.'+ 'emoji' + em).siblings('.e').hide();
+       $('.'+ 'emoji' + em).show();
 
     } 
 

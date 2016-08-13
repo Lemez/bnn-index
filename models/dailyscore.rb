@@ -9,4 +9,19 @@ class DailyScore < ActiveRecord::Base
 	def self.from_today
 		self.where('created_at > ?', Date.today)
 	end
+
+	def self.get_trophies_since(day)
+		@trophies = ActiveSupport::OrderedHash.new
+		CURRENT_NAMES.each{|f| @trophies[f]=0}
+		fields = CURRENT_NAMES.map(&:to_sym)
+
+		self.from_day(day).select(fields).each do |day|
+          object = day.attributes # AR to hash
+          winner = object.key(object.values.compact.min) # compact: without nil, then min value
+          @trophies[winner] += 1
+          end 
+
+        @trophies.sort_by{|paper,trophies|trophies}.reverse
+
+	end
 end

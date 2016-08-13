@@ -48,6 +48,14 @@ class Story < ActiveRecord::Base
 		result = is_uniqish_enough?(stories,self)
 	end
 
+	def self.worst_since(date)
+		self.where('created_at > ?', date)
+        .select(:title,:source,:date,:mixed)
+        .reject{|a| a.mixed.nan?}
+        .sort{|a,b| a.mixed <=> b.mixed}
+        .each{|a| a.source = a.source.titleize}
+	end
+
 
 
 end

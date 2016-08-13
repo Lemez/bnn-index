@@ -1,18 +1,38 @@
  <div id='shame'>
-      <div id='champion_neg'>
+  <table id='button-table'>
+            <tbody>
+              <tr>
+                <td id='_ever' class='award_buttons btn-highlight'>All Time</td>
+                <td id='_month' class='award_buttons'>Month </td>
+                <td id='_week' class='award_buttons'>Week</td>               
+              </tr>
+            </tbody>
+    </table>
+      <table id='button-table-data'>
+            <tbody>
+              <tr>
+                <td id='_stories' class='trophy_buttons btn-highlight'>Stories </td> 
+                <td id='_trophies' class='trophy_buttons'>Trophies</td>        
+              </tr>
+            </tbody>
+    </table>
 
-     <!--    :title,:source,:date,:mixed -->
-        
-         <span class='neg_award_headline award'>Misery Guts award</span><br/>
-         <h2><%= image_tag(LOGOS[@story_neg.first.source], :width => 300) %></h2>
+ 
+
+
+      <div id='champion_neg_ever' class='champion ever'>
+        <!--  <span class='neg_award_headline award'>Misery Guts award</span><br/> -->
+          
+         <h2 id='top_logo'><%= image_tag(LOGOS[@story_neg_ever.first.source], :width => 300) %></h2>
+       </br>
         
          <ol class="news badnews" start="1">
             <li class='winner'>
-            <span class='score_neg'><%=@story_neg.first.mixed%></span>
-            <span class='title'><%=@story_neg.first.title.gsub("&apos;","'")%></span>
-            <span class='awarddate'><%=@story_neg.first.date.pretty_date%> </span>
+            <span class='score_neg'><%=@story_neg_ever.first.mixed%></span>
+            <span class='title'><%=@story_neg_ever.first.title.gsub("&apos;","'")%></span>
+            <span class='awarddate'><%=@story_neg_ever.first.date.pretty_date%> </span>
             </li>
-          <%@story_neg[1..9].each do |s|%>
+          <%@story_neg_ever[1..9].each do |s|%>
             <li>
             <span class='score_neg'><%=s.mixed%></span>
             <span class='awardpic_wrapper'>
@@ -27,16 +47,126 @@
         </ol> 
       </div>
 
-      <div id='champion_pos'>
-         <span class='pos_award_headline award'>Happy Larry award</span><br/><h2>The <%= @story_pos.first.source %></h2>
-        <!-- <h3>with a score of <span class='score_award score_pos'><%#@story_pos.first[3] %></span></h3> -->
-   
-       <ul class="news goodnews" start="1">
+      <div id='champion_trophies_ever' class="trophies ever">
+        <table>
+          <tbody>
+            <% @trophies_ever.each do |item|%>
+              <tr>
+                  <td>
+                    <%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'awardpic ' + item[0].downcase) %>
+                  </td>
+                  <% item[1].times do %>
+                  <td>
+                    <%= image_tag('cup.jpg', :width => '30') %>
+                  </td>
+                  <% end %>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+       <div id='champion_neg_month' class='champion month'>
+          
+         <h2 id='top_logo'><%= image_tag(LOGOS[@story_neg_month.first.source], :width => 300) %></h2>
+          </br>
+        
+         <ol class="news badnews" start="1">
             <li class='winner'>
-            <span class='score_pos'><%=@story_pos.first.mixed%></span><span class='title'><%=@story_pos.first.title.gsub("&apos;","'")%>, </span><span class='source'><%=@story_pos.first.source%> </span>
-            <span class='awarddate'><%=@story_pos.first.date.pretty_date%> </span>
+            <span class='score_neg'><%=@story_neg_month.first.mixed%></span>
+            <span class='title'><%=@story_neg_month.first.title.gsub("&apos;","'")%></span>
+            <span class='awarddate'><%=@story_neg_month.first.date.pretty_date%> </span>
             </li>
-          <%@story_pos[1..9].each do |s|%>
+          <%@story_neg_month[1..9].each do |s|%>
+            <li>
+            <span class='score_neg'><%=s.mixed%></span>
+            <span class='awardpic_wrapper'>
+              <%= image_tag(LOGOS[s.source], :width => 100, :class => 'awardpic ' + s.source.downcase) %>
+            </span>
+            <span class='headline_and_date'>
+              <span class='title'><%=s.title.gsub("&apos;","'")%></span>
+              <span class='awarddate'><%=s.date.pretty_date%> </span>
+            </span>
+            </li>
+          <%end%>
+        </ol> 
+      </div>
+
+       <div id='champion_trophies_month' class="trophies month">
+          <table>
+            <tbody>
+              <% @trophies_month.each do |item|%>
+                <tr>
+                  <td>
+                    <%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'awardpic ' + item[0].downcase) %>
+                  </td>
+                  <% item[1].times do %>
+                  <td>
+                    <%= image_tag('cup.jpg', :width => '30') %>
+                  </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+      </div>
+
+       <div id='champion_neg_week' class='champion week'>
+        
+          
+         <h2 id='top_logo'><%= image_tag(LOGOS[@story_neg_week.first.source], :width => 300) %></h2>
+          </br>
+        
+         <ol class="news badnews" start="1">
+            <li class='winner'>
+            <span class='score_neg'><%=@story_neg_week.first.mixed%></span>
+            <span class='title'><%=@story_neg_week.first.title.gsub("&apos;","'")%></span>
+            <span class='awarddate'><%=@story_neg_week.first.date.pretty_date%> </span>
+            </li>
+          <%@story_neg_week[1..9].each do |s|%>
+            <li>
+            <span class='score_neg'><%=s.mixed%></span>
+            <span class='awardpic_wrapper'>
+              <%= image_tag(LOGOS[s.source], :width => 100, :class => 'awardpic ' + s.source.downcase) %>
+            </span>
+            <span class='headline_and_date'>
+              <span class='title'><%=s.title.gsub("&apos;","'")%></span>
+              <span class='awarddate'><%=s.date.pretty_date%> </span>
+            </span>
+            </li>
+          <%end%>
+        </ol> 
+      </div>
+
+       <div id='champion_trophies_week' class="trophies week">
+          <table>
+            <tbody>
+              <% @trophies_week.each do |item|%>
+                <tr>
+                  <td>
+                    <%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'awardpic ' + item[0].downcase) %>
+                  </td>
+                  <% item[1].times do %>
+                  <td>
+                    <%= image_tag('cup.jpg', :width => '30') %>
+                  </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+      </div>
+
+      <div id='champion_pos'>
+         <span class='pos_award_headline award'>Happy Larry award</span><br/><h2>The <%= @story_pos_ever.first.source %></h2>
+  
+   
+          <ul class="news goodnews" start="1">
+            <li class='winner'>
+            <span class='score_pos'><%=@story_pos_ever.first.mixed%></span><span class='title'><%=@story_pos_ever.first.title.gsub("&apos;","'")%>, </span><span class='source'><%=@story_pos_ever.first.source%> </span>
+            <span class='awarddate'><%=@story_pos_ever.first.date.pretty_date%> </span>
+            </li>
+          <%@story_pos_ever[1..9].each do |s|%>
             <li>
             <span class='score_pos'><%=s.mixed%></span><span class='title'><%=s.title.gsub("&apos;","'")%>, </span><span class='source'><%=s.source%> </span><span class='awarddate'><%=s.date.pretty_date%> </span>
             </li>
@@ -44,3 +174,28 @@
         </ul>
       </div>  
 </div>
+
+<script type="text/javascript">
+  // $(' ').addClass('btn-highlight'); // fire it up
+
+  $('td.award_buttons').on('click', function(){
+    $this = $(this);
+    $this.addClass('btn-highlight');
+    $this.siblings('td').removeClass('btn-highlight');
+    var idName = $this.attr('id');
+    
+    $('#champion_neg' + idName).show();
+    $('#champion_neg' + idName).siblings('div').hide();
+  });
+
+    $('td.trophy_buttons').on('click', function(){
+    $this = $(this);
+    $this.addClass('btn-highlight');
+    $this.siblings('td').removeClass('btn-highlight');
+
+    var idName = $this.attr('id');
+    
+    $('#champion_neg' + idName).show();
+    $('#champion_neg' + idName).siblings('div').hide();
+  });
+</script>

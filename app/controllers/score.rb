@@ -16,34 +16,6 @@ SerenityPadrino::Serenity.controllers :score do
     render 'index'
   end
 
-  get :info, :map => '/info.html' do
-
-      @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},
-      {"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe
-      @total = 261690
-  
-    render 'info'
-  end
-
-  get :awards, :map => '/awards.html' do
-       # START awards ############
-
-         #using Float.nan? to remove all quirks with floats
-        stories = Story.where('created_at > ?', $reset_date)
-        .select(:title,:source,:date,:mixed)
-        .reject{|a| a.mixed.nan?}
-        .sort{|a,b| a.mixed <=> b.mixed}
-        .each{|a| a.source = a.source.titleize}
-
-        stories = stories.uniq{|a|a.title.downcase}
-
-        @story_neg = stories[0..9]
-        @story_pos = stories[-10..-1].reverse
-
-        render 'awards'
-    # END # awards ###########
-  end
-
   get :today, :map => '/today.html' do
 
         
@@ -60,6 +32,24 @@ SerenityPadrino::Serenity.controllers :score do
     # END prepare local variables for erb  ##############
   
     render 'today'
+  end
+
+  get :awards, :map => '/awards.html' do
+
+         #using Float.nan? to remove all quirks with floats
+        stories_ever = Story.worst_since($reset_date).uniq{|a|a.title.downcase}
+        stories_month = Story.worst_since(Date.today-30).uniq{|a|a.title.downcase}
+        stories_week = Story.worst_since(Date.today-7).uniq{|a|a.title.downcase}
+
+        @story_neg_ever,@story_neg_month,@story_neg_week  = stories_ever[0..9],stories_month[0..9],stories_week[0..9]
+        @story_pos_ever,@story_pos_month,@story_pos_week = stories_ever[-10..-1].reverse,stories_month[-10..-1].reverse,stories_week[-10..-1].reverse
+
+        @trophies_ever = DailyScore.get_trophies_since($reset_date)
+        @trophies_month = DailyScore.get_trophies_since(Date.today-30)
+        @trophies_week = DailyScore.get_trophies_since(Date.today-7)
+
+        render 'awards'
+
   end
 
 
@@ -83,6 +73,15 @@ SerenityPadrino::Serenity.controllers :score do
         @logos = $logos
 
         render 'chart'
+  end
+
+    get :info, :map => '/info.html' do
+
+      @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},
+      {"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe
+      @total = 261690
+  
+    render 'info'
   end
 end
 

@@ -35,7 +35,6 @@ gem 'padrino', '0.12.5'
 
 gem 'dropbox-sdk'
 
-
 gem 'whenever', :require => false
 
 gem 'classifier-reborn'
