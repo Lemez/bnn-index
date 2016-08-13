@@ -396,7 +396,7 @@
 			    	return svg.append('g')
 			      .attr('class', 'chart__helper')
 			      .style('text-anchor', 'end')
-			      .attr('class', name);
+			      .attr('class', name + ' label');
 			    }
 
 			    make('label');
@@ -413,18 +413,16 @@
 			      .attr('class', name);
 			    }
 
-			    var labelx = parseInt(width-70+margin.left);
+			    var labelx = parseInt(width);
 
 			    helper = svg.append('g')
 			      .attr('class', 'chart__helper')
 			      .style('text-anchor', 'end')
-			      .style('font-size', '14px')
-			      .attr('transform', 'translate(' + labelx + ', 15)');
+			      .attr('transform', 'translate(' + labelx + ', 20)');
 
 			    helperLabel = svg.append('g')
 			      .attr('class', 'chart__helper')
 			      .style('text-anchor', 'end')
-			      .style('font-size', '14px')
 			      .attr('transform', 'translate(' + parseInt(width+margin.left) + ', 15)');
 
 			    make('helper');
@@ -624,7 +622,7 @@
 						    for (w = 0;w<keysSorted.length;w++){ 
 						      		var paper =  keysSorted[w];
 						      		// var textBoxX = x(parseDateNew(d.date));
-						      		var textBoxX = width + 30;
+						      		var textBoxX = width+100;
 						      		var averageTextBoxX = width;
 						      		var textBoxY = ((w+2)*25)+20;
 						      		// var averageTextBoxX = x(parseDateNew(d.date))+100;
@@ -647,7 +645,7 @@
 				      			textHelperNames[paper].attr('transform', 'translate(' + parseInt(x-150-offset) + ',' + y + ' )');
 						      	emojiNames[paper].attr('transform', 'translate(' + parseInt(x-185-offset) + ',' + y + ' )');
 						      	// labelNames[paper].attr('transform', 'translate(' + parseInt(x-40-offset) + ',' + y + ' )');
-						      	labelNames['average'].attr('transform', 'translate(' + parseInt(x-70-offset) + ',' + y + ' )');
+						      	labelNames['average'].attr('transform', 'translate(' + parseInt(x-40-offset) + ',' + y + ' )');
 						      	logoNames[paper].attr('transform', 'translate(' + parseInt(x-120-offset) + ',' + (y-37) + ' )');
 				      }
 			 
