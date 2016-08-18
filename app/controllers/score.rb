@@ -18,8 +18,6 @@ SerenityPadrino::Serenity.controllers :score do
 
   get :today, :map => '/today.html' do
 
-        
-
           # START prepare local variables for erb  ##############
           @todays_data = Score.from_day($day).uniq(:source).order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
@@ -40,8 +38,9 @@ SerenityPadrino::Serenity.controllers :score do
         stories_ever = Story.worst_since($reset_date).uniq{|a|a.title.downcase}
         stories_month = Story.worst_since(Date.today-30).uniq{|a|a.title.downcase}
         stories_week = Story.worst_since(Date.today-7).uniq{|a|a.title.downcase}
+        stories_today = Story.worst_since($day).uniq{|a|a.title.downcase}
 
-        @story_neg_ever,@story_neg_month,@story_neg_week  = stories_ever[0..9],stories_month[0..9],stories_week[0..9]
+        @story_neg_ever,@story_neg_month,@story_neg_week, @story_neg_today  = stories_ever[0..9],stories_month[0..9],stories_week[0..9], stories_today[0..9]
         @story_pos_ever,@story_pos_month,@story_pos_week = stories_ever[-10..-1].reverse,stories_month[-10..-1].reverse,stories_week[-10..-1].reverse
 
         @trophies = {

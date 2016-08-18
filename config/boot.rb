@@ -6,6 +6,7 @@ PADRINO_ROOT = File.expand_path('../..', __FILE__) unless defined?(PADRINO_ROOT)
 require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
 Bundler.require(:default, RACK_ENV)
+require "net/ping"
 
 # configure { set :server, :puma }
 
@@ -94,10 +95,15 @@ Padrino.after_load do
 
     require_relative("#{PADRINO_ROOT}/app/rss.rb")
 
+    @online = Net::Ping::External.new("8.8.8.8").ping?
+    p "online: #{@online}"
+
+    if @online
 	check_and_fetch_today_if_needed
 	add_dailyscore_record_for_today_if_none if all_sources_fetched?
+	end
 
-	$day = ($online ?  Date.today : Date.parse(Story.last.date.formatted_date))
+	$day = (@online ?  Date.today : Date.parse(Story.last.date.formatted_date))
     $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
 
     @logomap = {}

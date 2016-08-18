@@ -53,6 +53,8 @@ gem 'user-agent-randomizer'
 
 gem 'sass', '~> 3.4', '>= 3.4.22'
 
+gem "net-ping"
+
 # gem 'gon-sinatra' #easy js access for ruby vars
 
 

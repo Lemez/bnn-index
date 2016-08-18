@@ -181,8 +181,9 @@ g.focus {
 g.focus {
   float: left; }
 
-.chart text {
-  fill: #7f8faf; }
+
+svg text {
+  fill: rgba(80,80,80,1); }
 
 .chart__title {
   font-size: 2em;
@@ -190,6 +191,10 @@ g.focus {
 
 .chart__symbol {
   font-size: 1em;
+}
+
+svg text.chart__range-selection {
+  border-bottom: 10px solid black;
 }
 
 .indented_details {
@@ -203,7 +208,8 @@ g.focus {
 
 .chart__times--focus, .chart__mail--focus, .chart__guardian--focus,
 .chart__independent--focus, .chart__express--focus, .chart__telegraph--focus {
-  stroke-width: 2px; }
+  stroke-width: 2px;
+  opacity: 0.1; }
 
 .times, .chart__times--focus {
   stroke: #40d47e; }
@@ -225,6 +231,11 @@ g.focus {
 
 .average {
   stroke: #ff69b4; }
+
+.reset {
+  stroke: rgba(80,80,80,1);
+  stroke-width: 1px;
+}
 
 .labels {
   stroke-width: 1px;
@@ -268,8 +279,7 @@ g.focus {
   fill-opacity: 0.3; }
 
 .y.axis .tick text {
-  text-anchor: start !important;
-  fill: #7f8faf; }
+  text-anchor: start !important;}
 
 .y.axis .tick line {
   display: none; }
@@ -310,10 +320,21 @@ g.focus {
   float: right; }
 
 tr.tablerow > td {
+  display: table-cell;
+  vertical-align: middle;
   padding: 0 1vw 0 1vw; }
+
+span.balls {
+    display: table-cell;
+}
 
 td.clickable {
   min-height: 100%; }
+
+tr.tablerow > td > span.balls_container {
+    letter-spacing: -3px;
+    vertical-align: middle;
+  }
 
 .paperscore {
   padding: 5px 5px 5px 5px;
@@ -487,6 +508,7 @@ span.text {
 
 #champion_neg_month,
 #champion_neg_week,
+#champion_neg_today,
 #champion_pos {
   display: none; }
 
@@ -985,8 +1007,7 @@ span.source {
   nav > #lowernav > a.tab {
     display: inline-block;
     font-size: 14px;
-    padding: 5px;
-    border-left: none; }
+    padding: 7px; }
 
   nav > #uppernav {
     display: none; }
@@ -1001,6 +1022,10 @@ span.source {
   #today {
     min-width: 90vw; }
 
+ tr.tablerow > td > span.balls_container {
+     vertical-align: middle;
+  }
+
   img.logo_today {
     width: 17vw; }
 
@@ -1009,11 +1034,19 @@ span.source {
     font-size: 2rem; }
 
     .award_buttons, .trophy_buttons {
-      font-size: 1.5em;
+      font-size: 1.3em;
     }
 
   .news li {
-    font-size: 1.2rem; } }
+    font-size: 1.2rem; }
+
+  g.tick text {
+  font-size: 1.5em;
+  }
+
+     }
+
+
 /* Tablet */
 @media (min-width: 569px) and (max-width: 767px) {
   html,
@@ -1021,6 +1054,15 @@ span.source {
     height: 100%;
     background: white;
     font-size: 14px; }
+
+  nav > #lowernav > a.tab {
+    display: inline-block;
+    font-size: 14px;
+    padding: 7px; }
+
+   tr.tablerow > td > span.balls_container {
+    /*letter-spacing: -5px;*/
+  }
 
   img.logo_today {
     width: 12.5vw; } }

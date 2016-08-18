@@ -17,6 +17,8 @@ class DailyScore < ActiveRecord::Base
 
 		self.from_day(day).select(fields).each do |day|
           object = day.attributes # AR to hash
+          sample = day.attributes.values[-1]
+          next if sample.nil? || sample.nan?
           winner = object.key(object.values.compact.min) # compact: without nil, then min value
           @trophies[winner] += 1
           end 

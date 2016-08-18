@@ -21,7 +21,7 @@
 	};
 
 
-	var guardian,independent,express,telegraph,mail,average,helper,helperLabel,mailLine,mailChart,mailLabel,mailHelper,mailTooltip,mailText,mailLabelText,mailEmoji,mailEmojiText;
+	var guardian,independent,express,telegraph,mail,average,dateHelper,helperLabel,mailLine,mailChart,mailLabel,mailHelper,mailTooltip,mailText,mailLabelText,mailEmoji,mailEmojiText;
 	var expressLine,expressChart,expressLabel,expressHelper,expressTooltip,expressText,expressLabelText;
 	var guardianLine,guardianChart,guardianLabel,guardianHelper,guardianTooltip,guardianText,guardianLabelText,guardianEmoji,guardianEmojiText;
 	var independentLine,independentChart,independentLabel,independentHelper,independentTooltip,independentText,independentLabelText,independentEmoji,independentEmojiText;
@@ -137,7 +137,7 @@
     var bisectDateNew = d3.bisector(function(d) { return parseDateNew(d.date); }).left;
     var legendFormat = d3.time.format('%b %d, %Y');
     var timeFormat = d3.time.format('%H:00 ');
-  	var xAxis = d3.svg.axis().scale(x).ticks(responsiveTicks).tickFormat(d3.time.format('%b %y')).orient('bottom');
+  	var xAxis = d3.svg.axis().scale(x).ticks(responsiveTicks).orient('bottom');
     var xAxis2  = d3.svg.axis().scale(x2).orient('bottom');
     var yAxis   = d3.svg.axis().scale(y).orient('left');
 
@@ -179,6 +179,20 @@
    	 .append('text')
      .attr('class', 'chart__symbol')
      .text('Hover for details');
+
+     // var subLegendLogo = subLegend.append("svg:image")
+		   //    .attr({"xlink:href": "",
+					// 	         "width": 90,
+					// 	         "height": 60,
+					// 	         "transform":"translate(-10000, -10000)"
+					// 	        });
+
+     var rangeSelection =  legend
+			    .append('g')
+			    .attr('class', 'chart__range-selection')
+			    .attr('transform', 'translate(110, 0)');
+
+	var dateRange = ['1w', '1m', '3m', '6m', '1y', '5y'];
 
 
 	// scores needed as not using D3 CSV
@@ -240,6 +254,7 @@
 			    var allValues = [].concat(
 			    		data.map(function (d) {return (d.guardian);}), 
 			    		data.map(function (d) {return (d.mail);}),
+			    		data.map(function (d) {return (d.express);}),
 			    		data.map(function (d) {return (d.independent);}),
 			    		data.map(function (d) {return (d.telegraph);})
 			    	);
@@ -415,13 +430,13 @@
 
 			    var labelx = parseInt(width);
 
-			    helper = svg.append('g')
-			      .attr('class', 'chart__helper')
+			    dateHelper = svg.append('g')
+			      .attr('class', 'chart__helper theDate')
 			      .style('text-anchor', 'end')
-			      .attr('transform', 'translate(' + labelx + ', 20)');
+			      .attr('transform', 'translate(' + (labelx+80) + ', 20)');
 
 			    helperLabel = svg.append('g')
-			      .attr('class', 'chart__helper')
+			      .attr('class', 'chart__helper notTheDate')
 			      .style('text-anchor', 'end')
 			      .attr('transform', 'translate(' + parseInt(width+margin.left) + ', 15)');
 
@@ -432,7 +447,7 @@
 			    }
 
 			   make('text');
-			   helperText = helper.append('text').attr('class', 'indented_details');
+			   helperText = dateHelper.append('text').attr('class', 'indented_details');
 
 			     function makeLabelText(name){
 			    	return allObjects[name]['label'].attr('class', 'labels').append('text').attr('class', 'indented_details').text(name);
@@ -491,8 +506,25 @@
 
 			  	allObjects['average']['tooltip'].attr('r', 5);
 
-			  	var globalHelpers = [helper,helperLabel,averageHelper];
+			  	function makeTimeIndex(){
+			  		for (var i = 0, l = dateRange.length; i < l; i ++) {
+			      var v = dateRange[i];
+			      svg
+			        .append('text')
+			        .attr('class', 'chart__range-selection')
+			        .text(v)
+			        .attr('transform', 'translate('+ (10 + (30 * i)) + ', ' + height/3.5 + ')')
+			        .on('click', function(){
+			        	console.log(v);
+			        }); 
+			    	}
+			  	}
+
+			  	// makeTimeIndex();
+
+			  	var globalHelpers = [dateHelper,helperLabel,averageHelper];
 			    var helpers = getAll('helper');
+			    var lines = getAll('line');
 			    var labels = getAll('label');
 			    var emojis = getAll('emoji');
 			  	var tooltips = getAll('tooltip');
@@ -508,6 +540,33 @@
 				    }
 			  	}
 
+
+
+
+
+			    function focusOnRange(range) {
+			      var today = new Date(data[data.length - 1].date);
+			      var ext = new Date(data[data.length - 1].date);
+
+			      if (range === '1m')
+			        ext.setMonth(ext.getMonth() - 1);
+
+			      if (range === '1w')
+			        ext.setDate(ext.getDate() - 7);
+
+			      if (range === '3m')
+			        ext.setMonth(ext.getMonth() - 3);
+
+			      if (range === '6m')
+			        ext.setMonth(ext.getMonth() - 6);
+
+			      if (range === '1y')
+			        ext.setFullYear(ext.getFullYear() - 1);
+
+			      if (range === '5y')
+			        ext.setFullYear(ext.getFullYear() - 5);
+			}
+
 			    var mouseArea = focus.append('g')
 			    	.attr('class', 'chart__mouse')
 			    	.append('rect')
@@ -517,10 +576,10 @@
 			      	// .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 			      	.on('mouseover', function() {
 
-			      		d3.select(".chart__subtitle").style('display', 'none');
+			      		// d3.select(".chart__subtitle").style('display', 'none');
 
 			      		// focusGraph.style('display', null);
-			      		helper.style('display', null);
+			      		dateHelper.style('display', null);
 				      	helperLabel.style('display', null);
 				      	allObjects['average']['helper'].style('display', null);
 				      	loopDisplay(helpers,null);
@@ -529,13 +588,12 @@
 				      	loopDisplay(logos,null);
 				      	loopDisplay(labels,null);
 				      	allObjects['average']['logo'].style('display', 'none');
-
 			      	})
 			      	.on('mouseout', function() {
-			      		d3.select(".chart__subtitle").style('display', null);
+			      		// d3.select(".chart__subtitle").style('display', null);
 
 			     		// focusGraph.style('display', 'none');
-			     		helper.style('display', 'none');
+			     		dateHelper.style('display', 'none');
 				      	helperLabel.style('display', 'none');
 				      	allObjects['average']['helper'].style('display', 'none');
 				        loopDisplay(helpers,'none');
@@ -545,6 +603,7 @@
 				      	loopDisplay(labels,'none');
 			      	})
 			      	.on('mousemove', mousemove);
+			      	// .on('click', mouseclick);
 			      // .call(d3.behavior.zoom()
 			      //  	.scaleExtent([1, 10])
 			      //  	.on("zoom", function () {
@@ -554,8 +613,9 @@
 				    	// 		)}));
 
 
-			    function mousemove() {
+				
 
+			    function mousemove() {
 				      var x0 = x.invert(d3.mouse(this)[0]);
 				      var i = bisectDateNew(data, x0, 1);
 				      var d0 = data[i - 1];
@@ -567,6 +627,7 @@
 				      reorderLabels(d);
 				      applyNewTextValues();
 				      applyNewToolTipValues();
+				      swapOpacities(this);
 				       
 				      function roundNeatly(number){
 				      	return number < 0 ? number-(1+(number%2)) : number+(1-(number%2));
@@ -662,7 +723,73 @@
 				      			allObjects[prop]['tooltip'].attr('transform', 'translate(' + x(parseDateNew(d.date)) + ',' + y(d[prop]) + ')');
 				      		}
 				      }
-				  }
+
+				      function swapOpacities(dis){
+							
+						var hoveredChart;
+					   	var currentX = 10;
+					   	var currentY = 10;
+					   	var changed = false;
+					    var bestIndex = 100;
+					    var mouseX = d3.mouse(dis)[0];
+					    var mouseY = d3.mouse(dis)[1];
+
+						for (var q=0;q<tooltips.length;q++) {
+
+							 var tTipX = parseInt(tooltips[q].attr('transform')
+						  	 	.split("(")[1].split(",")[0].split(".")[0]);
+						  	 
+
+						  	 var tTipY = parseInt(tooltips[q].attr('transform')
+						  	 	.split("(")[1].split(",")[1].split(".")[0]);
+						  	  
+						  	 var diffX = Math.abs(tTipX - mouseX);
+						  	 var diffY = Math.abs(tTipY - mouseY);
+
+						  	 if (diffX <= 5 && diffY <= 5 &&
+						  	   	diffX < currentX && diffY < currentY) {
+
+						  			currentX = diffX;
+						  			currentY = diffY;
+						  			bestIndex = q;
+						  			changed = true;
+						  	 }
+						}
+
+					  if (changed===true) {
+					  		hoveredChart = labels[bestIndex].text();
+					  		for (var prop in allObjects){
+									allObjects[prop]['chart'].style('opacity','0.05');
+					  		}
+					  		allObjects[hoveredChart]['chart'].style('opacity','1');
+					  		titleName = hoveredChart.charAt(0).toUpperCase() + hoveredChart.slice(1);
+
+					  		subLegend.text(titleName).attr('class',hoveredChart).text(titleName + ' vs Average').style('font-size','1.5em');
+					  		if (titleName==="Average") subLegend.text("Average");
+
+					  		
+
+					  		// subLegend.append('svg:image').attr({
+					  		// 	"xlink:href": "/images/" + logoUrls[titleName],
+					  		// 	 "width": 90,
+						   //       "height": 60,
+						   //      "transform":"translate(100,100)"
+						   //      });
+
+
+					  }  else {
+
+					  		for (var prop in allObjects){
+									allObjects[prop]['chart'].style('opacity','0.05');
+					  		}
+					  		subLegend.attr('class','reset').text("Hover for details");
+					  }
+
+						 allObjects['average']['chart'].style('opacity','1');
+							 
+					}
+				}
+				  
 
 			    function brushed() {
 				      var ext = brush.extent();

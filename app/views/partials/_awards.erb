@@ -3,17 +3,19 @@
             <tbody>
               <tr>
 
-                <td id='_stories' class='trophy_buttons btn-highlight'>Stories </td> 
+                <td id='_stories' class='trophy_buttons btn-highlight'>Grimmest Headlines </td> 
                 <td id='_trophies' class='trophy_buttons'>Awards</td>        
                 <td>from</td>
-                <td id='_ever' class='award_buttons btn-highlight'>All Time</td>
+                <td id='_today' class='award_buttons'>Today</td> 
+                <td id='_week' class='award_buttons'>Week</td>  
                 <td id='_month' class='award_buttons'>Month </td>
-                <td id='_week' class='award_buttons'>Week</td>               
+                <td id='_ever' class='award_buttons btn-highlight'>All Time</td>
+                 
               </tr>
             </tbody>
     </table>
 
-    <h2 id='trophy_title'>Number of Avoid Today Awards</h2>
+    <h2 id='trophy_title'>No of Times, Most Negative of the Day</h2>
       <div id='champion_neg_ever' class='champion ever'>
         <!--  <span class='neg_award_headline award'>Misery Guts award</span><br/> -->
           
@@ -166,6 +168,32 @@
               
         </dl>
       </div>
+      <div id='champion_neg_today' class='champion today'>
+        
+          
+         <h2 id='top_logo'><%= image_tag(LOGOS[@story_neg_today.first.source], :width => 300) %></h2>
+          </br>
+        
+         <ol class="news badnews" start="1">
+            <li class='winner'>
+            <span class='score_neg'><%=@story_neg_today.first.mixed%></span>
+            <span class='title'><%=@story_neg_today.first.title.gsub("&apos;","'")%></span>
+            <span class='awarddate'><%=@story_neg_today.first.date.pretty_date%> </span>
+            </li>
+          <%@story_neg_today[1..9].each do |s|%>
+            <li>
+            <span class='score_neg'><%=s.mixed%></span>
+            <span class='awardpic_wrapper'>
+              <%= image_tag(LOGOS[s.source], :width => 100, :class => 'awardpic ' + s.source.downcase) %>
+            </span>
+            <span class='headline_and_date'>
+              <span class='title'><%=s.title.gsub("&apos;","'")%></span>
+              <span class='awarddate'><%=s.date.pretty_date%> </span>
+            </span>
+            </li>
+          <%end%>
+        </ol> 
+      </div>
 
       <div id='champion_pos'>
          <span class='pos_award_headline award'>Happy Larry award</span><br/><h2>The <%= @story_pos_ever.first.source %></h2>
@@ -230,7 +258,7 @@
       $('#_stories').on('click', function(){
     $this = $(this);
     $this.addClass('btn-highlight');
-    $('#_trophies').removeClass('btn-highlight');
+    $('#_trophies').css('visibility','visible').removeClass('btn-highlight');
 
     var idName = $('td.award_buttons.btn-highlight').attr('id');
     
@@ -238,6 +266,12 @@
     $('#trophy_title').hide();
     $('#champion_neg' + idName).show();
   });
+
+      $('#_today').on('click', function(){
+        $('#_stories').trigger('click');
+        $('#_trophies').css('visibility','hidden');
+
+      });
 
     var trophies = <%= @trophiesJS %>;
     getTrophies('ever');
