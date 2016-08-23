@@ -26,4 +26,24 @@ class DailyScore < ActiveRecord::Base
         @trophies.sort_by{|paper,trophies|trophies}.reverse
 
 	end
+
+	def self.get_scores_since(day)
+		@totalDailyScores = {}
+
+		CURRENT_NAMES.each{|f| @totalDailyScores[f]=0}
+		@totalDailyScores['average']=0
+		@totalDailyScores['size']=self.from_day(day).count
+
+		self.from_day(day).select(CURRENT_NAMES.map(&:to_sym),:average).each do |d|
+
+	          d.attributes.each_pair do |key,value|
+	          	unless value.nil?
+	          		@totalDailyScores[key] += value
+	          	end
+	          end
+        end 
+
+        @totalDailyScores.each_with_object({}) { |(key, value), hash| hash[key] = value.round(1) }
+
+	end
 end

@@ -1,0 +1,130 @@
+ <div id='global_averages'>
+  <h1>Gutter Relativity</h1>
+
+    <table id='table-graph'>
+          <tbody>
+            <% @all_global_percentages.each_with_index do |(k,v),index|%>
+              <% @all_global_averages[k] > @all_global_averages['average'] ? @percentclass = 'green' : @percentclass = 'red' %>
+
+                  <% if @percentclass!= @oldpercentclass && index!=0%>
+                    <tr class='fullwidth' >
+                     
+                      <td class='text average-text'>Average</td>
+                       <td class="dot three-thirds">
+
+                     <% 100.times do |i| %>
+                      <span class='percentball'><figure class='circle' style='background-color:rgba(0,0,0,0.1);'></figure></span>
+                      <% end %>
+                      <span class='stick'>|</span>
+                  
+                       <% 100.times do |i| %>
+                      <span class='percentball'><figure class='circle' style='background-color:rgba(0,0,0,0.1);'></figure></span>
+                      <% end %>
+                      
+            
+   
+                  </td></tr>
+                   <tr class='fullwidth' >
+                    <td></td>
+                      <td class='text one-third'><%= (@all_global_averages['average']/@all_global_averages['size']).round(2) %> / story</td>
+                  </tr>
+
+                <%end%>
+             <tr class='fullwidth '> 
+
+             <td class='two-thirds'>
+                      <%= image_tag(LOGOS[k.titleize], :width=>100, :class => 'awardpic ' + k.downcase) %>
+                  </td>
+                  
+             
+                  <td class="dot three-thirds">
+                  <% if v<0 %>
+                    
+                       <% (100 - v.abs).to_i.times do |i| %>
+                       <span class='percentball'><figure class='circle' style='background-color:rgba(0,0,0,0.1);'></figure></span>
+                      <% end %>
+
+                       <% v.to_i.abs.times do |i| %>
+                      <span class='percentball'><figure class='circle' style='background-color:<%=@percentclass%>;'></figure>   </span>
+                      <% end %>
+
+                      <span class='stick'>|</span> 
+
+                       <% 100.times do |i| %>
+                      <span class='percentball'><figure class='circle' style='background-color:rgba(0,0,0,0.1);'></figure></span>
+                      <% end %>
+                      
+                       <span class='graphtext' style='color:<%=@percentclass%>;'><%= v.to_i %>%</span>
+
+                  <% else %>
+
+                       <% 100.times do |i| %>
+                      <span class='percentball'><figure class='circle' style='background-color:rgba(0,0,0,0.1);'></figure></span>
+                      <% end %>
+
+                      <span class='stick'>|</span>
+
+                       <% (v).to_i.times do |i| %>
+                        <span class='percentball'><figure class='circle' style='background-color:<%=@percentclass%>;'></figure>   </span>
+                      <% end %>
+                       <% (100 - v).to_i.times do |i| %>
+                       <span class='percentball'><figure class='circle' style='background-color:rgba(0,0,0,0.1);'></figure></span>
+                      <% end %>
+                     
+                       <span class='graphtext' style='color:<%=@percentclass%>;'>+<%= v.to_i %>%</span>
+                  <% end %>
+   
+                  </td>
+                 </tr>
+                 <tr class=''> 
+                  <td></td>
+                  <td class='text one-third' style='color:<%=@percentclass%>;'><%= (@all_global_averages[k]/@all_global_averages['size']).round(2) %> / story</td>
+                 
+                 </tr>
+
+                   <% @oldpercentclass = @percentclass%>
+                <% end %>
+          </tbody></table>
+
+       <!--  <table id='global_table'>
+          <tbody>
+            <tr>
+                  <th></th>
+                  <th></th>
+                  <th>Overall</th>
+                  <th>Per Story</th>
+                  <th>%</th>
+                </tr>
+
+              <%# @all_global_percentages.each_with_index do |(k,v),index|%>
+                <%# @all_global_averages[k] > @all_global_averages['average'] ? @percentclass = 'green' : @percentclass = 'red' %>
+                
+
+                <%# if @percentclass!= @oldpercentclass && index!=0%>
+                  <tr class='globaltable' >
+                    <td></td>
+                    <td class="trophy_name_wrapper average_text" style='min-width:100px;'>Average</td>
+                    <td class='text'><%# @all_global_averages['average'] %></td>
+                    <td class='text'><%# (@all_global_averages['average']/@all_global_averages['size']).round(2) %></td>
+                    <td class='text'><%# @average_global_percentage %></td>
+                </tr>
+                <%#end%>
+
+                <tr class='globaltable'>
+                  <td class='global-index'><%#index+1%></td>
+                  <td class="trophy_name_wrapper">
+                      <%# image_tag(LOGOS[k.titleize], :class => 'trophyname awardpic ' + k.downcase) %>
+                  </td>
+                  <td class='text' style='color:<%#@percentclass%>;'><%# @all_global_averages[k] %></td>
+                  <td class='text' style='color:<%#@percentclass%>;'><%# (@all_global_averages[k]/@all_global_averages['size']).round(2) %></td>
+                  
+                </tr>
+                <%# @oldpercentclass = @percentclass%>
+            <%#end %>
+            </tbody>      
+        </table> -->
+
+      </div>
+      <script type="text/javascript">
+
+      </script>

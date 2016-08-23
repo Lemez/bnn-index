@@ -98,6 +98,10 @@ def afinn_to_hash
 		word, score = x.split(",")
 		$afinn[word]=score.strip.to_i 
 	end
+	IO.foreach(Padrino.root("public", "jonlist.txt")) do |x|
+		word, score = x.split(",")
+		$afinn[word]=score.strip.to_i 
+	end
 end
 
 def wiebe_to_hash

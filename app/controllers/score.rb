@@ -19,11 +19,30 @@ SerenityPadrino::Serenity.controllers :score do
   get :today, :map => '/today.html' do
 
           # START prepare local variables for erb  ##############
+          set_up_sentiment_analysers
+
           @todays_data = Score.from_day($day).uniq(:source).order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
     
           @grim_today=$grimmest_articles_today.to_json.html_safe
+
+          @g_today = []
+          $grimmest_articles_today.each_pair do |k,v|
+            v.each do |story|
+                  @g_today << {'id'=>story.id,
+                   'title'=>story.title}
+                 end
+          end
+
+          p @g_today
+
+          #@words_today = {
+         #    31712=>[[1, -6.0], [2, -4.0]],
+         #   31713=>[[0, -1.0]]
+         # }  
+          @words_today = get_scoring_words_from_grimmest
+          @words_today_js = @words_today.to_json.html_safe
           @date =$date.to_json.html_safe
           @time =$time.to_json.html_safe
 
@@ -32,7 +51,7 @@ SerenityPadrino::Serenity.controllers :score do
     render 'today'
   end
 
-  get :awards, :map => '/awards.html' do
+  get :headlines, :map => '/headlines.html' do
 
          #using Float.nan? to remove all quirks with floats
         stories_ever = Story.worst_since($reset_date).uniq{|a|a.title.downcase}
@@ -59,8 +78,20 @@ SerenityPadrino::Serenity.controllers :score do
         @trophies['week']['trophies'] = @trophies_week
         @trophies['week']['max'] = @trophies_week.map{|a|a[1]}.max
         @trophiesJS = @trophies.to_json.html_safe
+       
 
-        render 'awards'
+        render 'headlines'
+  end
+
+  get :global, :map => '/global.html' do
+
+      @all_global_averages = DailyScore.get_scores_since($reset_date)
+      @all_global_percentages = @all_global_averages.to_percentages.to_ordered_hash
+      @average_global_percentage = @all_global_percentages['average']
+      @all_global_percentages.delete('average')
+      @oldpercentclass = ''
+
+     render 'global'
   end
 
 
@@ -77,16 +108,12 @@ SerenityPadrino::Serenity.controllers :score do
         end
 
         @all_scores_json = @all_scores_array.to_json.html_safe
-       
-        # scores = sort_and_deliver_scores(Score.all)
-        # @all_scores = scores.to_json.html_safe
-
         @logos = $logos
 
         render 'chart'
   end
 
-    get :info, :map => '/info.html' do
+  get :info, :map => '/info.html' do
 
       @project = [{"lang"=>"JavaScript","amount"=>56.39},{"lang"=>"HTML","amount"=>21.18},
       {"lang"=>"Ruby","amount"=>14.54},{"lang"=>"CSS","amount"=>6.07}].to_json.html_safe

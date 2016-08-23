@@ -9,6 +9,8 @@ class Story < ActiveRecord::Base
 	scope :find_by_source, -> (paper) { where(:source => paper.downcase) }
 	scope :negative, -> { where('mixed < ?', 0) }
 
+	has_many :words
+
 	require 'similarity'
 
 	def self.today

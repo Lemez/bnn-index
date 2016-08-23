@@ -777,7 +777,6 @@ strongsubj bitterness noun negative
 strongsubj bizarre adj negative
 strongsubj blab verb negative
 strongsubj blabber verb negative
-weaksubj black adj negative
 weaksubj blackmail verb negative
 strongsubj blah anypos negative
 strongsubj blame adj negative
@@ -8094,7 +8093,6 @@ strongsubj whine anypos negative
 strongsubj whine verb negative
 strongsubj whips adj negative
 strongsubj whips noun negative
-weaksubj white adj positive
 strongsubj wholeheartedly anypos positive
 strongsubj wholesome adj positive
 strongsubj wicked adj negative

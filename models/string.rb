@@ -2,7 +2,6 @@ require 'lemmatizer'
 require "sentimental"
 require 'similarity'
 
-
 class String
 	def get_sentiment
 		$analyzer.sentiment self
@@ -132,5 +131,46 @@ class String
 
 		aggregate/all_words.length
 	
+	end
+
+
+	def save_title_as_words(storyid)
+		all_words = self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
+		lem = Lemmatizer.new
+
+		all_words.each do |w|
+			
+			word = lem.lemma(w.downcase)
+
+			next if Word.where(lemma:word).exists? 
+
+		 	afinnscore=$afinn[word]
+		 	afinnscore.nil? ? afinnscore=0 : afinnscore=afinnscore.round(2)
+		 	afinnscore = 0 if $erratum_list.include?(w)
+
+		 	wiebescore=$wiebe[word]
+	 		wiebescore.nil? ? wiebescore=0 : wiebescore=wiebescore[:sentiment]
+		 	wiebescore = 0 if $erratum_list.include?(w)
+
+		 	afinnscore+wiebescore==0 ? score=0 : score=(afinnscore+wiebescore)/2
+
+		 	next if score==0
+
+		 	p word
+
+		 	params = {
+				:lemma => word,
+				:storyid => storyid,
+				:score => score,
+				:afinn => !!$afinn[word],
+				:wiebe => !!$wiebe[word]
+			}
+
+			Word.find_or_create_by(lemma:word) do |wordobj|
+				wordobj.update(params)
+			end
+
+		end
+
 	end
 end

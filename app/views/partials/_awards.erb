@@ -2,18 +2,19 @@
   <table id='button-table'>
             <tbody>
               <tr>
-
-                <td id='_stories' class='trophy_buttons btn-highlight'>Grimmest Headlines </td> 
+                <td id='_stories' class='trophy_buttons btn-highlight'>Headlines </td>  
                 <td id='_trophies' class='trophy_buttons'>Awards</td>        
-                <td>from</td>
-                <td id='_today' class='award_buttons'>Today</td> 
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td id='_today' class='award_buttons btn-highlight'>Today</td> 
                 <td id='_week' class='award_buttons'>Week</td>  
                 <td id='_month' class='award_buttons'>Month </td>
-                <td id='_ever' class='award_buttons btn-highlight'>All Time</td>
+                <td id='_ever' class='award_buttons'>All Time</td>
                  
               </tr>
             </tbody>
     </table>
+
+     
 
     <h2 id='trophy_title'>No of Times, Most Negative of the Day</h2>
       <div id='champion_neg_ever' class='champion ever'>
@@ -277,6 +278,7 @@
     getTrophies('ever');
     getTrophies('month');
     getTrophies('week');
+    $('#_today').trigger('click');
 
     function getTrophies(area){
       var max = parseInt(trophies[area]['max']);

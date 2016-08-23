@@ -1,3 +1,12 @@
+class Array
+  def to_ordered_hash
+    hash = {}
+    self.each{|arr| hash[arr[0]] = arr[1] }
+    hash.has_key?('size') ? hash.except('size') : hash
+  end
+end
+
+
 def ar_to_array_of_objects(scoreRecords)
 
   finalscores=[]
@@ -43,3 +52,4 @@ end
 def sort_and_deliver_scores(data)
     ar_to_array_of_objects(data.sort_by_date)
 end
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 11) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,18 @@ ActiveRecord::Schema.define(version: 8) do
     t.float    "afinn"
     t.float    "wiebe"
     t.string   "method"
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.datetime "date"
+    t.string   "lemma"
+    t.integer  "score"
+    t.integer  "storyid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "afinn"
+    t.boolean  "wiebe"
+    t.boolean  "jonlist"
   end
 
 end

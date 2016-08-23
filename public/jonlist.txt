@@ -21,12 +21,29 @@ killed,-3
 killer,-3
 killers,-3
 killing,-3
-radical, -2
-ban, -2
-banned, -2
-bans, -2
-banning, -2
-racist, -3
-sexist, -3
-tragic, -2
-
+radical,-2
+ban,-2
+banned,-2
+bans,-2
+banning,-2
+racist,-3
+sexist,-3
+tragic,-2
+manhunt,-2
+prison,-1
+prisons,-1
+prisoner,-1
+prisoners,-1
+porn,-1
+jail,-1
+gangrelated,-3
+grenade,-2
+explode,-2
+explosion,-2
+heroin,-3
+crackcocaine,-3
+cocaine,-3
+drugs,-1
+drug,-1
+burglar,-1
+burgle,-1

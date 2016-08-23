@@ -10,6 +10,7 @@ require 'open_uri_redirections'
 require 'pry'
 require_relative './analysers.rb'
 require 'user_agent_randomizer'
+require 'lemmatizer'
 
 
 def destroy_all_today
@@ -30,13 +31,11 @@ end
 def get_todays_saved_story_objects(options = {:date => date})
 
 	grimmest = {}
-	day = options[:date]
-
 
 	CURRENT_NAMES.each do |source|
 		$passed = []
 		stories = Story.all
-		.from_day(day)
+		.from_day(options[:date])
 		.uniq(:title)
 		.where(:source=>source)
 		.order(:mixed)
@@ -46,11 +45,42 @@ def get_todays_saved_story_objects(options = {:date => date})
 
 	end
 
-	grimmest.each_pair do |k,v|
-		p k
-		v.each{|a| p a}
-	end
+	grimmest
 end
+
+def get_scoring_words_from_grimmest
+	
+	lem = Lemmatizer.new
+	results={}
+	$grimmest_articles_today.each_pair do |k,v|
+	    v.each do |story|
+	    	storytmp = {}
+	      	story.title.split(" ").each_with_index do |w,index|
+
+	      		w = w.gsub(/[^[:alnum:]]/, "")
+	      		next if $erratum_list.include?(w)
+
+	      		word = lem.lemma(w.downcase)
+	      		shouting = w.is_shouting?(word)
+
+		      	afinnscore=$afinn[word]
+			 	afinnscore.nil? ? afinnscore=0 : afinnscore=afinnscore.round(2)
+
+			 	wiebescore=$wiebe[word]
+		 		wiebescore.nil? ? wiebescore=0 : wiebescore=wiebescore[:sentiment]
+
+		        storytmp[index] = {'score'=>afinnscore + wiebescore, 'shouting'=> shouting}
+
+	        end
+
+	        results[story.id] = storytmp
+	    end
+	end
+
+	p results
+	results
+end
+
 
 def story_not_yet_saved? (params)
 	Story.where(:title=>params[:title]).empty?
