@@ -2,8 +2,8 @@ class CreateWords < ActiveRecord::Migration
   def self.up
     create_table :words do |t|
       t.string :lemma
-      t.int :storyid
-      t.int :score
+      t.integer :storyid
+      t.integer :score
       t.string :dictionary
       t.timestamps
     end
