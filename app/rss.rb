@@ -102,11 +102,12 @@ end
 
 def update_story(storyparams)
 
-	st = Story.find(storyparams[:id])
+	s = Story.find(storyparams[:id])
+	p "#{s.id}, #{s.date}, #{s.source}, #{s.title}" 
 
 	old = st.mixed
 	st.update(storyparams)
-	
+
 	p "Old: #{old} New: #{params[:mixed]}, #{s.title}" if s.persisted?
 
 end
