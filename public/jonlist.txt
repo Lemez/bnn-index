@@ -47,3 +47,8 @@ drugs,-1
 drug,-1
 burglar,-1
 burgle,-1
+knifeedge,-1
+earthquake,-1
+soar,1
+voyeuristic,-1
+voyeur,-1

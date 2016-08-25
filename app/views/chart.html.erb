@@ -137,7 +137,7 @@
     var bisectDateNew = d3.bisector(function(d) { return parseDateNew(d.date); }).left;
     var legendFormat = d3.time.format('%b %d, %Y');
     var timeFormat = d3.time.format('%H:00 ');
-  	var xAxis = d3.svg.axis().scale(x).ticks(responsiveTicks).orient('bottom');
+  	var xAxis = d3.svg.axis().scale(x).ticks(5).orient('bottom');
     var xAxis2  = d3.svg.axis().scale(x2).orient('bottom');
     var yAxis   = d3.svg.axis().scale(y).orient('left');
 
@@ -169,7 +169,7 @@
    	 .attr('transform', 'translate(' + margin2.left + ', 20)')
    	 .append('text')
      .attr('class', 'chart__title')
-     .text('The Gutter Index');
+     .text('The Gutter Index - daily analysis');
 
      var subLegend = svg.append('g')
    	 .attr('class', 'chart__subtitle')
@@ -317,12 +317,14 @@
 			    var yAxisSmileys   = d3.svg.axis().scale(y).orient('left').ticks(4).orient("left");
 
 			    // USE LOCAL MEDIA!
+			    var imagePath = "";
+			    var smileys = <%= @smileys %>;
 			   	var allSmileys={
-			    	'2':  'http://blog.openconnection.com/wp-content/uploads/2015/04/closed-eyes-smiley.png',
-			    	'0': 'http://afv.com/wp-content/uploads/2014/11/Neutral.png',
-			    	'-2':  'http://vaks.in/wp-content/uploads/2012/07/e416.png',
-			    	'-4':  'http://www.clipartbest.com/cliparts/aie/xnR/aiexnR4i4.png',
-			    	'-6': 'https://image.freepik.com/free-photo/evil-bad-emoticon_318-40219.jpg'
+			    	'2': smileys['smiley'],
+			    	'0': smileys['yellow'],
+			    	'-2':  smileys['orange'],
+			    	'-4': smileys['red'],
+			    	'-6': smileys['black']
 			    };
 
 			    focus.select(".smiley_ticks_helper").selectAll(".tick").each(function(d,i) {
@@ -394,17 +396,33 @@
 			    }
 
 			    make('line');
+
+
 			  
 			  	
 			  	// CHARTS
 			  	function makeChart(name){
 			    	return focus.append('path')
 			        .datum(data)
+			        .attr("id", "curve_" + name)
 			        .attr('class', 'chart__line line ' + allObjects[name]['chartclass'])
 			        .attr('d', allObjects[name]['line']);
 			    }
 
 		      	make('chart');
+
+		      	focus.append("text")
+				    .attr("id", "curve-text")
+				    .attr('transform', 'translate(0, -10)')
+				  .append("textPath")
+				    .attr("xlink:href", "#curve_average")
+				    .attr('dy',"0.9em")
+				    .attr('startOffset',"7%")
+				    .text("average mood");
+
+				focus.append("use")
+				    .attr("id", "curve-line")
+				    .attr("xlink:href", "#curve_average");
 
 				// LABELS
 				function makeLabel(name){
@@ -588,6 +606,7 @@
 				      	loopDisplay(logos,null);
 				      	loopDisplay(labels,null);
 				      	allObjects['average']['logo'].style('display', 'none');
+				      	d3.selectAll("#curve-text").style('display', 'none');
 			      	})
 			      	.on('mouseout', function() {
 			      		// d3.select(".chart__subtitle").style('display', null);
@@ -601,6 +620,7 @@
 				      	loopDisplay(emojis,'none');
 				      	loopDisplay(logos,'none');
 				      	loopDisplay(labels,'none');
+				      	d3.selectAll("#curve-text").style('display', null);
 			      	})
 			      	.on('mousemove', mousemove);
 			      	// .on('click', mouseclick);
@@ -764,7 +784,7 @@
 					  		allObjects[hoveredChart]['chart'].style('opacity','1');
 					  		titleName = hoveredChart.charAt(0).toUpperCase() + hoveredChart.slice(1);
 
-					  		subLegend.text(titleName).attr('class',hoveredChart).text(titleName + ' vs Average').style('font-size','1.5em');
+					  		subLegend.text(titleName).attr('class',hoveredChart).text(titleName + ' vs Average');
 					  		if (titleName==="Average") subLegend.text("Average");
 
 					  		

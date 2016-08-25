@@ -215,22 +215,22 @@ svg text.chart__range-selection {
   stroke: #40d47e; }
 
 .guardian, .chart__guardian--focus {
-  stroke: #f1c40f; }
-
-.mail, .chart__mail--focus {
   stroke: #2980b9; }
 
+.mail, .chart__mail--focus {
+  stroke: black; }
+
 .independent, .chart__independent--focus {
-  stroke: #2c3e50; }
+  stroke: red; }
 
 .express, .chart__express--focus {
-  stroke: #d35400; }
+  stroke: brown; }
 
 .telegraph, .chart__telegraph--focus {
   stroke: #006400; }
 
 .average {
-  stroke: #ff69b4; }
+  stroke: gray; }
 
 .reset {
   stroke: rgba(80,80,80,1);
@@ -242,9 +242,19 @@ svg text.chart__range-selection {
   font-size: 20px; }
 
 .chart__average--focus {
-  stroke-width: 5px;
-  stroke: #ff69b4;
+  stroke-width: 2px;
+  stroke: gray;
+  stroke-dasharray: 20,10,5,5,5,10;
   opacity: 1; }
+
+  #curve-text {
+  font-size: 1.5em;
+  fill: black;
+}
+#curve-line {
+  stroke: gray;
+  fill: black;
+}
 
 .chart__overlay {
   opacity: 0;
@@ -292,7 +302,7 @@ svg text.chart__range-selection {
 
 
 .x-responsive {
-  font-size: 2.0vw;
+  font-size: 1.5vw;
   max-font-size: 3.47vw;
   min-font-size: 0.97vw; }
 
@@ -1145,6 +1155,13 @@ td.text {
   font-size: 1.4em;
 }
 
+#curve-text {
+  display: none;
+}
+.chart__title, .chart__subtitle {
+  font-size: 1.5em;
+}
+
      }
 
 
@@ -1177,6 +1194,19 @@ td.text {
 
 .news li:first-child {
   font-size: 1.25rem;
+}
+
+ #curve-text {
+  font-size: 1em;
+  fill: black;
+}
+
+.chart__title {
+  font-size: 1em;
+}
+
+.chart__subtitle {
+  font-size: 1em;
 }
 
      }

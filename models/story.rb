@@ -11,7 +11,7 @@ class Story < ActiveRecord::Base
 
 	has_many :words
 
-	require 'similarity'
+	# require 'similarity'
 
 	def self.today
 		self.select{|b| b.date.formatted_date == Date.today.to_s}
@@ -48,6 +48,11 @@ class Story < ActiveRecord::Base
 	def is_uniqish(source)
 		stories = Story.all.from_today.where(:source=>source).order(:mixed).reject{|a| a.nil? || a.title.empty?}.to_a - [self]
 		result = is_uniqish_enough?(stories,self)
+	end
+
+	def is_uniqish_by_tfidf(source)
+		stories = Story.all.from_today.where(:source=>source).order(:mixed).reject{|a| a.nil? || a.title.empty?}.to_a - [self]
+		result = is_uniqish_enough_by_tfidf?(stories,self)
 	end
 
 	def self.worst_since(date)

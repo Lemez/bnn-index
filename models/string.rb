@@ -1,6 +1,6 @@
 require 'lemmatizer'
 require "sentimental"
-require 'similarity'
+# require 'similarity'
 
 class String
 	def get_sentiment
@@ -42,21 +42,33 @@ class String
 		!$erratum_list.include?(self)
 	end
 
+	def is_long_enough?
+		self.length > 2
+	end
+
 	def is_shouting?(word)
-		self.is_caps? && word.is_a_dictionary_word? && word.is_not_a_common_acronym?
+		self.is_caps? && word.is_a_dictionary_word? && word.is_not_a_common_acronym? && self.is_long_enough?
+	end
+
+	def remove_stopwords
+		filter = Stopwords::Snowball::Filter.new "en"
+		result = filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
+		result.join(" ")
 	end
 
 	def get_all_word_scores(options = {:write => false})
 
+		filter = Stopwords::Snowball::Filter.new "en"
+
   		options[:write] ? @write_word_scores = true : @write_word_scores = false
 
 		aggregate_afinn,aggregate_wiebe,aggregate_shouts = 0.0,0.0,0.0
-		all_words = self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
+		all_words = filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
 		
 		lem = Lemmatizer.new
 		params = {
 			:sentence => self,
-			:word_count => self.split(" ").length,
+			:word_count => all_words.length,
 			:afinn_aggregate => aggregate_afinn,
 			:wiebe_aggregate => aggregate_wiebe,
 			:shouts => aggregate_shouts,

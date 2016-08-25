@@ -39,7 +39,8 @@ def get_todays_saved_story_objects(options = {:date => date})
 		.uniq(:title)
 		.where(:source=>source)
 		.order(:mixed)
-		.select{|a| a.is_uniqish(source)}
+		.select{|a| a.is_uniqish_by_tfidf(source)}
+		# .select{|a| a.is_uniqish(source)}
 
 		grimmest[source] = stories[0..4]
 

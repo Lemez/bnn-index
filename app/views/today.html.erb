@@ -1,1 +1,294 @@
-  <%= partial 'partials/today',:locals => { :todays_data => @todays_data, :time => @time, :date => @date, :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grim_today => @grim_today } %>
+<section id='today'>
+<!-- <h6> Updated: <%=@date %> at: <%=@time%> </h6> -->
+<h1>Today's Gutter</h1>
+    <div id='papers'>
+
+    <table>
+     <!--  <h3>Current Average Scores</h3> -->
+      <tbody>
+
+         <tr class= 'tablerow'>
+          <% @todays_data.each do |k| %>
+          <td class='<%=k.source%> clickable'>
+              <%= image_tag(LOGOS[k.source.titleize], :class => "logo_today") %>
+          </td>
+        <%end%> 
+        </tr>
+
+         <tr class= 'tablerow'>
+          <% @todays_data.each do |k| %>
+            <td class='<%=k.source%> clickable'>
+                <span class='paperscore'>
+                  <%=k.score%>
+                </span>
+              </td>
+          <%end%>   
+        </tr>
+
+          <tr class= 'tablerow'>
+          <% @todays_data.each do |k| %>
+            <td>
+                <span class="balls_container hidden" id='balls_<%=k.source%>'></span>
+              </td>
+          <%end%>   
+        </tr>     
+      </tbody>
+  </table>
+  </div>
+
+ 
+		<!-- <h3>Today's gutter news, brought to you by The <span id='currentpaper'></span></h3> -->
+   
+   
+     
+  <div id='headerdiv'>
+  	
+      <div id='today_emojis'>
+          <a id="previous_story" class="next_headlines"><<</a>
+     
+        	<span class='emoji5 e'><%= Emoji.find_by_alias("rage").raw%></span>
+        	<span class='emoji4 e'><%= Emoji.find_by_alias("anguished").raw%></span>
+        	<span class='emoji3 e'><%= Emoji.find_by_alias("grimacing").raw%></span>
+        	<span class='emoji2 e'><%= Emoji.find_by_alias("unamused").raw%></span>
+        	<span class='emoji1 e'><%= Emoji.find_by_alias("neutral_face").raw%></span>
+      
+          <a id="next_story" class="next_headlines">>></a>
+      </div>
+      <h2 id='misery_heading'>Misery Rating: <span id='misery_score'></span></h2> 
+      
+  </div>
+
+  <article id='mainarticle'>
+    <% @g_today.each do |story| %>
+
+      <% @data = (@words_today.has_key?(story['id']) ? @words_today[story['id']] : "") %>
+
+        <h1 id='<%= story['id']%>' class='whole' data='<%=@data.to_json.html_safe%>'>
+          <%= story['title'] %>
+        </h1>
+    <% end %>
+
+  </article>
+  
+
+</section>
+
+<script type="text/javascript">
+
+
+
+$(function(){
+
+   String.prototype.capitalize = function() {return this.charAt(0).toUpperCase() + this.slice(1);}
+   Array.prototype.array_to_histogram = function() {
+      var hist = {};
+      for (var k=0;k<this.length;k++) {
+        var word = this[k];
+        hist[word] ? hist[word]++ : hist[word]=1;
+      } 
+      return hist;
+   }
+   Array.prototype.flatten_arrays = function(){return [].concat.apply([], this);}
+   Array.prototype.toHistogram = function(){return this.flatten_arrays().array_to_histogram();}
+
+
+    var bpm = 80,
+        beatMs = 60000 / bpm,
+        headline,
+        articleUrl,
+        article,
+        articles,
+        balls,
+        score,
+        aEl,
+        aEl2,
+        pEl,
+        emojiEl,
+        h2El,
+        h3El,
+        ele,
+        newId,
+        arrayOfDMObjects,
+        articleIndex=0,
+        sourceIndex=0,
+        first=true;
+
+    var sources = <%=@todays_papers_ordered.to_json.html_safe %>;
+    var DBScores = <%=@todays_scores.to_json.html_safe %>;
+    var DBStories = <%=@grim_today %>;
+    var wordIndex = <%=@words_today_js %>;
+
+    getContent(0); // fire it up for the first time
+    $('#balls_' + sources[0]).removeClass("hidden");
+    highlightBalls(sources[0],0);
+    changeImgOpacity(sources[0]);
+
+    function changeImgOpacity(paper){
+
+      var element = $('td.' + paper);
+      element.css('opacity','1');
+      element.siblings('td').css('opacity','0.4');
+     
+    }
+
+    function nextArticle(e){
+        articleIndex += e;
+        paperName = sources[sourceIndex];
+        articles = DBStories[paperName];
+
+        if (articleIndex === (articles.length)) { articleIndex=0;}
+        if (articleIndex === -1) { articleIndex=(articles.length)-1;}
+
+        getContent(articleIndex);
+    };
+
+     $('#next_story').on('click',function(){
+      nextArticle(1);
+    });
+      $('#previous_story').on('click',function(){
+      nextArticle(-1);
+    });
+
+    function nextSource(){
+      articleIndex = 0;
+      $('#balls_' + sources[sourceIndex]).addClass('active');  
+      getContent(articleIndex); 
+    };
+
+   
+     $('#changesource').on('click',function(){
+      sourceIndex++;
+      if (sourceIndex == (sources.length)) { sourceIndex=0;}
+      nextSource();
+    });
+
+     $('td.clickable').on('click',function(){
+
+      var newSource = $(this).attr('class');
+      newSource = newSource.charAt(0).toLowerCase() + newSource.slice(1);
+
+      if ( newSource.split(" ").length != 1){newSource=newSource.split(" ")[0]}; //deal with multiple classes
+      ;
+      $('#balls_' + newSource).removeClass('hidden');
+      changeImgOpacity(newSource);
+
+      sourceIndex = sources.indexOf(newSource)
+      nextSource(sourceIndex);
+    });
+ 
+
+   function getContent(index) {
+
+    paperName = sources[sourceIndex];
+    articles = DBStories[paperName];
+
+    balls = DBStories[paperName].length;
+    article = articles[articleIndex];
+    
+    var headlineID = article.id;
+    var headlineH1 = $('#' + headlineID);
+    if (headlineH1.attr('class')==='whole')
+    {
+      splitandcolour(headlineH1);
+    }
+
+    headlineH1.show().siblings('h1').hide();
+         
+     $('#misery_score').html(parseInt(article.mixed));
+     
+      getEmotionsfromScore(article.mixed);
+
+      makeBalls(balls,paperName);
+
+    };
+
+    function splitandcolour(element){
+       var headlineTextArray = element.text().trim().split(" ");
+       var colourData = JSON.parse(element.attr('data'));
+       console.log(colourData);
+
+       element.html("");
+      for (var i=0;i<headlineTextArray.length;i++){
+        element.append("<span>" + headlineTextArray[i] + " </span>")
+      }
+      element.removeClass("whole");
+
+     for (var prop in colourData){
+      var index = parseInt(prop);
+      var score = colourData[prop]['score'];
+      var shouting = colourData[prop]['shouting'];
+
+      switch (true) {
+          case (score<=-2): var scoreClass = "neg_score big";break;
+          case (score=>2): var scoreClass = "pos_score big";break;
+          case (score<0): var scoreClass = "neg_score";break;
+          case (score>0): var scoreClass = "pos_score";break;
+          case (score==0): var scoreClass = "zero_score";break; 
+      }
+
+      if (shouting) {scoreClass +=" shouting";}
+      element.children('span').eq(index).addClass(scoreClass).attr('data-score',score);
+     }
+    }
+
+    function makeBalls(num,paperName){
+      $('.balls_container').html("");
+      $('#balls_' + paperName).addClass("active");
+
+      for (i=0;i<num;i++){
+        
+        $('#balls_' + paperName).append("<span class='balls'>&middot</span>");
+
+      }
+
+      highlightBalls(paperName,articleIndex);
+
+     }
+
+     function highlightBalls(paperName,articleIndex){
+      ballSpan = $('#balls_'+ paperName +' span');
+      // console.log(ballSpan.length, articleIndex);
+      ballSpan.eq(articleIndex).addClass('highlightball')
+                          .siblings('span').removeClass('highlightball');
+     }
+
+
+    function getEmotionsfromScore(score){
+      var em;
+      score=parseInt(score);
+
+        switch (true) {
+          case (score<=-7.5): em='5'; break;
+          case (score<=-5.5): em='4'; break;
+          case (score<=-3.5): em='3'; break;
+          case (score<=-1.5): em='2'; break;
+          case (score<=0):    em='1'; break;
+      }
+
+      $('.'+ 'emoji' + em).siblings('.e').hide();
+       $('.'+ 'emoji' + em).show();
+
+    } 
+
+   //  //
+   //  // One by one, momentarily highlight a char in the headline
+   //  //
+    // var dancingLights = function dancingLights() {
+    //     var i = 0,
+    //       elem = document.querySelector('h1');
+
+    //     setInterval(function() {
+
+    //       elem.children[i].className = 'highlight';
+    //       var x = i;
+    //       setTimeout(function() { elem.children[x].className = ''; }, beatMs * 2);
+    //       i = ++i % headline.length;
+
+    //     }, beatMs);
+    // };
+
+
+    
+
+});
+</script>

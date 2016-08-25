@@ -67,7 +67,7 @@ SerenityPadrino::Serenity.controllers :score do
          'month'=>{'trophies'=>"", 'max'=>0},
          'week'=>{'trophies'=>"", 'max'=>0}
        }
-        @trophies_ever = DailyScore.get_trophies_since($reset_date)
+        @trophies_ever = DailyScore.get_trophies_since(Story.first.date.formatted_date)
         @trophies_month = DailyScore.get_trophies_since(Date.today-30)
         @trophies_week = DailyScore.get_trophies_since(Date.today-7)
 
@@ -109,6 +109,7 @@ SerenityPadrino::Serenity.controllers :score do
 
         @all_scores_json = @all_scores_array.to_json.html_safe
         @logos = $logos
+        @smileys = $smileys
 
         render 'chart'
   end

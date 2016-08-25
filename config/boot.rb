@@ -10,7 +10,7 @@ require "net/ping"
 
 # configure { set :server, :puma }
 
-
+SIMILARITY_THRESHOLD = 0.5
 DAILY_NUMBER = 10
 SOURCES =  {                 
 			'Express'=>"http://feeds.feedburner.com/daily-express-news-showbiz",
@@ -40,6 +40,14 @@ LOGOS =  {'Express'=> "Express-long-better.jpg",
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
+
+SMILEYS = {
+	'smiley' => "images/emoji/_smiley.png",
+	'yellow' => "images/emoji/_yellow.png",
+	'orange' => "images/emoji/_orange.png",
+	'red' => "images/emoji/_red.png",
+	'black' => "images/emoji/_black.jpg"
+}
 
 
 ##
@@ -109,6 +117,7 @@ Padrino.after_load do
     @logomap = {}
     LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }
     $logos = @logomap.to_json.html_safe
+    $smileys = SMILEYS.to_json.html_safe
 end
 
 Padrino.load!

@@ -1,9 +1,15 @@
-require 'similarity'
+# require 'similarity'
+require 'matrix'
+require 'tf-idf-similarity'
 
 def set_up_uniqish
 	@corpus = Corpus.new
 	@reject = []
+end
 
+def set_up_tfidf
+	@corpus = []
+	@reject = []
 end
 
 def get_uniqish_titles(objarray)
@@ -32,6 +38,39 @@ def is_uniqish_enough?(stories,mainstory)
 
 	@similarity_count < 1 ? result=false : result=true
 	p " #{result}: #{@similarity_count}: #{@doc1.content}"
+
+	result
+end
+
+def is_uniqish_enough_by_tfidf?(stories,mainstory)
+
+	set_up_tfidf
+
+	title = mainstory.title.remove_stopwords
+
+	@doc1 = TfIdfSimilarity::Document.new(title)
+	@corpus << @doc1
+
+	stories.each{|story| @corpus << TfIdfSimilarity::Document.new(story.title.remove_stopwords)}
+	@similarity_count = 0
+
+
+	model = TfIdfSimilarity::TfIdfModel.new(@corpus)
+	matrix = model.similarity_matrix
+
+	@corpus.each_with_index do |doc, index|
+		similarity =  matrix[model.document_index(doc),model.document_index(@doc1)]
+
+		if similarity > SIMILARITY_THRESHOLD && !$passed.include?(@doc1.text)
+
+				@similarity_count += 1 
+				$passed << @doc1.text
+				p "#{similarity.round(1)} - #{mainstory.source} -  - #{mainstory.id} - #{mainstory.title}:#{doc.text} "
+		end
+	end
+
+	@similarity_count != 1 ? result=false : result=true
+	# p " #{result}: #{@similarity_count}: #{@doc1.text}"
 
 	result
 end

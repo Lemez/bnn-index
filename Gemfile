@@ -40,12 +40,18 @@ gem 'whenever', :require => false
 gem 'classifier-reborn'
 gem 'gemoji'
 # gem 'github-linguist'
-gem 'gsl', '~> 1.16', '>= 1.16.0.6'
-gem 'similarity'
+
+# too much hassle for heroku GSL ?
+# gem 'gsl', '~> 1.16', '>= 1.16.0.6'
+# gem 'similarity' 
+
+# alternative 1
+gem 'tf-idf-similarity'
 
 gem 'open_uri_redirections'
 gem 'lemmatizer'
 gem "sentimental"
+gem 'stopwords-filter', require: 'stopwords'
 
 gem 'httparty'
 gem 'nokogiri'
