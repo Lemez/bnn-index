@@ -29,7 +29,7 @@ namespace :score do
       $time = $current_time.strftime("%X")
       $date = $current_time.strftime('%d/%m/%Y')
       $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
-      firststory = Story.first.date.formatted_date
+      firststory = Story.where('updated_at < ?',Date.today).order(:date).first.date.formatted_date
 
       recalculate_story_score_since(firststory)
   end
