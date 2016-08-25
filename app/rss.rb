@@ -307,7 +307,7 @@ def recalculate_story_score_since(day)
 		unless s.mixed==params[:mixed]
 			old = s.mixed
 			s.update(params) 
-			p "Old: #{old} New: #{storyparams[:mixed]},#{ s.title}" if st.persisted?
+			p "Old: #{old} New: #{params[:mixed]}, #{s.title}" if s.persisted?
 
 		end
 
