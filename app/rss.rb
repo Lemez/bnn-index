@@ -100,13 +100,13 @@ def save_stories(storyparams)
 
 end
 
-def update_story(storyparams)
+def update_story(params)
 
-	s = Story.find(storyparams[:id])
+	s = Story.find(params[:id])
 	p "#{s.id}, #{s.date}, #{s.source}, #{s.title}" 
 
-	old = st.mixed
-	st.update(storyparams)
+	old = s.mixed
+	s.update(params)
 
 	p "Old: #{old} New: #{params[:mixed]}, #{s.title}" if s.persisted?
 
