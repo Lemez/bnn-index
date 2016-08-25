@@ -104,9 +104,10 @@ def update_story(storyparams)
 
 	st = Story.find(storyparams[:id])
 
-	p "Old score: #{st.mixed}, #{storyparams[:title]}"
+	old = st.mixed
 	st.update(storyparams)
-	p "New score: #{storyparams[:mixed]} is new" if st.persisted?
+	
+	p "Old: #{old} New: #{params[:mixed]}, #{s.title}" if s.persisted?
 
 end
 
@@ -304,12 +305,7 @@ def recalculate_story_score_since(day)
 						analysis_data[:shouts] +
 						((params[:afinn]+params[:wiebe])/2) 
 
-		unless s.mixed==params[:mixed]
-			old = s.mixed
-			s.update(params) 
-			p "Old: #{old} New: #{params[:mixed]}, #{s.title}" if s.persisted?
-
-		end
+		update_story(params) unless s.mixed==params[:mixed]
 
 	end
 
