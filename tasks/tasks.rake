@@ -1,6 +1,5 @@
 namespace :score do
 	require_relative '../app/rss.rb'
-  require_relative '../private/secret.rb'
 
   Dir.glob('../model/*'){|f| require_relative f}
   
