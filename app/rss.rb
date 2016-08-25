@@ -288,6 +288,7 @@ end
 
 def recalculate_story_score_since(day)
 	Story.since_day(day).each do |s|
+		p s.id
 
 		analysis_data = s.title.get_all_word_scores
 
