@@ -21,6 +21,10 @@ class Story < ActiveRecord::Base
 		self.where('created_at > ?', day)
 	end
 
+	def self.since_day(day)
+		self.where('created_at > ?', day)
+	end
+
 	def self.from_today
 		self.where('created_at > ?', Date.today)
 	end

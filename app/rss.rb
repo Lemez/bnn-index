@@ -100,6 +100,16 @@ def save_stories(storyparams)
 
 end
 
+def update_story(storyparams)
+
+	st = Story.find(storyparams[:id])
+
+	p "Old score: #{st.mixed}, #{storyparams[:title]}"
+	st.update(storyparams)
+	p "New score: #{storyparams[:mixed]} is new" if st.persisted?
+
+end
+
 
 def process_new_stories_by_source(data, key,type, options)
 
@@ -272,6 +282,32 @@ def check_and_get_missing_sources
 	 if missing.any?
 	  	scrape_instead(missing)
 	 end
+end
+
+def recalculate_story_score_since(day)
+	Story.since_day(day).each do |s|
+
+		analysis_data = s.title.get_all_word_scores
+
+		params = {
+			:title=> s.title,
+			:id => s.id,
+			:source =>s.source,
+			:date=> s.date,
+			:mixed=>0.0,
+			:afinn=>analysis_data[:afinn_aggregate],
+			:wiebe=>analysis_data[:wiebe_aggregate],
+			:method=>s.method 
+		}
+
+		params[:mixed] = 0.0 - 
+						analysis_data[:shouts] +
+						((params[:afinn]+params[:wiebe])/2) 
+
+		update_story(params) unless s.mixed==params[:mixed]
+
+	end
+
 end
 
 
