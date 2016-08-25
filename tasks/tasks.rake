@@ -21,6 +21,19 @@ namespace :score do
  		  add_dailyscore_record_for_today_if_none
 	end
 
+  task :update_stories_in_db => :environment do
+    set_up_sentiment_analysers
+
+      $current_time = Time.now
+      $current_day = $current_time.formatted_date
+      $time = $current_time.strftime("%X")
+      $date = $current_time.strftime('%d/%m/%Y')
+      $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
+      firststory = Story.first.date.formatted_date
+
+      recalculate_story_score_since(firststory)
+  end
+
 
 end
 
