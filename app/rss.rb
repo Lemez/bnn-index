@@ -304,7 +304,12 @@ def recalculate_story_score_since(day)
 						analysis_data[:shouts] +
 						((params[:afinn]+params[:wiebe])/2) 
 
-		update_story(params) unless s.mixed==params[:mixed]
+		unless s.mixed==params[:mixed]
+			old = s.mixed
+			s.update(params) 
+			p "Old: #{old} New: #{storyparams[:mixed]},#{ s.title}" if st.persisted?
+
+		end
 
 	end
 
