@@ -12,7 +12,7 @@ class Hash
 	def to_percentages
 		hash = ActiveSupport::OrderedHash.new()
 		self.each_pair do |k,v|
-			next if v.nil? || v.nan?
+			next if v.nil? || v.to_f.nan?
 			hash[k] = 100-(v/self['average']).round(2)*100
 		end
 		return hash.sort_by { |name, percent| percent }
