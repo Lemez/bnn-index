@@ -288,7 +288,7 @@ end
 
 def recalculate_story_scores
 
-	Story.where('created_at < ?', Date.today-7).select{|s| s.updated_at == s.created_at}.each do |s|
+	Story.where('created_at < ?', Date.today-14).select{|s| s.date.formatted_date == s.created_at.formatted_date}.each do |s|
 		p s.id
 
 		analysis_data = s.title.get_all_word_scores
