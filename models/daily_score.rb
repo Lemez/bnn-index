@@ -1,10 +1,10 @@
 def save_record_as_daily_score_object(data)
 
-  @ds = DailyScore.find_or_create_by(date: "#{data[:date]}") do |score|
-    score.update_attributes(data)
-  end
+  ds = DailyScore.find_or_create_by(date: "#{data[:date]}")
+  ds.update_attributes(data)
+  ds.save!
 
-  p "Saved #{@ds.inspect}" if @ds.persisted?
+  p "Saved #{ds.inspect}" if ds.persisted?
 end 
 
 #<Score id: 1, date: "2015-09-02 00:00:00", score: -0.6, source: "Mail", created_at: "2015-09-02 04:32:07", updated_at: "2015-09-02 04:32:07", afinn: nil, wiebe: nil, mixed: nil>
