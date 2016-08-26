@@ -99,7 +99,8 @@ Padrino.after_load do
     $date_ds_format = Time.now.strftime("%Y-%m-%d")
     $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
 
-    $reset_date = Date.parse("2016-08-01")
+    # $reset_date = Date.parse("2016-08-01")
+    $reset_date = Story.first.date
 
     require_relative("#{PADRINO_ROOT}/app/rss.rb")
 
