@@ -21,7 +21,7 @@ end
 
 def save_scores(paper)
 
-	mixed_score = Story.from_today.where(source:source).map(&:mixed).get_average.round(2)
+	mixed_score = Story.from_today.where(source:paper).map(&:mixed).get_average.round(2)
 
 									#ensures only one per paper per day
 	Score.from_today.find_or_create_by(source:paper) do |sc|
