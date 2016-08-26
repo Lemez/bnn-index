@@ -19,12 +19,15 @@ def destroy_all_today
 	DailyScore.from_today.destroy_all
 end
 
-def save_scores(paper,score)
+def save_scores(paper)
+
+	mixed_score = Story.from_today.where(source:source).map(&:mixed).get_average.round(2)
+
 									#ensures only one per paper per day
 	Score.from_today.find_or_create_by(source:paper) do |sc|
 		sc.date = $current_time
-		sc.score = score
-		# need to sc.update ?
+		sc.score = mixed_score
+		sc.update
 	end
 end
 
@@ -180,10 +183,8 @@ def scrape_instead(source_array)
 		end
 
 		process_new_stories_by_source(data,source, method)
-		@mixed_scores = Story.from_today.where(source:source).map(&:mixed)
-
-		mixed_normalized = get_average(@mixed_scores).round(2)
-		save_scores(source,mixed_normalized) #save data to AR
+		
+		save_scores(source)
 	end
 end
 

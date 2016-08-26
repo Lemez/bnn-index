@@ -1,4 +1,9 @@
 class Array
+
+  def get_average 
+    self.inject(:+).to_f / self.length  
+  end 
+  
   def to_ordered_hash
     hash = {}
     self.each{|arr| hash[arr[0]] = arr[1] }
