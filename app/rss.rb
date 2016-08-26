@@ -289,8 +289,8 @@ end
 def recalculate_story_scores(last_checked)
 
 	Story.where('id > ?',last_checked).where('created_at < ?', Date.today-14).
-			select{|s| s.date.formatted_date == s.created_at.formatted_date}.
 			order(:id).
+			select{|s| s.date.formatted_date == s.created_at.formatted_date}.
 			each do |s|
 		p s.id
 
