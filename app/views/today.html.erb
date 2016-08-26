@@ -203,20 +203,23 @@ $(function(){
     };
 
     function splitandcolour(element){
-       var headlineTextArray = element.text().trim().split(" ");
+       var headlineTextArray = element.text().trim().split(" ").filter(Boolean);
        var colourData = JSON.parse(element.attr('data'));
-       console.log(colourData);
 
        element.html("");
       for (var i=0;i<headlineTextArray.length;i++){
-        element.append("<span>" + headlineTextArray[i] + " </span>")
+        element.append("<span>" + headlineTextArray[i] + " </span>");
+        console.log(i,headlineTextArray[i]);
       }
       element.removeClass("whole");
 
      for (var prop in colourData){
       var index = parseInt(prop);
       var score = colourData[prop]['score'];
+      var lemma = colourData[prop]['lemma'];
       var shouting = colourData[prop]['shouting'];
+
+      console.log(lemma);
 
       switch (true) {
           case (score<=-2): var scoreClass = "neg_score big";break;

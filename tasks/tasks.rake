@@ -23,15 +23,7 @@ namespace :score do
 
   task :update_stories_in_db => :environment do
     set_up_sentiment_analysers
-
-      $current_time = Time.now
-      $current_day = $current_time.formatted_date
-      $time = $current_time.strftime("%X")
-      $date = $current_time.strftime('%d/%m/%Y')
-      $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
-      firststory = Story.where('updated_at < ?',Date.today).order(:updated_at).first.date.formatted_date
-
-      recalculate_story_score_since(firststory)
+    recalculate_story_scores
   end
 
 

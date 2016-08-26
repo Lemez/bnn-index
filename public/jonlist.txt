@@ -52,3 +52,4 @@ earthquake,-1
 soar,1
 voyeuristic,-1
 voyeur,-1
+infiltrate,-2

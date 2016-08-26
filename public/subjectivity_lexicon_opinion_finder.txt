@@ -7546,7 +7546,6 @@ strongsubj truth anypos positive
 strongsubj truthful adj positive
 strongsubj truthfully adverb positive
 strongsubj truthfulness noun positive
-weaksubj try verb negative
 weaksubj trying adj negative
 weaksubj tumultuous adj negative
 weaksubj turbulent adj negative

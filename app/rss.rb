@@ -70,7 +70,7 @@ def get_scoring_words_from_grimmest
 			 	wiebescore=$wiebe[word]
 		 		wiebescore.nil? ? wiebescore=0 : wiebescore=wiebescore[:sentiment]
 
-		        storytmp[index] = {'score'=>afinnscore + wiebescore, 'shouting'=> shouting}
+		        storytmp[index] = {'score'=>afinnscore + wiebescore, 'shouting'=> shouting, 'lemma' => word}
 
 	        end
 
@@ -286,8 +286,9 @@ def check_and_get_missing_sources
 	 end
 end
 
-def recalculate_story_score_since(day)
-	Story.since_day(day).each do |s|
+def recalculate_story_scores
+
+	Story.where('created_at < ?', Date.today-7).select{|s| s.updated_at == s.created_at}.each do |s|
 		p s.id
 
 		analysis_data = s.title.get_all_word_scores
