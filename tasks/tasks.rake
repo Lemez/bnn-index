@@ -23,7 +23,7 @@ namespace :score do
 
   task :update_stories_in_db => :environment do
     set_up_sentiment_analysers
-    last_id_checked = ENV['id']
+    last_id_checked = ENV['id'] || 0
     recalculate_story_scores(last_id_checked)
   end
 
