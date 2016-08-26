@@ -12,7 +12,6 @@ end
 
 def add_dailyscore_record_for_today_if_none
   
-  return if DailyScore.from_today.exists?
   p "Adding DailyScore"
   
   data = to_daily_score_format(Score.from_today)
@@ -27,7 +26,7 @@ def all_sources_fetched?
 end
 
   def to_daily_score_format(data)
-    params = {:date => Date.today, :average => get_average(data.map(&:score))}
+    params = {:date => Date.today, :average => data.map(&:score).get_average}
     data.each {|s| params[s.source.downcase] = s.score}
     params
   end
