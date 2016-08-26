@@ -286,9 +286,12 @@ def check_and_get_missing_sources
 	 end
 end
 
-def recalculate_story_scores
+def recalculate_story_scores(last_checked)
 
-	Story.where('created_at < ?', Date.today-14).select{|s| s.date.formatted_date == s.created_at.formatted_date}.each do |s|
+	Story.where('id > ?',last_checked).where('created_at < ?', Date.today-14).
+			select{|s| s.date.formatted_date == s.created_at.formatted_date}.
+			order(:id).
+			each do |s|
 		p s.id
 
 		analysis_data = s.title.get_all_word_scores
