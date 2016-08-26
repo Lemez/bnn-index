@@ -23,12 +23,13 @@ def save_scores(paper)
 
 	mixed_score = Story.from_today.where(source:paper).map(&:mixed).get_average.round(2)
 
+	return if mixed_score.nan?
+
 									#ensures only one per paper per day
-	Score.from_today.find_or_create_by(source:paper) do |sc|
-		sc.date = $current_time
-		sc.score = mixed_score
-		sc.update
-	end
+	sc = Score.from_today.find_or_create_by(source:paper)
+	sc.score = mixed_score
+	sc.save
+	p "Saved Score#{sc.id}" if sc.persisted?
 end
 
 def get_todays_saved_story_objects(options = {:date => date})
