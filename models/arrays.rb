@@ -9,6 +9,22 @@ class Array
     self.each{|arr| hash[arr[0]] = arr[1] }
     hash.has_key?('size') ? hash.except('size') : hash
   end
+
+  def reject_numbers
+    self.reject{|a| a.is_a_number?}
+  end
+
+  def reject_empty
+    self.reject{|a| a.empty?}
+  end
+
+  def clean_word_noise
+    self.map!{|a| a.strip_noise}
+  end
+
+  def unhyphenate
+    self.map!{|a| a.dehyphenate_word}.flatten
+  end
 end
 
 

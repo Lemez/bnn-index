@@ -63,3 +63,6 @@ AR tips:
   					or with writing to CV
   word.get_all_word_scores(options = {:write => true}) 
 
+
+TO DO  - separate out SCORE saving from STORY saving
+TO DO - deal with hyphenated horrors like "double-murder" (seek out hyphens-split that produce two valid strings) - also this method will work for apostrophes, need dedicated string methods

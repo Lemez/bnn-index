@@ -23,13 +23,18 @@ def save_scores(paper)
 
 	mixed_score = Story.from_today.where(source:paper).map(&:mixed).get_average.round(2)
 
-	return if mixed_score.nan?
+	if mixed_score.nan? || mixed_score.nil?
+		p "Score not saved"
+		return
+	else
 
-									#ensures only one per paper per day
-	sc = Score.from_today.find_or_create_by(source:paper)
-	sc.score = mixed_score
-	sc.save
-	p "Saved Score#{sc.id}" if sc.persisted?
+		sc = Score.from_today.find_or_create_by(source:paper) #ensures only one per paper per day
+		sc.score = mixed_score
+		sc.save
+		p "Saved Score #{sc.id}, #{sc.source}" if sc.persisted?
+	end
+
+	
 end
 
 def get_todays_saved_story_objects(options = {:date => date})
@@ -43,7 +48,7 @@ def get_todays_saved_story_objects(options = {:date => date})
 		.uniq(:title)
 		.where(:source=>source)
 		.order(:mixed)
-		.select{|a| a.is_uniqish_by_tfidf(source)}
+		.select{|a| a.is_uniqish_by_tfidf(source,options[:date])}
 		# .select{|a| a.is_uniqish(source)}
 
 		grimmest[source] = stories[0..4]
@@ -241,9 +246,7 @@ def get_todays_rss(options={:name=>'',:got=>0})
 
 	if $parsererror || $servererror
 		# email me TO DO!
-	else
-		@mixed_scores = Story.from_today.where(source:options[:name]).map(&:mixed)
-		save_scores(options[:name], get_average(@mixed_scores).round(2)) 
+		
 	end
 
 	p "finishing #{key} RSS: #{feedUrl}"
@@ -251,15 +254,18 @@ def get_todays_rss(options={:name=>'',:got=>0})
 end
 
 def check_and_fetch_today_if_needed
-	  to_be_fetched = any_sources_not_fetched_via_RSS_today?
-	  if to_be_fetched.any?
+	  stories_to_be_fetched = any_sources_not_fetched_via_RSS_today?
+	  if stories_to_be_fetched.any?
 	      p "getting RSS"  
 	      set_up_sentiment_analysers 
-	      to_be_fetched.each {|params|get_todays_rss(options=params)}
+	      stories_to_be_fetched.each {|params|get_todays_rss(options=params)}
 	 end
 
-
-	 # check_and_get_missing_sources
+	  scores_to_be_fetched = any_scores_not_fetched_today?
+	  if scores_to_be_fetched.any?
+	      p "saving Scores" 
+	      scores_to_be_fetched.each {|params|save_scores(params[:name])}
+	 end
 end
 
 def any_sources_not_fetched_via_RSS_today?
@@ -277,6 +283,19 @@ def any_sources_not_fetched_via_RSS_today?
 			p params
 		end
 	end
+	@not_yet_fetched
+end
+
+def any_scores_not_fetched_today?
+
+	@not_yet_fetched = []
+
+	CURRENT_NAMES.each do |key|
+		 if not Score.from_today.where(source:key).exists?
+			@not_yet_fetched << params = {:name=> key}
+		end
+	end
+
 	@not_yet_fetched
 end
 

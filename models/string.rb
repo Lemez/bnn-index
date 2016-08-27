@@ -56,19 +56,61 @@ class String
 		result.join(" ")
 	end
 
+	def separate_words
+		self.split(" ").each(&:strip).reject{|a| a.empty?}
+	end
+
+	def is_a_number?
+		self.to_i != 0
+	end
+
+	def strip_noise
+
+		$s = self.strip
+		$sIndex = 0
+		$fIndex = -1
+
+		while $s[$sIndex].gsub(/[[:alpha:]]/,"") != "" 
+			p "Start: #{$sIndex}, #{$s}"
+			$sIndex +=1	
+			return self if $s[$sIndex].to_i != 0
+			
+		end
+
+		while $s[$fIndex].gsub(/[[:alpha:]]/,"") != ""
+			p "End #{$fIndex}, #{$s}"
+			$fIndex -=1	
+		end
+
+		return self[$sIndex..$fIndex]
+	end
+
+	def dehyphenate_word
+		self.split("-")
+	end
+
+	def lemmatize
+		$lem.lemma(self.downcase)
+	end
+
+	def clean_and_filter_for_processing
+		# all_words = filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
+		filter = Stopwords::Snowball::Filter.new "en"
+		all_words = filter.filter self.separate_words.reject_empty
+		return all_words.reject_numbers.clean_word_noise.unhyphenate
+	end
+
+
 	def get_all_word_scores(options = {:write => false})
 
-		filter = Stopwords::Snowball::Filter.new "en"
-
   		options[:write] ? @write_word_scores = true : @write_word_scores = false
-
 		aggregate_afinn,aggregate_wiebe,aggregate_shouts = 0.0,0.0,0.0
-		all_words = filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
+		clean_array = self.clean_and_filter_for_processing
 		
-		lem = Lemmatizer.new
+		$lem = Lemmatizer.new
 		params = {
 			:sentence => self,
-			:word_count => all_words.length,
+			:word_count => clean_array.length,
 			:afinn_aggregate => aggregate_afinn,
 			:wiebe_aggregate => aggregate_wiebe,
 			:shouts => aggregate_shouts,
@@ -78,9 +120,9 @@ class String
 		@csv_test = CSV.open("#{Padrino.root}/word_scores.csv", "w") do |csv|
 
 			 csv << ["word","lemma","is_shouting?","afinn","wiebe","total"]
-			all_words.each do |w|
+			clean_array.each do |w|
 
-				word = lem.lemma(w.downcase)
+				word = w.lemmatize
 
 			 	afinnscore=$afinn[word]
 			 	afinnscore.nil? ? afinnscore=0 : afinnscore=afinnscore.round(2)

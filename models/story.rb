@@ -54,8 +54,8 @@ class Story < ActiveRecord::Base
 		result = is_uniqish_enough?(stories,self)
 	end
 
-	def is_uniqish_by_tfidf(source)
-		stories = Story.all.from_today.where(:source=>source).order(:mixed).reject{|a| a.nil? || a.title.empty?}.to_a - [self]
+	def is_uniqish_by_tfidf(source,day)
+		stories = Story.all.where(source:source).order(:mixed).on_date(day).reject{|a| a.nil? || a.title.empty?} - [self]
 		result = is_uniqish_enough_by_tfidf?(stories,self)
 	end
 

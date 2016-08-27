@@ -23,5 +23,9 @@ class Score < ActiveRecord::Base
 		self.select{|b| b.date.formatted_date == d}
 	end
 
+	def is_valid?
+		!first.score.nil? && !first.score.nan?
+	end
+
 
 end
