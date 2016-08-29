@@ -40,7 +40,7 @@ class DailyScore < ActiveRecord::Base
 		self.from_day(day).select(CURRENT_NAMES.map(&:to_sym),:average).each do |d|
 
 	          d.attributes.each_pair do |key,value|
-	          	unless value.nil?
+	          	unless value.nil? || value.nan?
 	          		@totalDailyScores[key] += value
 	          	end
 	          end
