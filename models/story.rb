@@ -30,7 +30,8 @@ class Story < ActiveRecord::Base
 	end
 
 	def self.on_date(d)
-		self.select{|b| b.date.formatted_date == d}
+		@date = Date.parse(d)
+		self.where(created_at: @date..(@date + 1.day))
 	end
 
 	def formatted_date
@@ -47,6 +48,10 @@ class Story < ActiveRecord::Base
 
 	def self.count_todays_stories(source)
 		self.where(source:source).from_today.count
+	end
+
+	def self.count_stories_on(source,day)
+		self.where(source:source).on_date(day).count
 	end
 
 	def is_uniqish(source)

@@ -20,8 +20,6 @@ class DailyScore < ActiveRecord::Base
           sample = day.attributes.values[-1]
           next if sample.nil? || sample.nan?
 
-          p day
-
           winner = object.key(object.values.compact.min) # compact: without nil, then min value
           @trophies[winner] += 1
           end 

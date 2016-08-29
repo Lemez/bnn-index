@@ -48,7 +48,7 @@ def get_todays_saved_story_objects(options = {:date => date})
 		.uniq(:title)
 		.where(:source=>source)
 		.order(:mixed)
-		.select{|a| a.is_uniqish_by_tfidf(source,options[:date])}
+		.select{|a| a.is_uniqish_by_tfidf(source,options[:date].to_s)}
 		# .select{|a| a.is_uniqish(source)}
 
 		grimmest[source] = stories[0..4]
@@ -254,28 +254,26 @@ def get_todays_rss(options={:name=>'',:got=>0})
 end
 
 def check_and_fetch_today_if_needed
-	  stories_to_be_fetched = any_sources_not_fetched_via_RSS_today?
+		day = Date.today.to_s
+	  stories_to_be_fetched = any_sources_not_fetched_via_RSS_today?(day)
 	  if stories_to_be_fetched.any?
 	      p "getting RSS"  
 	      set_up_sentiment_analysers 
 	      stories_to_be_fetched.each {|params|get_todays_rss(options=params)}
 	 end
 
-	  scores_to_be_fetched = any_scores_not_fetched_today?
-	  if scores_to_be_fetched.any?
-	      p "saving Scores" 
-	      scores_to_be_fetched.each {|params|save_scores(params[:name])}
-	 end
+	 check_and_update_scores(day)
 end
 
-def any_sources_not_fetched_via_RSS_today?
+
+def any_sources_not_fetched_via_RSS_today? (day)
 
 	@not_yet_fetched = []
 	CURRENT_NAMES.each do |key|
 
 		params = {:name=> key, :got=>0}
 
-		got_today = Story.count_todays_stories(key)
+		got_today = Story.count_stories_on(key,day)
 
 		if got_today < DAILY_NUMBER
 			params[:got] = got_today
@@ -286,13 +284,33 @@ def any_sources_not_fetched_via_RSS_today?
 	@not_yet_fetched
 end
 
-def any_scores_not_fetched_today?
+def check_and_update_scores(day)
+ 		scores_to_be_fetched = any_scores_not_fetched_today? (day)
+	  if scores_to_be_fetched.any?
+	      p "saving Scores" 
+	      scores_to_be_fetched.each {|params|save_scores(params[:name])}
+	 end
+end
+
+
+def update_or_create_all_scores
+	date1 = Story.first.date.midnight.to_date
+	date2 = (Story.last.date.midnight + 1.day).to_date
+
+	[date1..date2].each do |date| 
+		check_and_update_scores(date.to_s)
+	end
+end
+
+def any_scores_not_fetched_today? (day)
 
 	@not_yet_fetched = []
 
 	CURRENT_NAMES.each do |key|
-		 if not Score.from_today.where(source:key).exists?
+		 if not Score.where(source:key).on_date(day).exists?
 			@not_yet_fetched << params = {:name=> key}
+		else
+			p "Score on #{day} exists"
 		end
 	end
 

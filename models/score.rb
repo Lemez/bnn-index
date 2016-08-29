@@ -20,7 +20,8 @@ class Score < ActiveRecord::Base
 	end
 
 	def self.on_date(d)
-		self.select{|b| b.date.formatted_date == d}
+		@date = Date.parse(d)
+		self.where(created_at: @date..(@date + 1.day))
 	end
 
 	def is_valid?
