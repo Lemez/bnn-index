@@ -24,14 +24,14 @@ def save_scores(paper,day)
 	mixed_score = Story.on_date(day).where(source:paper).map(&:mixed).get_average.round(2)
 
 	if mixed_score.nan? || mixed_score.nil?
-		p "Score not saved"
+		p "Score on #{day} not valid"
 		return
 	else
 
 		sc = Score.on_date(day).find_or_create_by(source:paper) #ensures only one per paper per day
 		sc.score = mixed_score
 		sc.save
-		p "Saved Score #{sc.id}, #{sc.source}" if sc.persisted?
+		p "Saved Score #{sc.id}, #{sc.source}, #{day}" if sc.persisted?
 	end
 
 	
