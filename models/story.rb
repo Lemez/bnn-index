@@ -67,9 +67,9 @@ class Story < ActiveRecord::Base
         .each{|a| a.source = a.source.titleize}
 	end
 
-	def self.update_source_typos
-		self.source = self.source.downcase
-		self.save
+	def update_source_typos
+		@source = @source.downcase
+		save!
 	end
 
 
