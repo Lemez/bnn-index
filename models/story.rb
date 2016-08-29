@@ -68,8 +68,8 @@ class Story < ActiveRecord::Base
 	end
 
 	def update_source_typos
-		@source = @source.downcase
-		save!
+		self.source = self.source.downcase
+		self.save!
 	end
 
 
