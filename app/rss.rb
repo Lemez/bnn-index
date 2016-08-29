@@ -28,7 +28,7 @@ def save_scores(paper,day)
 		return
 	else
 
-		sc = Score.from_today.find_or_create_by(source:paper) #ensures only one per paper per day
+		sc = Score.on_date(day).find_or_create_by(source:paper) #ensures only one per paper per day
 		sc.score = mixed_score
 		sc.save
 		p "Saved Score #{sc.id}, #{sc.source}" if sc.persisted?
