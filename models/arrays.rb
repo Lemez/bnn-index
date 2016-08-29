@@ -11,7 +11,7 @@ class Array
   end
 
   def reject_numbers
-    self.reject{|a| a.is_a_number?}
+    self.reject{|a| a.valid_number?}
   end
 
   def reject_empty

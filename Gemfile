@@ -19,10 +19,12 @@ gem 'rake'
 gem 'bcrypt'
 gem 'erubis', '~> 2.7.0'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
-gem 'pluck_to_hash', '~> 0.1.4'
+# gem 'pluck_to_hash', '~> 0.1.4'
 gem 'pg'
 
 gem 'pry'
+
+gem 'engtagger'
 
 # Test requirements
 gem 'rspec', :group => 'test'

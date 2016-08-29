@@ -1300,6 +1300,8 @@ ineffectively,-2
 infatuated,2
 infatuation,2
 infected,-2
+infection,-2
+infect,-2
 inferior,-2
 inflamed,-2
 influential,2

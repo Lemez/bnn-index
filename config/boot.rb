@@ -12,6 +12,57 @@ require "net/ping"
 
 SIMILARITY_THRESHOLD = 0.5
 DAILY_NUMBER = 10
+
+
+POS_TYPES = {
+'CC' => {:name => 'Conjunction',:desc =>'coordinating'  , :example =>    ['and', 'or']},           
+'CD' => {:name => 'Adj',:desc =>'cardinal number' , :example => ['3', 'fifteen']}     ,              
+'DET'=> {:name => 'Determiner',:desc =>'determining word' , :example => ['this', 'each', 'some']}     ,                              
+'EX' => {:name => 'Pronoun',:desc =>'existential there ', :example =>  ['there']}     ,             
+'FW' => {:name =>'Foreign' ,:desc =>'non-English', :example => ['hummus']}     , 						           
+'IN' => {:name =>'Preposition' ,:desc =>'general', :example => ['for', 'of', 'although', 'that']}     ,                
+'JJ'  => {:name => 'Adj',:desc =>'simple', :example => ['happy', 'bad']}    ,                                
+'JJR' => {:name =>'Adj' ,:desc =>'comparative', :example => ['happier', 'worse']}    ,                   
+'JJS' => {:name => 'Adj',:desc =>'superlative', :example => ['happiest', 'worst']}    ,                   
+'LS'  => {:name => 'Symbol',:desc =>'list item ', :example => ['A', 'A.']}    ,                       
+'MD'  => {:name => 'Verb',:desc =>'modal', :example => ["can", "could", "'ll"]}    ,                              
+'NN'  => {:name => 'Noun',:desc =>'general', :example => ['aircraft', 'data']}    ,                                     
+'NNP'  => {:name => 'Noun',:desc =>'proper', :example => ['London', 'Michael']}   ,                             
+'NNPS'  => {:name => 'Noun',:desc =>'proper plural', :example => ['Australians', 'Methodists']}  ,                     
+'NNS'  => {:name => 'Noun',:desc =>'plural', :example => ['women', 'books']}   ,                             
+'PDT'  => {:name => 'Determiner',:desc =>'prequalifier', :example => ['quite', 'all', 'half']}   ,                 
+'POS'  => {:name => 'Possessive',:desc =>'S', :example => ['s']}    ,                              
+'PRP'  => {:name => 'Possessive',:desc =>'possessive second', :example => ['mine', 'yours']}   ,          
+'PRPS'  => {:name =>'Determiner' ,:desc =>'possessive', :example => ['their', 'your']}  ,                   
+'RB'  => {:name => 'Adverb',:desc =>'general', :example => ['often', 'not', 'very', 'here']}    ,                          
+'RBR' => {:name => 'Adverb',:desc =>'comparative', :example => ['faster']}    ,                      
+'RBS' => {:name => 'Adverb',:desc =>'superlative', :example => ['fastest']}    ,                      
+'RP'  => {:name => 'Adverb',:desc =>'particle', :example => ['up', 'off', 'out']}    ,                         
+'SYM'  => {:name => 'Symbol',:desc =>'general', :example => ['*']}   ,                          
+'TO'   => {:name => 'Preposition',:desc =>'general', :example => ['to']}   ,                     
+'UH'   => {:name => 'Interjection',:desc =>'general', :example => ['oh', 'yes', 'mmm']}   ,                    
+'VB'   => {:name => 'Verb',:desc =>'infinitive', :example => ['take', 'live']}   ,                         
+'VBD'  => {:name => 'Verb',:desc =>'past tense ', :example => ['took', 'lived']}   ,                        
+'VBG' => {:name => 'Verb',:desc =>'gerund', :example =>['taking', 'living'] }    ,                             
+'VBN' => {:name => 'Verb',:desc =>'past/passive participle ', :example =>['taken', 'lived'] }    ,           
+'VBP'  => {:name => 'Verb',:desc =>'base present form ', :example => ['take', 'live']}   ,                 
+'VBZ'  => {:name => 'Verb',:desc =>'present third person singular ', :example => ['takes', 'lives']}   ,     
+'WDT'  => {:name => 'Determiner',:desc =>'question', :example => ['which', 'whatever']}   ,                     
+'WP'   => {:name =>'Pronoun' ,:desc =>'question', :example => ['who', 'whoever']}   ,                        
+'WPS'  => {:name => 'Determiner',:desc =>'possessive & question', :example => ['whose']}   ,        
+'WRB'   => {:name => 'Adverb',:desc =>'question', :example => ['when', 'how', 'however']}  ,                         
+'PP'    => {:name => 'Punctuation',:desc =>'sentence ender', :example => [".", "!", "?"]}  ,              
+'PPC'   => {:name => 'Punctuation',:desc =>'comma', :example => [","]}  ,                       
+'PPD'   => {:name => 'Punctuation',:desc =>'dollar sign', :example => ["$"]}  ,                 
+'PPL'   => {:name => 'Punctuation',:desc =>'quotation mark left ', :example => ["`"]}  ,        
+'PPR'   => {:name => 'Punctuation',:desc =>'quotation mark right ', :example => ["'"]}  ,       
+'PPS'   => {:name => 'Punctuation',:desc =>'colon, semicolon, elipsis', :example => [":","...","-"]}  ,   
+'LRB'   => {:name => 'Punctuation',:desc =>'left bracket', :example => ["(", "{", "["]}  ,                
+'RRB'   => {:name => 'Punctuation',:desc =>'right bracket ', :example => [")", "}", "]"]}             
+}
+
+RELEVANT_POS = ['Adverb','Adj','Noun','Verb']
+
 SOURCES =  {                 
 			'Express'=>"http://feeds.feedburner.com/daily-express-news-showbiz",
 			'Guardian'=>"https://www.theguardian.com/uk/rss",
