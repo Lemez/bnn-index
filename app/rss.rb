@@ -297,7 +297,7 @@ def update_or_create_all_scores
 	date1 = Story.first.date.midnight.to_date
 	date2 = (Story.last.date.midnight + 1.day).to_date
 
-	[date1..date2].each do |date| 
+	date1.upto(date2).each do |date|  
 		check_and_update_scores(date.to_s)
 	end
 end
@@ -306,7 +306,7 @@ def update_or_create_all_daily_scores
 	date1 = Story.first.date.midnight.to_date
 	date2 = (Story.last.date.midnight + 1.day).to_date
 
-	[date1..date2].each do |date| 
+	date1.upto(date2).each do |date| 
 		add_dailyscore_record_for_day_if_none(date.to_s)
 	end
 end
