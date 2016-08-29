@@ -35,7 +35,7 @@ def all_sources_fetched?
 end
 
   def to_daily_score_format(data)
-    params = {:date => Date.today, :average => data.map(&:score).get_average}
+    params = {:date => data.date, :average => data.map(&:score).get_average}
     data.each {|s| params[s.source.downcase] = s.score}
     params
   end
