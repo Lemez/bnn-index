@@ -19,9 +19,9 @@ def destroy_all_today
 	DailyScore.from_today.destroy_all
 end
 
-def save_scores(paper)
+def save_scores(paper,day)
 
-	mixed_score = Story.from_today.where(source:paper).map(&:mixed).get_average.round(2)
+	mixed_score = Story.on_date(day).where(source:paper).map(&:mixed).get_average.round(2)
 
 	if mixed_score.nan? || mixed_score.nil?
 		p "Score not saved"
@@ -190,7 +190,7 @@ def scrape_instead(source_array)
 
 		process_new_stories_by_source(data,source, method)
 		
-		save_scores(source)
+		save_scores(source,Date.today.to_s)
 	end
 end
 
@@ -288,7 +288,7 @@ def check_and_update_scores(day)
  		scores_to_be_fetched = any_scores_not_fetched_today? (day)
 	  if scores_to_be_fetched.any?
 	      p "saving Scores" 
-	      scores_to_be_fetched.each {|params|save_scores(params[:name])}
+	      scores_to_be_fetched.each {|params|save_scores(params[:name],day)}
 	 end
 end
 
