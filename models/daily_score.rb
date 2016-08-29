@@ -19,6 +19,15 @@ def add_dailyscore_record_for_today_if_none
 
 end
 
+def add_dailyscore_record_for_day_if_none(day)
+  
+  p "Adding DailyScore for #{day}"
+  
+  data = to_daily_score_format(Score.on_date(day))
+  save_record_as_daily_score_object(data)
+
+end
+
 def all_sources_fetched?
   scores = []
   Score.from_today.each{|s| scores << s.score}
