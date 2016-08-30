@@ -1,8 +1,16 @@
+def update_or_create_all_daily_scores
+	date1 = Story.first.date.midnight.to_date
+	date2 = (Story.last.date.midnight + 1.day).to_date
+
+	date1.upto(date2).each do |date| 
+		add_dailyscore_record_for_day_if_none(date.to_s)
+	end
+end
+
 def save_record_as_daily_score_object(data)
 
-  ds = DailyScore.find_or_create_by(date: "#{data[:date]}")
+  ds = DailyScore.where(date: "#{data[:date]}").first_or_create!
   ds.update_attributes(data)
-  ds.save!
 
   p "Saved #{ds.inspect}" if ds.persisted?
 end 
@@ -23,8 +31,13 @@ def add_dailyscore_record_for_day_if_none(day)
   
   p "Adding DailyScore for #{day}"
   
-  data = to_daily_score_format(Score.on_date(day))
-  save_record_as_daily_score_object(data)
+  scores = Score.on_date(day)
+  if scores.exists?
+    data = to_daily_score_format(scores)
+    save_record_as_daily_score_object(data)
+  else
+    p "No Score data on #{day} found"
+  end
 
 end
 
@@ -34,10 +47,10 @@ def all_sources_fetched?
   return scores.all?
 end
 
-  def to_daily_score_format(data)
+def to_daily_score_format(data)
     p data
-    params = {:date => data.first.date, :average => data.map(&:score).get_average}
+    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2)}
     data.each {|s| params[s.source.downcase] = s.score}
     params
-  end
+end
 

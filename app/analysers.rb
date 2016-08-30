@@ -135,46 +135,13 @@ def formatforD3(obj)
 
 	s = []
 	total = obj.values.inject(:+)
-
 	obj.each_pair do |k,v|
-	
 		h = {}
 		h['lang']=k
 		h['amount']=(100.0*v/total).round(2)
 		s << h
 	end
-
 	return s
-end
-
-def lookup(word)
-	set_up_sentiment_analysers
-	{:afinn=> $afinn[word],:wiebe=> $wiebe[word]}
-end
-
-def get_word_score(word,w,pos)
-
-	afinnscore=$afinn[word]
- 	afinnscore.nil? ? afinnscoreFinal=0 : afinnscoreFinal=afinnscore.round(2)
- 	
-	wordpos = POS_TYPES[pos][:name].downcase
- 	wiebescore=$wiebe[word]
-
- 	if wiebescore.nil? 
- 		wiebescoreFinal=0
- 	else
- 		if wiebescore[:pos] == (wordpos || 'anypos' )
- 			p "match: #{word}: #{wiebescore[:pos]}, #{wordpos}"
- 			wiebescoreFinal=wiebescore[:sentiment]
- 		else
- 			wiebescoreFinal=0
- 		end
- 	end
-
- 	afinnscoreFinal = 0 if $erratum_list.include?(w)
- 	wiebescoreFinal = 0 if $erratum_list.include?(w)
-
- 	[afinnscoreFinal,wiebescoreFinal]
 end
 
 

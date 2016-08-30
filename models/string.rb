@@ -104,7 +104,15 @@ class String
 
 	def strip_noise
 
-		return self if not self.is_long_enough?
+		if not self.is_long_enough?
+			p "too short: #{self}"
+			return self  
+		elsif self[0].to_i != 0
+			p "number: #{self}"
+			return self 
+		else
+			p "OK: #{self}"
+		end
 
 		$s = self.strip
 		$sIndex = 0
@@ -112,7 +120,6 @@ class String
 
 		while $s[$sIndex].gsub(/[[:alpha:]]/,"") != "" 
 			$sIndex +=1	
-
 			return self if $s[$sIndex].to_i != 0 # for Fixnum
 			
 		end

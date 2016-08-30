@@ -1,6 +1,12 @@
 class Score < ActiveRecord::Base
 
 	scope :find_by_source, -> (paper) { where(:source => paper) }
+	scope :express, -> { where(source:"express") }
+	scope :guardian, -> { where(source:"guardian") }
+	scope :independent, -> { where(source:"independent") }
+	scope :mail, -> { where(source:"mail") }
+	scope :telegraph, -> { where(source:"telegraph") }
+	scope :times, -> { where(source:"times") }
 	# scope :by_date, -> (needful_date) { where('date.formatted_date = ?', needful_date) }
 
 	def self.from_day(day)
@@ -27,6 +33,5 @@ class Score < ActiveRecord::Base
 	def is_valid?
 		!first.score.nil? && !first.score.nan?
 	end
-
 
 end

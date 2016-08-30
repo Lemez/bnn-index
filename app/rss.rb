@@ -2,13 +2,13 @@ require 'httparty'
 require 'rss'
 require 'dropbox_sdk'
 Dir.glob('../models/*', &method(:require_relative))
+Dir[File.dirname(__FILE__) + '/*.rb'].each {|file| require file }
 require 'csv'
 require 'date'
 require 'nokogiri'
 require 'open-uri'
 require 'open_uri_redirections'
 require 'pry'
-require_relative './analysers.rb'
 require 'user_agent_randomizer'
 require 'lemmatizer'
 
@@ -17,108 +17,6 @@ def destroy_all_today
 	Story.from_today.destroy_all
 	Score.from_today.destroy_all
 	DailyScore.from_today.destroy_all
-end
-
-def save_scores(paper,day)
-
-	mixed_score = Story.on_date(day).where(source:paper).map(&:mixed).get_average.round(2)
-
-	if mixed_score.nan? || mixed_score.nil?
-		p "Score on #{day} not valid"
-		return
-	else
-
-		sc = Score.on_date(day).find_or_create_by(source:paper) #ensures only one per paper per day
-		sc.score = mixed_score
-		sc.save
-		p "Saved Score #{sc.id}, #{sc.source}, #{day}" if sc.persisted?
-	end
-
-	
-end
-
-def get_todays_saved_story_objects(options = {:date => date})
-
-	grimmest = {}
-
-	CURRENT_NAMES.each do |source|
-		$passed = []
-		stories = Story.all
-		.from_day(options[:date])
-		.uniq(:title)
-		.where(:source=>source)
-		.order(:mixed)
-		.select{|a| a.is_uniqish_by_tfidf(source,options[:date].to_s)}
-		# .select{|a| a.is_uniqish(source)}
-
-		grimmest[source] = stories[0..4]
-
-	end
-
-	grimmest
-end
-
-def get_scoring_words_from_grimmest
-	
-	lem = Lemmatizer.new
-	results={}
-	$grimmest_articles_today.each_pair do |k,v|
-	    v.each do |story|
-	    	storytmp = {}
-	      	story.title.split(" ").each_with_index do |w,index|
-
-	      		w = w.gsub(/[^[:alnum:]]/, "")
-	      		next if $erratum_list.include?(w)
-
-	      		word = lem.lemma(w.downcase)
-	      		shouting = w.is_shouting?(word)
-
-		      	afinnscore=$afinn[word]
-			 	afinnscore.nil? ? afinnscore=0 : afinnscore=afinnscore.round(2)
-
-			 	wiebescore=$wiebe[word]
-		 		wiebescore.nil? ? wiebescore=0 : wiebescore=wiebescore[:sentiment]
-
-		        storytmp[index] = {'score'=>afinnscore + wiebescore, 'shouting'=> shouting, 'lemma' => word}
-
-	        end
-
-	        results[story.id] = storytmp
-	    end
-	end
-
-	p results
-	results
-end
-
-
-def story_not_yet_saved? (params)
-	Story.where(:title=>params[:title]).empty?
-end
-
-def enough_stories_for_source_already_saved_today?(params)
-	Story.from_today.where(source:params[:source]).count == DAILY_NUMBER
-end
-
-
-def save_stories(storyparams)
-
-	st = Story.create(storyparams)
-	st.save!
-	p "SAVING: #{storyparams[:title]} is new" if st.persisted?
-
-end
-
-def update_story(params)
-
-	s = Story.find(params[:id])
-	p "#{s.id}, #{s.date}, #{s.source}, #{s.title}" 
-
-	old = s.mixed
-	s.update(params)
-
-	p "Old: #{old} New: #{params[:mixed]}, #{s.title}" if s.persisted?
-
 end
 
 
@@ -166,34 +64,6 @@ def process_new_stories_by_source(data, key,type, options)
 		end
 	end
 end
-
-def get_random_ua
-	UserAgentRandomizer::UserAgent.fetch
-end
-
-def scrape_instead(source_array)
-
-	method = "bing"
-
-	source_array.each do |source|
-		agent = get_random_ua
-		page = HTTParty.get(SCRAPERS[source], headers: {"User-Agent" => agent.string})
-		doc = Nokogiri::HTML(page)
-
-		data = []
-
-		doc.search("a[@class='title']").each do |row|
-			item = {}
-			item[:title] = row.content
-			data << item
-		end
-
-		process_new_stories_by_source(data,source, method)
-		
-		save_scores(source,Date.today.to_s)
-	end
-end
-
 
 
 def any_sources_not_updated_today?
@@ -284,47 +154,6 @@ def any_sources_not_fetched_via_RSS_today? (day)
 	@not_yet_fetched
 end
 
-def check_and_update_scores(day)
- 		scores_to_be_fetched = any_scores_not_fetched_today? (day)
-	  if scores_to_be_fetched.any?
-	      p "saving Scores" 
-	      scores_to_be_fetched.each {|params|save_scores(params[:name],day)}
-	 end
-end
-
-
-def update_or_create_all_scores
-	date1 = Story.first.date.midnight.to_date
-	date2 = (Story.last.date.midnight + 1.day).to_date
-
-	date1.upto(date2).each do |date|  
-		check_and_update_scores(date.to_s)
-	end
-end
-
-def update_or_create_all_daily_scores
-	date1 = Story.first.date.midnight.to_date
-	date2 = (Story.last.date.midnight + 1.day).to_date
-
-	date1.upto(date2).each do |date| 
-		add_dailyscore_record_for_day_if_none(date.to_s)
-	end
-end
-
-def any_scores_not_fetched_today? (day)
-
-	@not_yet_fetched = []
-
-	CURRENT_NAMES.each do |key|
-		 if not Score.where(source:key).on_date(day).exists?
-			@not_yet_fetched << params = {:name=> key}
-		else
-			p "Score on #{day} exists"
-		end
-	end
-
-	@not_yet_fetched
-end
 
 def check_and_get_missing_sources
 	 missing = any_sources_not_updated_today?
@@ -334,35 +163,33 @@ def check_and_get_missing_sources
 	 end
 end
 
-def recalculate_story_scores(last_checked)
 
-	Story.where('id > ?',last_checked).where('created_at < ?', Date.today-14).
-			order(:id).
-			select{|s| s.date.formatted_date == s.created_at.formatted_date}.
-			each do |s|
-		p s.id
 
-		analysis_data = s.title.get_all_word_scores
+def get_random_ua
+	UserAgentRandomizer::UserAgent.fetch
+end
 
-		params = {
-			:title=> s.title,
-			:id => s.id,
-			:source =>s.source,
-			:date=> s.date,
-			:mixed=>0.0,
-			:afinn=>analysis_data[:afinn_aggregate],
-			:wiebe=>analysis_data[:wiebe_aggregate],
-			:method=>s.method 
-		}
+def scrape_instead(source_array)
 
-		params[:mixed] = 0.0 - 
-						analysis_data[:shouts] +
-						((params[:afinn]+params[:wiebe])/2) 
+	method = "bing"
 
-		update_story(params) unless s.mixed==params[:mixed]
+	source_array.each do |source|
+		agent = get_random_ua
+		page = HTTParty.get(SCRAPERS[source], headers: {"User-Agent" => agent.string})
+		doc = Nokogiri::HTML(page)
 
+		data = []
+
+		doc.search("a[@class='title']").each do |row|
+			item = {}
+			item[:title] = row.content
+			data << item
+		end
+
+		process_new_stories_by_source(data,source, method)
+		
+		save_scores(source,Date.today.to_s)
 	end
-
 end
 
 
