@@ -4,6 +4,7 @@ require 'engtagger'
 
 $tgr = EngTagger.new
 $lem = Lemmatizer.new
+$filter = Stopwords::Snowball::Filter.new "en"
 
 class String
 
@@ -60,6 +61,10 @@ class String
 
 	end
 
+	def is_a_common_acronym?
+		$acronyms.key?(self)
+	end
+
 	def is_not_a_common_acronym?
 		!$acronyms.key?(self)
 	end
@@ -77,9 +82,31 @@ class String
 	end
 
 	def remove_stopwords
-		filter = Stopwords::Snowball::Filter.new "en"
-		result = filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
+		
+		result = $filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
 		result.join(" ")
+	end
+
+	def process_for_histogram(options = {:num => false})
+
+		@not_worthy = %w(apos say the new)
+		@people = %w(may trump)
+		amount = (options[:num] ? options[:num] : 5)
+
+		bag = self.remove_stopwords.separate_words.map!{|g|g.lemmatize}
+		hist = Hash[
+					*bag.
+					group_by{ |v| v }.
+					flat_map{ |k, v| [k, v.size] }
+				].
+				reject{|k,v| k.valid_number?}.
+				reject{|k,v| k.size<2}.
+				reject{|k,v| @not_worthy.include?(k)}.
+				sort_by{|k,v|v}.
+				reverse[0..amount].
+				map!{|name,number|  name.is_a_dictionary_word? ? name : name.titleize}.
+				map!{|name,number| @people.include?(name) ? name.titleize : name}.
+				map!{|name,number|  name.upcase.is_a_common_acronym? ? name.upcase : name}
 	end
 
 	def separate_words
@@ -92,6 +119,10 @@ class String
 
 	def valid_number?
 	    true if Float self rescue false
+	end
+
+	def valid_string_number?
+	    true if Float rescue false
 	end
 
 	def lose_possessive
@@ -144,8 +175,7 @@ class String
 
 	def clean_and_filter_for_processing
 		# all_words = filter.filter self.split(/\W+/).each(&:strip).reject{|a| a.empty?}
-		filter = Stopwords::Snowball::Filter.new "en"
-		all_words = filter.filter self.separate_words.reject_empty
+		all_words = $filter.filter self.separate_words.reject_empty
 		return all_words.reject_numbers.clean_word_noise.unhyphenate
 	end
 

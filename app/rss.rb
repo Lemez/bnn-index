@@ -2,7 +2,8 @@ require 'httparty'
 require 'rss'
 require 'dropbox_sdk'
 Dir.glob('../models/*', &method(:require_relative))
-Dir[File.dirname(__FILE__) + '/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/*_methods.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/analysers.rb'].each {|file| require file }
 require 'csv'
 require 'date'
 require 'nokogiri'

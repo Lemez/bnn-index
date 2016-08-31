@@ -98,13 +98,49 @@ SerenityPadrino::Serenity.controllers :score do
 
   get :chart, :map => '/chart.html' do
         
-        attribute_strings = [:date,:mail,:telegraph,:guardian,:independent,:express,:average].map(&:to_s)
+        attribute_strings = [:date,:topics,:mail,:telegraph,:guardian,:independent,:express,:average].map(&:to_s)
+        # story_strings = %w(mail_story telegraph_story independent_story express_story guardian_story)
         @all_scores_array = []
-        all_scores = DailyScore.where('created_at > ?', $reset_date).order(:date).pluck(:date,:mail,:telegraph,:guardian,:independent,:express,:average)
+        all_scores = DailyScore.where('created_at > ?', $reset_date).order(:date).pluck(:date,:topics,:mail,:telegraph,:guardian,:independent,:express,:average)
         
         all_scores.each do |ds|
           ds[0]=ds[0].to_s[0..9] # string "2016-08-01 00:00:00 UTC" to "2016-08-01"
-          @all_scores_array << Hash[*attribute_strings.zip(ds).flatten] 
+          ds[1]=ds[1].to_json
+          # @stories = []
+          # @all_stories = []
+          # date = ds[0]
+
+          # if Story.on_date(date).exists?
+          #   @all_stories =  Story.on_date(date).order(:mixed)
+          
+          #   story_strings.each do |ss|
+          #     paper = ss.split("_")[0]
+
+          #     paperstories = @all_stories.where(:source => paper)
+          #     paperstoriestitle = @all_stories.where(:source => paper.titleize)
+
+          #         if !paperstories.empty?
+          #           @stories << paperstories.first.title
+          #         elsif !paperstoriestitle.empty?
+          #           @stories << paperstoriestitle.first.title
+          #         else
+          #          @stories << "No stories available from #{paper.titleize} today"
+          #         end
+          #   end
+
+          # else
+          #     @stories << "No stories available"
+          # end
+
+           original_hash = Hash[*attribute_strings.zip(ds).flatten]
+           
+          # story_hash = Hash[*story_strings.zip(@stories).flatten]
+          # merged_hash = original_hash.merge(story_hash)
+          # @all_scores_array << merged_hash
+
+          @all_scores_array << original_hash
+
+          p "Creating DS hash: #{original_hash['date']}"
         end
 
         @all_scores_json = @all_scores_array.to_json.html_safe

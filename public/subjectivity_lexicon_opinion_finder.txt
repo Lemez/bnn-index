@@ -7532,7 +7532,6 @@ strongsubj truculent adj positive
 strongsubj truculently anypos positive
 strongsubj true anypos positive
 strongsubj truly anypos positive
-strongsubj trump verb positive
 strongsubj trumpet verb positive
 weaksubj trust adj positive
 weaksubj trust noun positive

@@ -48,9 +48,14 @@ def all_sources_fetched?
 end
 
 def to_daily_score_format(data)
-    p data
-    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2)}
-    data.each {|s| params[s.source.downcase] = s.score}
+    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2), :topics => get_keywords_on(data.first.date)}
+    data.each {|s| params[s.source.downcase.to_sym] = s.score}
+    p params
     params
+end
+
+def add_topics_to_dailyscores
+  dates = DailyScore.all.map(&:date).map!(&:formatted_date)
+  dates.each {|d| add_dailyscore_record_for_day_if_none(d)}
 end
 

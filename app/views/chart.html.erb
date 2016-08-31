@@ -141,6 +141,8 @@
     var xAxis2  = d3.svg.axis().scale(x2).orient('bottom');
     var yAxis   = d3.svg.axis().scale(y).orient('left');
 
+    var headlineOffset = 30;
+
   	var svg = d3.select('#data').append('svg')
 	    .attr('class', 'chart')
 	    .attr('id', 'svg')
@@ -150,7 +152,7 @@
   	var focus = svg.append('g')
     	.attr('class', 'focus')
     	.attr('width', width + 10)
-    	.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    	.attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')');
 
     var context = svg.append('g')
     .attr('class', 'context')
@@ -411,18 +413,18 @@
 
 		      	make('chart');
 
-		      	focus.append("text")
-				    .attr("id", "curve-text")
-				    .attr('transform', 'translate(0, -10)')
-				  .append("textPath")
-				    .attr("xlink:href", "#curve_average")
-				    .attr('dy',"0.9em")
-				    .attr('startOffset',"7%")
-				    .text("average mood");
+		  //     	focus.append("text")
+				//     .attr("id", "curve-text")
+				//     .attr('transform', 'translate(0, -10)')
+				//   .append("textPath")
+				//     .attr("xlink:href", "#curve_average")
+				//     .attr('dy',"0.9em")
+				//     .attr('startOffset',"7%")
+				//     .text("average mood");
 
-				focus.append("use")
-				    .attr("id", "curve-line")
-				    .attr("xlink:href", "#curve_average");
+				// focus.append("use")
+				//     .attr("id", "curve-line")
+				//     .attr("xlink:href", "#curve_average");
 
 				// LABELS
 				function makeLabel(name){
@@ -524,6 +526,20 @@
 
 			  	allObjects['average']['tooltip'].attr('r', 5);
 
+			  	function makeKeyWord(int){
+			  		svg.append('g')
+					   	 .attr('width', width/2)
+					   	 .attr('height', 30)
+					   	 .attr('data', int)
+					   	 .attr('transform', 'translate(' + margin2.left + ',' + (90+(int*15)) + ')')
+					   	 .append('text')
+					   	 .attr('class', 'chart__topics topics' + int);
+					   	 
+			  	}
+
+			  	 for (var k=0;k<5;k++){makeKeyWord(k);}
+
+
 			  	function makeTimeIndex(){
 			  		for (var i = 0, l = dateRange.length; i < l; i ++) {
 			      var v = dateRange[i];
@@ -557,10 +573,6 @@
 				      	array[q].style('display', state);
 				    }
 			  	}
-
-
-
-
 
 			    function focusOnRange(range) {
 			      var today = new Date(data[data.length - 1].date);
@@ -643,11 +655,12 @@
 				      var d = x0 - parseDateNew(d0.date) > parseDateNew(d1.date) - x0 ? d1 : d0;
 
 				      helperText.text(legendFormat(new Date(parseDateNew(d.date))));
-
+				     
 				      reorderLabels(d);
 				      applyNewTextValues();
 				      applyNewToolTipValues();
 				      swapOpacities(this);
+				      showKeyWords();
 				       
 				      function roundNeatly(number){
 				      	return number < 0 ? number-(1+(number%2)) : number+(1-(number%2));
@@ -744,6 +757,31 @@
 				      		}
 				      }
 
+				      function getHorrorHeadline(title) {
+				      	var storyString = title + "_story";
+				      	subsubLegend.text(d[storyString]);
+				      	// subsubLegend.text(d['topic']);
+				      }
+
+				      function showKeyWords(){
+				      	 var topics = d.topics
+				      	 .slice(2,-2)
+				      	 .split('\",\"')
+				      	 .sort(function (a, b) {
+							    return a.toLowerCase().localeCompare(b.toLowerCase());
+							});
+
+					     if (topics.length>1) { //empty array has length 1 here
+	 					      for (var k=0;k<topics.length;k++){
+	 					      	var word = topics[k];
+	 					      	var item = d3.selectAll('.topics'+k);
+	 					      	item.text(word);
+	 				      	  }
+	 				     } else {
+	 				      	  	// d3.selectAll('.chart__topics').text('');
+					     }		
+				      }
+
 				      function swapOpacities(dis){
 							
 						var hoveredChart;
@@ -759,7 +797,6 @@
 							 var tTipX = parseInt(tooltips[q].attr('transform')
 						  	 	.split("(")[1].split(",")[0].split(".")[0]);
 						  	 
-
 						  	 var tTipY = parseInt(tooltips[q].attr('transform')
 						  	 	.split("(")[1].split(",")[1].split(".")[0]);
 						  	  
@@ -785,28 +822,21 @@
 					  		titleName = hoveredChart.charAt(0).toUpperCase() + hoveredChart.slice(1);
 
 					  		subLegend.text(titleName).attr('class',hoveredChart).text(titleName + ' vs Average');
-					  		if (titleName==="Average") subLegend.text("Average");
 
+					  		if (titleName==="Average"){ subLegend.text("Average");} 
 					  		
-
-					  		// subLegend.append('svg:image').attr({
-					  		// 	"xlink:href": "/images/" + logoUrls[titleName],
-					  		// 	 "width": 90,
-						   //       "height": 60,
-						   //      "transform":"translate(100,100)"
-						   //      });
-
+					  		// else {getHorrorHeadline(titleName.charAt(0).toLowerCase() + titleName.slice(1));}
 
 					  }  else {
 
 					  		for (var prop in allObjects){
 									allObjects[prop]['chart'].style('opacity','0.05');
 					  		}
-					  		subLegend.attr('class','reset').text("Hover for details");
+					  		subLegend.attr('class','reset').text("Today's keywords");
+					  		
 					  }
 
-						 allObjects['average']['chart'].style('opacity','1');
-							 
+					 allObjects['average']['chart'].style('opacity','1');		 
 					}
 				}
 				  

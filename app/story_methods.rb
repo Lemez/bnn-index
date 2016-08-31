@@ -44,3 +44,28 @@ def get_todays_saved_story_objects(options = {:date => date})
 	grimmest
 end
 
+def get_keywords_on(d)
+	set_up_sentiment_analysers if $afinn.nil?
+	title = Story.on_date(d.to_s).map(&:title).join(" ")
+	hist = title.process_for_histogram
+	hist
+end
+
+def get_typical_stories
+	set_up_sentiment_analysers
+	date1 = Story.first.date.midnight.to_date
+	date2 = (Story.last.date.midnight + 1.day).to_date
+	@total_bag = []
+
+	date1.upto(date2).each do |d|  
+		title = Story.on_date(d.to_s).map(&:title).join(" ")
+		hash = title.process_for_histogram
+
+		p "#{d.to_s}: #{hash}" 
+		@total_bag << hash
+
+	end
+
+	p "Total:" 
+	p @total_bag.flatten.join(" ").process_for_histogram(options={:num=>9})
+end
