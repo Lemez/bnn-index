@@ -33,6 +33,7 @@ def add_dailyscore_record_for_day_if_none(day)
   
   scores = Score.on_date(day)
   if scores.exists?
+    p scores
     data = to_daily_score_format(scores)
     save_record_as_daily_score_object(data)
   else

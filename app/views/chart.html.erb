@@ -765,7 +765,7 @@
 
 				      function showKeyWords(){
 				      	 var topics = d.topics
-				      	 .slice(2,-2)
+				      	 .slice(2,-2) //clean up "[ and ]" from json array
 				      	 .split('\",\"')
 				      	 .sort(function (a, b) {
 							    return a.toLowerCase().localeCompare(b.toLowerCase());
