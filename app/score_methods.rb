@@ -23,6 +23,13 @@ def check_and_update_scores(day)
 	 end
 end
 
+def all_sources_fetched?
+  scores = []
+  Score.from_today.each{|s| scores << s.score}
+  return scores.all?
+end
+
+
 def any_scores_not_fetched_today? (day)
 
 	@not_yet_fetched = []

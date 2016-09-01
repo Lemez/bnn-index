@@ -1,11 +1,4 @@
-def update_or_create_all_daily_scores
-	date1 = Story.since_day($reset_date).first.date.midnight.to_date
-	date2 = (Story.last.date.midnight + 1.day).to_date
 
-	date1.upto(date2).each do |date| 
-		add_dailyscore_record_for_day_if_none(date.to_s)
-	end
-end
 
 #<Score id: 1, date: "2015-09-02 00:00:00", score: -0.6, source: "Mail", created_at: "2015-09-02 04:32:07", updated_at: "2015-09-02 04:32:07", afinn: nil, wiebe: nil, mixed: nil>
 # 2.0.0-p353 :002 >
@@ -20,17 +13,13 @@ def add_dailyscore_record_for_today_if_none
 end
 
 
+def update_or_create_all_daily_scores
+  date1 = Story.since_day($reset_date).first.date.midnight.to_date
+  date2 = (Story.last.date.midnight + 1.day).to_date
 
-def all_sources_fetched?
-  scores = []
-  Score.from_today.each{|s| scores << s.score}
-  return scores.all?
-end
-
-def to_daily_score_format(data)
-    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2), :topics => get_keywords_on(data.first.date)}
-    data.each {|s| params[s.source.downcase.to_sym] = s.score}
-    params
+  date1.upto(date2).each do |date| 
+    add_dailyscore_record_for_day_if_none(date.to_s)
+  end
 end
 
 def add_topics_to_dailyscores
@@ -42,7 +31,7 @@ def add_dailyscore_record_for_day_if_none(day)
   
   p "Adding DailyScore for #{day}"
   
-  scores = Score.on_date(day)
+  scores = Score.where(date:Date.parse(day))
   if scores.exists?
     data = to_daily_score_format(scores)
     save_record_as_daily_score_object(data)
@@ -50,6 +39,12 @@ def add_dailyscore_record_for_day_if_none(day)
     p "No Score data on #{day} found"
   end
 
+end
+
+def to_daily_score_format(data)
+    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2), :topics => get_keywords_on(data.first.date)}
+    data.each {|s| params[s.source.downcase.to_sym] = s.score}
+    params
 end
 
 def save_record_as_daily_score_object(data)
@@ -75,3 +70,5 @@ def log_incomplete_ds
     record.log_missing_attrs(t) 
   end
 end
+
+
