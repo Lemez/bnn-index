@@ -94,7 +94,7 @@ SerenityPadrino::Serenity.controllers :score do
         attribute_strings = [:date,:topics,:created_at,:mail,:telegraph,:guardian,:independent,:express,:average].map(&:to_s)
         # story_strings = %w(mail_story telegraph_story independent_story express_story guardian_story)
         @all_scores_array = []
-        all_scores = DailyScore.where('created_at > ?', @reset).order(:date).pluck(:date,:topics,:created_at,:mail,:telegraph,:guardian,:independent,:express,:average)
+        all_scores = DailyScore.since_day(@reset).order(:date).pluck(:date,:topics,:created_at,:mail,:telegraph,:guardian,:independent,:express,:average)
         
         all_scores.each do |ds|
           ds[0]=ds[0].to_s[0..9] # string "2016-08-01 00:00:00 UTC" to "2016-08-01"
