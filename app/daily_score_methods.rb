@@ -35,7 +35,7 @@ end
 
 def add_topics_to_dailyscores
   dates = DailyScore.since_day($reset_date).map(&:date).map!(&:formatted_date)
-  dates.each do {|d| add_dailyscore_record_for_day_if_none(d)}
+  dates.each {|d| add_dailyscore_record_for_day_if_none(d)}
 end
 
 def add_dailyscore_record_for_day_if_none(day)
