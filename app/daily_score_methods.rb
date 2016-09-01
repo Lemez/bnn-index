@@ -60,3 +60,29 @@ def add_topics_to_dailyscores
   dates.each {|d| add_dailyscore_record_for_day_if_none(d)}
 end
 
+def get_all_nan_values_from_ds
+  failed = []
+  DailyScore.all.pluck(:date,:mail,:guardian,:independent,:average,:telegraph,:express).each do |day|
+    failed << DailyScore.on_date(day[0]) if day.compact!=day
+  end
+  failed
+end
+
+def fill_incomplete_ds
+  incomplete = get_all_nan_values_from_ds.flatten
+  values = [:mail,:guardian,:independent,:average,:telegraph,:express]
+
+  values.each do |attribute|
+    attr_array = incomplete.map{|ds| ds[attribute]}
+    attr_array.each_with_index do |record,index|
+      if record.nil?
+        update_value_for_ds(incomplete[index],attribute)
+      end
+    end
+  end
+
+end
+
+def update_value_for_ds(ds,attribute)
+  p ds; p attribute; p ds[attribute]==nil
+end
