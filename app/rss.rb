@@ -13,6 +13,10 @@ require 'pry'
 require 'user_agent_randomizer'
 require 'lemmatizer'
 
+def get_reset_date
+	RACK_ENV == 'production' ? Date.parse("2016-08-25") : Date.parse("2016-07-30")
+end
+
 
 def destroy_all_today
 	Story.from_today.destroy_all
