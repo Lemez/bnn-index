@@ -34,7 +34,7 @@ class DailyScore < ActiveRecord::Base
 		@totalDailyScores['average']=0
 		@totalDailyScores['size']=self.since_day(day).count
 
-		self.from_day(day).select(CURRENT_NAMES.map(&:to_sym),:average).each do |d|
+		self.since_day(day).select(CURRENT_NAMES.map(&:to_sym),:average).each do |d|
 
 	          d.attributes.each_pair do |key,value|
 	          	unless value.nil? || value.nan?
