@@ -1,4 +1,0 @@
-*.gem
-*.DS_Store
-
-spec/test_data/**/*

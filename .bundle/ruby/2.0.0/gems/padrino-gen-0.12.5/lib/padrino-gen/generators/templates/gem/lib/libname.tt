@@ -1,6 +1,0 @@
-require 'padrino-core'
-
-module <%= @project_name %>
-  extend Padrino::Module
-  gem! <%= name.downcase.inspect %>
-end
