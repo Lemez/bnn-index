@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 12) do
+ActiveRecord::Schema.define(version: 14) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 12) do
   create_table "daily_scores", force: :cascade do |t|
     t.float    "mail"
     t.float    "telegraph"
-    t.float    "times"
     t.float    "average"
     t.float    "guardian"
     t.float    "independent"
@@ -27,7 +26,6 @@ ActiveRecord::Schema.define(version: 12) do
     t.datetime "date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "dateformat"
     t.text     "topics"
   end
 
@@ -37,9 +35,6 @@ ActiveRecord::Schema.define(version: 12) do
     t.string   "source"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "afinn"
-    t.float    "wiebe"
-    t.float    "mixed"
   end
 
   create_table "stories", force: :cascade do |t|

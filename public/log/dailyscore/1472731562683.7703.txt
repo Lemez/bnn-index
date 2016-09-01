@@ -1,0 +1,8 @@
+DailyScore,7023,[:average]
+DailyScore,7036,[:express]
+DailyScore,7037,[:express]
+DailyScore,7047,[:independent]
+DailyScore,7110,[:telegraph]
+DailyScore,7155,[:express]
+DailyScore,7156,[:express]
+DailyScore,7163,[:independent]

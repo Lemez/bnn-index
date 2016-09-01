@@ -531,7 +531,7 @@
 					   	 .attr('width', width/2)
 					   	 .attr('height', 30)
 					   	 .attr('data', int)
-					   	 .attr('transform', 'translate(' + margin2.left + ',' + (90+(int*15)) + ')')
+					   	 // .attr('transform', 'translate(' + margin2.left + ',' + (90+(int*20)) + ')')
 					   	 .append('text')
 					   	 .attr('class', 'chart__topics topics' + int);
 					   	 
@@ -547,7 +547,7 @@
 			        .append('text')
 			        .attr('class', 'chart__range-selection')
 			        .text(v)
-			        .attr('transform', 'translate('+ (10 + (30 * i)) + ', ' + height/3.5 + ')')
+			        .attr('transform', 'translate('+ (10 + (40 * i)) + ', ' + height/3.5 + ')')
 			        .on('click', function(){
 			        	console.log(v);
 			        }); 
@@ -771,11 +771,31 @@
 							    return a.toLowerCase().localeCompare(b.toLowerCase());
 							});
 
+
+				      	 function getLengthsSoFar(e,start,finish){
+						      	var soFar=0;
+						      	var delta = windowW/40;
+						      	var lengths = topics.map(function(e){return e.length;}).slice(start,finish);
+						      	for (var mm=0;mm<e;mm++){
+						      		soFar += ((lengths[mm]*delta)+(delta/25));
+						      	}
+						      	return soFar;
+						      }
+
 					     if (topics.length>1) { //empty array has length 1 here
 	 					      for (var k=0;k<topics.length;k++){
 	 					      	var word = topics[k];
+	 					      	var kx,ky,s,f;
+	 					      	var length = word.length;
 	 					      	var item = d3.selectAll('.topics'+k);
 	 					      	item.text(word);
+
+	 					      	// putting keywords on two lines spaced nicely
+	 					      	k>2 ? kx=k%3 : kx=k;
+	 					      	k>2 ? ky=1 	 : ky=0;
+	 					      	k>2 ? s=3   : s=0;
+
+	 					      	item.attr('transform', 'translate(' + getLengthsSoFar(kx,s) + ',' + ((ky*30)+90) + ')');
 	 				      	  }
 	 				     } else {
 	 				      	  	// d3.selectAll('.chart__topics').text('');

@@ -10,6 +10,24 @@ class DailyScore < ActiveRecord::Base
 		self.where(date:Date.today)
 	end
 
+	def is_complete?
+		attributes.values == attributes.values.compact
+	end
+
+	def nil_attributes
+		arr = []
+		attributes.each_pair{|k,v| arr << k if v.nil?}
+		arr.map(&:to_sym)
+	end
+
+	def no_topics?
+		topics.empty?
+	end
+
+	def log_missing_attrs (time)
+		File.open(Padrino.root("public", "log/dailyscore/#{time}.txt") , 'a+') { |file| file.write("DailyScore,#{self.id},#{self.nil_attributes}\n") }
+	end
+
 	def self.get_trophies_since(day)
 		@trophies = ActiveSupport::OrderedHash.new
 		CURRENT_NAMES.each{|f| @trophies[f]=0}
@@ -47,4 +65,5 @@ class DailyScore < ActiveRecord::Base
         @totalDailyScores.each_with_object({}) { |(key, value), hash| hash[key] = value.round(1) }
 
 	end
+
 end

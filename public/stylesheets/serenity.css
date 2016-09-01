@@ -125,7 +125,7 @@ span#info_asterisk {
 
 .tab:hover, .sub_tab:hover, .myButton:hover {
   cursor: pointer;
-  border-left: 2px solid black; }
+  border-left: 2px solid pink; }
 
 nav a.sub_tab {
   text-align: right;
@@ -181,7 +181,6 @@ g.focus {
 g.focus {
   float: left; }
 
-
 svg text {
   fill: rgba(80,80,80,1); }
 
@@ -189,8 +188,13 @@ svg text {
   font-size: 2em;
 }
 
+.chart__topics {
+  font-size: 1.2em;
+}
+
 .chart__symbol {
   font-size: 1em;
+  border: 1px solid red;
 }
 
 svg text.chart__range-selection {
@@ -233,8 +237,8 @@ svg text.chart__range-selection {
   stroke: gray; }
 
 .reset {
-  stroke: rgba(80,80,80,1);
-  stroke-width: 1px;
+  fill: rgba(80,80,80,1);
+/*  stroke-width: 1px;*/
 }
 
 .labels {
@@ -1160,6 +1164,10 @@ td.text {
 }
 .chart__title, .chart__subtitle {
   font-size: 1.5em;
+}
+
+.chart__topics {
+  font-size: 1em;
 }
 
      }
