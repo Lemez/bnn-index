@@ -150,12 +150,12 @@ Padrino.after_load do
     $date_ds_format = Time.now.strftime("%Y-%m-%d")
     $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
 
-    $reset_date = (RACK_ENV == 'production' ? Date.parse("2016-08-01") : Story.first.date)
+    $reset_date = (RACK_ENV == 'production' ? Date.parse("2016-08-25") : Date.parse("2016-07-30"))
 
     require_relative("#{PADRINO_ROOT}/app/rss.rb")
 
     @online = Net::Ping::External.new("8.8.8.8").ping?
-    p "online: #{@online}"
+    p "online: #{@online}, $reset_date: #{$reset_date}, ENV: #{RACK_ENV}"
 
     if @online
 		check_and_fetch_today_if_needed
