@@ -1,5 +1,5 @@
 def update_or_create_all_daily_scores
-	date1 = Story.first.date.midnight.to_date
+	date1 = Story.since_day($reset_date).first.date.midnight.to_date
 	date2 = (Story.last.date.midnight + 1.day).to_date
 
 	date1.upto(date2).each do |date| 
@@ -35,7 +35,7 @@ end
 
 def add_topics_to_dailyscores
   dates = DailyScore.since_day($reset_date).map(&:date).map!(&:formatted_date)
-  dates.each {|d| add_dailyscore_record_for_day_if_none(Date.parse(d))}
+  dates.each {|d| add_dailyscore_record_for_day_if_none(d)}
 end
 
 def add_dailyscore_record_for_day_if_none(day)
