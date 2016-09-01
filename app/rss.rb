@@ -17,6 +17,10 @@ def get_reset_date
 	RACK_ENV == 'production' ? Date.parse("2016-08-25") : Date.parse("2016-07-30")
 end
 
+def get_starting_date
+	Story.first.date
+end
+
 
 def destroy_all_today
 	Story.from_today.destroy_all

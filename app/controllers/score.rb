@@ -53,8 +53,9 @@ SerenityPadrino::Serenity.controllers :score do
 
   get :headlines, :map => '/headlines.html' do
 
+      @starting_date = get_starting_date
          #using Float.nan? to remove all quirks with floats
-        stories_ever = Story.worst_since($reset_date).uniq{|a|a.title.downcase}
+        stories_ever = Story.worst_since(@starting_date).uniq{|a|a.title.downcase}
         stories_month = Story.worst_since(Date.today-30).uniq{|a|a.title.downcase}
         stories_week = Story.worst_since(Date.today-7).uniq{|a|a.title.downcase}
         stories_today = Story.worst_since($day).uniq{|a|a.title.downcase}
@@ -98,6 +99,7 @@ SerenityPadrino::Serenity.controllers :score do
 
   get :chart, :map => '/chart.html' do
         @reset = get_reset_date
+        p "chart reset_date = #{@reset}"
         attribute_strings = [:date,:topics,:mail,:telegraph,:guardian,:independent,:express,:average].map(&:to_s)
         # story_strings = %w(mail_story telegraph_story independent_story express_story guardian_story)
         @all_scores_array = []
