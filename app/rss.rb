@@ -1,7 +1,7 @@
 require 'httparty' 
 require 'rss'
-require 'dropbox_sdk'
-Dir.glob('../models/*', &method(:require_relative))
+# require 'dropbox_sdk'
+Dir[File.dirname(__FILE__) + '../models/*'].each {|file| require file }
 Dir[File.dirname(__FILE__) + '/*_methods.rb'].each {|file| require file }
 Dir[File.dirname(__FILE__) + '/analysers.rb'].each {|file| require file }
 require 'csv'
@@ -10,14 +10,14 @@ require 'nokogiri'
 require 'open-uri'
 require 'open_uri_redirections'
 require 'pry'
-require 'user_agent_randomizer'
+# require 'user_agent_randomizer'
 require 'lemmatizer'
 
 def get_reset_date
 	RACK_ENV == 'production' ? Date.parse("2016-08-25") : Date.parse("2016-07-30")
 end
 
-def get_starting_date
+def get_starting_date	
 	Story.first.date
 end
 

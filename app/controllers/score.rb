@@ -84,26 +84,17 @@ SerenityPadrino::Serenity.controllers :score do
         render 'headlines'
   end
 
-  get :global, :map => '/global.html' do
 
-      @all_global_averages = DailyScore.get_scores_since($reset_date)
-      @all_global_percentages = @all_global_averages.to_percentages.to_ordered_hash
-      @average_global_percentage = @all_global_percentages['average']
-      @all_global_percentages.delete('average')
-      @oldpercentclass = ''
-
-     render 'global'
-  end
 
 
 
   get :chart, :map => '/chart.html' do
         @reset = get_reset_date
         p "chart reset_date = #{@reset}"
-        attribute_strings = [:date,:topics,:mail,:telegraph,:guardian,:independent,:express,:average].map(&:to_s)
+        attribute_strings = [:date,:topics,:created_at,:mail,:telegraph,:guardian,:independent,:express,:average].map(&:to_s)
         # story_strings = %w(mail_story telegraph_story independent_story express_story guardian_story)
         @all_scores_array = []
-        all_scores = DailyScore.where('created_at > ?', @reset).order(:date).pluck(:date,:topics,:mail,:telegraph,:guardian,:independent,:express,:average)
+        all_scores = DailyScore.where('created_at > ?', @reset).order(:date).pluck(:date,:topics,:created_at,:mail,:telegraph,:guardian,:independent,:express,:average)
         
         all_scores.each do |ds|
           ds[0]=ds[0].to_s[0..9] # string "2016-08-01 00:00:00 UTC" to "2016-08-01"
@@ -142,7 +133,7 @@ SerenityPadrino::Serenity.controllers :score do
 
           @all_scores_array << original_hash
 
-          p "Creating DS hash: #{original_hash['date']}"
+          p "Hash with ds.created_at: #{ds[2]}, date: #{original_hash['date']}"
         end
 
         @all_scores_json = @all_scores_array.to_json.html_safe
@@ -150,6 +141,17 @@ SerenityPadrino::Serenity.controllers :score do
         @smileys = $smileys
 
         render 'chart'
+  end
+
+    get :global, :map => '/global.html' do
+
+      @all_global_averages = DailyScore.get_scores_since($reset_date)
+      @all_global_percentages = @all_global_averages.to_percentages.to_ordered_hash
+      @average_global_percentage = @all_global_percentages['average']
+      @all_global_percentages.delete('average')
+      @oldpercentclass = ''
+
+     render 'global'
   end
 
   get :info, :map => '/info.html' do
