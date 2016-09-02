@@ -539,7 +539,6 @@
 
 			  	 for (var k=0;k<5;k++){makeKeyWord(k);}
 
-
 			  	function makeTimeIndex(){
 			  		for (var i = 0, l = dateRange.length; i < l; i ++) {
 			      var v = dateRange[i];
@@ -555,6 +554,12 @@
 			  	}
 
 			  	// makeTimeIndex();
+			  	d3.selection.prototype.first = function() {
+				  return d3.select(this[0][0]);
+				};
+
+			  	focus.append('text').attr('class','chart__letter_guide').text('K');
+			  	var letterWidth = $('.chart__letter_guide').width();
 
 			  	var globalHelpers = [dateHelper,helperLabel,averageHelper];
 			    var helpers = getAll('helper');
@@ -660,7 +665,10 @@
 				      applyNewTextValues();
 				      applyNewToolTipValues();
 				      swapOpacities(this);
+				      
+			  		logMe(letterWidth);
 				      showKeyWords();
+				     
 				       
 				      function roundNeatly(number){
 				      	return number < 0 ? number-(1+(number%2)) : number+(1-(number%2));
@@ -777,7 +785,7 @@
 						      	var delta = windowW/40;
 						      	var lengths = topics.map(function(e){return e.length;}).slice(start,finish);
 						      	for (var mm=0;mm<e;mm++){
-						      		soFar += ((lengths[mm]*delta)+(delta/25));
+						      		soFar += ((lengths[mm]*letterWidth));
 						      	}
 						      	return soFar;
 						      }
