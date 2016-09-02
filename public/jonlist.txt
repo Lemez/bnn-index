@@ -57,10 +57,10 @@ kidnap,-3
 kidnapped,-3
 warzone,-3
 teargas,-3
-antisemitic,-2
-homophobic,-2
-homophobia,-2
-antisemitism,-2
+antisemitic,-3
+homophobic,-3
+homophobia,-3
+antisemitism,-3
 ageist,-2
 ageism,-2
 sexism,-2
@@ -73,3 +73,4 @@ backlash,-2
 tough,-1
 storm,-1
 yob,-2
+bankruptcy,-3

@@ -190,11 +190,15 @@ svg text {
 
 .chart__topics {
   font-size: 1.2em;
+  text-decoration: underline;
+  -moz-text-decoration-color: red; /* Code for Firefox */
+  text-decoration-color: red;
 }
 
 .chart__symbol {
   font-size: 1em;
   border: 1px solid red;
+
 }
 
 svg text.chart__range-selection {
