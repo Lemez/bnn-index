@@ -25,16 +25,17 @@ def save_record_as_daily_score_object(scores_formatted)
 
   day = scores_formatted[:date]
 
-  @ds = DailyScore.find_or_create_by(date:day) do |ds| 
-    ds.update(scores_formatted)
-  end
+  @ds = DailyScore.find_or_initialize_by(date:day)
+  @ds.update(scores_formatted)
 
   if @ds.persisted?
       status = (@ds.just_created? ? "New" : "Updated")
-      p "DailyScore #{status}, #{@ds.attributes} " 
-    else
+      changed = (@ds.was_changed? ? "and #{@ds.changed_attribute_names} attrs changed" : "but attrs not changed")
+      p "DailyScore #{status} #{changed}, #{@ds.attributes} " 
+  else
       p "DailyScore not updated"
-    end
+  end
+
 end 
 
 def add_dailyscore_record_for_today_if_none

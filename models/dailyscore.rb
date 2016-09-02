@@ -1,7 +1,9 @@
 class DailyScore < ActiveRecord::Base
+	include ActiveModel::Dirty # for checking changed status
 
 	serialize :topics, Array
 	before_create :set_just_created
+	after_save :set_was_changed
 
 	scope :since_day, -> (day) { where('date > ?', day) }
 	scope :on_date, -> (day) { where(date:day) } #day must be Date format, not string
@@ -73,12 +75,25 @@ class DailyScore < ActiveRecord::Base
     	@just_created || false
   	end
 
+  	def was_changed?
+    	@just_changed || false
+  	end
+
+  	def changed_attribute_names
+  		@changed_attrs
+  	end
+
 private
 
   # Set a flag indicating this model is just created
 
 	def set_just_created
 	    @just_created = true
+	end
+
+	def set_was_changed
+	    @just_changed = changed.any?
+	    @changed_attrs = changed
 	end
 
 end
