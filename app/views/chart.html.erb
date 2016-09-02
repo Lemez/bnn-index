@@ -20,7 +20,6 @@
 	    return roundedTempNumber / factor;
 	};
 
-
 	var guardian,independent,express,telegraph,mail,average,dateHelper,helperLabel,mailLine,mailChart,mailLabel,mailHelper,mailTooltip,mailText,mailLabelText,mailEmoji,mailEmojiText;
 	var expressLine,expressChart,expressLabel,expressHelper,expressTooltip,expressText,expressLabelText;
 	var guardianLine,guardianChart,guardianLabel,guardianHelper,guardianTooltip,guardianText,guardianLabelText,guardianEmoji,guardianEmojiText;
@@ -559,7 +558,7 @@
 				};
 
 			  	focus.append('text').attr('class','chart__letter_guide').text('K');
-			  	var letterWidth = $('.chart__letter_guide').width();
+			  	
 
 			  	var globalHelpers = [dateHelper,helperLabel,averageHelper];
 			    var helpers = getAll('helper');
@@ -666,7 +665,10 @@
 				      applyNewToolTipValues();
 				      swapOpacities(this);
 				      
-			  		logMe(letterWidth);
+			  		  var letterWidth = $('.chart__letter_guide').width();
+			  		  var letterWidth2 = parseInt($('.chart__letter_guide').css('min-width'), 10);
+
+			  		  if (isFirefox) letterWidth = letterWidth2;
 				      showKeyWords();
 				     
 				       
@@ -802,6 +804,7 @@
 	 					      	k>2 ? kx=k%3 : kx=k;
 	 					      	k>2 ? ky=1 	 : ky=0;
 	 					      	k>2 ? s=3   : s=0;
+	 					      	
 
 	 					      	item.attr('transform', 'translate(' + getLengthsSoFar(kx,s) + ',' + ((ky*30)+90) + ')');
 	 				      	  }

@@ -1,13 +1,17 @@
+
+
  <div id='global_averages'>
   <h1>Gutter Relativity</h1>
 
-    <table id='table-graph'>
+    <table id='table-graph' style="width:100vw;">
           <tbody>
+            
             <% @all_global_percentages.each_with_index do |(k,v),index|%>
               <% @all_global_averages[k] > @all_global_averages['average'] ? @percentclass = 'green' : @percentclass = 'red' %>
 
                   <% if @percentclass!= @oldpercentclass && index!=0%>
                     <tr class='fullwidth' >
+  
                      
                       <td class='text average-text'>Average</td>
                        <td class="dot three-thirds">
@@ -25,14 +29,18 @@
                       
             
    
-                  </td></tr>
+                  </td>
+           </tr>
                    <tr class='fullwidth' >
+               
                     <td></td>
                       <td class='text one-third'><%= (@all_global_averages['average']/@all_global_averages['size']).round(2) %> / story</td>
+                 
                   </tr>
 
                 <%end%>
              <tr class='fullwidth '> 
+   
 
              <td class='two-thirds'>
                       <%= image_tag(LOGOS[k.titleize], :width=>100, :class => 'awardpic ' + k.downcase) %>
@@ -77,15 +85,18 @@
                   <% end %>
    
                   </td>
+            
                  </tr>
                  <tr class=''> 
+               
                   <td></td>
                   <td class='text one-third' style='color:<%=@percentclass%>;'><%= (@all_global_averages[k]/@all_global_averages['size']).round(2) %> / story</td>
-                 
+              
                  </tr>
 
                    <% @oldpercentclass = @percentclass%>
                 <% end %>
+             
           </tbody></table>
 
        <!--  <table id='global_table'>

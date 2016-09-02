@@ -74,7 +74,8 @@ nav {
   float: right;
   width: 78vw;
   margin-left: 2vw;
-  overflow: y; }
+  overflow: y;
+  overflow-x: hidden; }
 
 #welcome, #today, #data, #shame, #global_averages {
   clear: both;
@@ -204,6 +205,7 @@ svg text {
   font-size: 1.2em;
   stroke: none;
   fill: rgba(0,0,0,0); 
+  min-width: 14px;
 }
 
 svg text.chart__range-selection {
@@ -470,7 +472,12 @@ table#table-graph {
   margin-left: none;
    margin-right: none;
    padding-bottom: 5vh;
+   table-layout: fixed !important;
+   min-width: inherit !important;
+}
 
+#table-graph > tbody {
+/*  table-layout: fixed !important;*/
 }
 
 span.graphtext {
@@ -499,7 +506,7 @@ span.stick {
 }
 
 td.one-third{line-height: 0.5em;}
-td.two-thirds{line-height: 1em;}
+td.two-thirds{line-height: 1em;width: 5vw;}
 td.three-thirds{line-height: 3em;}
 
 td.dot {
@@ -509,7 +516,7 @@ td.dot {
 
 td.global-index {text-align: center;}
 
-td.average-text{text-align: center;}
+/*td.average-text{text-align: center;}*/
 
 td.dot {text-align: left;border: none;width: 30vw;}
 td.dot > span.percentball {letter-spacing: -7px;}
@@ -518,7 +525,7 @@ figure.circle {
   display: inline-block;
 /*  border-radius: 50%;*/
   height: 1vw;
-  width: 0.25vw;
+  width: 0.2vw;
   margin: 0;
 }
 
@@ -1164,6 +1171,8 @@ span.source {
   padding: 5px;
 }
 
+td.two-thirds{line-height: 1em;width: 15vw;}
+
 td.text {
   font-size: 1.4em;
 }
@@ -1177,6 +1186,7 @@ td.text {
 
 .chart__topics, .chart__letter_guide {
   font-size: 1.2em;
+  min-width: 10px;
 }
 
      }
@@ -1204,6 +1214,12 @@ td.text {
     .globaltable > td {
   padding: 5px;
 }
+
+  span.graphtext {
+      font-size: 24px;
+    }
+
+    td.two-thirds{line-height: 1em;width: 8vw;}
 
 td.text {
   font-size: 1em;
@@ -1233,6 +1249,10 @@ td.text {
   body {
     height: 100%;
     background: white;
-    font-size: 16px; } }
+    font-size: 16px; } 
+
+  
+
+  }
 
 /*# sourceMappingURL=serenity.css.map */
