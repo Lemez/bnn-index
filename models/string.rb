@@ -16,9 +16,14 @@ class String
 		$tgr.get_readable(self).split(" ").map{|s| word,pos = s.split("/"); [word,pos]}
 	end
 
+	def remove_pos_splitter_punc
+		self.gsub("/","")
+	end
+
 	def return_relevant_pos_tags
 		relevantWordTagPairs = {}
 		self.sentence_to_pos.each do |pair| 
+			p pair
 			word,pos = pair
 			type = POS_TYPES[pos][:name]
 			 if RELEVANT_POS.include?(type)
@@ -89,7 +94,7 @@ class String
 
 	def process_for_histogram(options = {:num => false})
 
-		@not_worthy = %w(apos say the new)
+		@not_worthy = %w(apos say the new at least)
 		@people = %w(may trump)
 		amount = (options[:num] ? options[:num] : 5)
 
@@ -187,7 +192,7 @@ class String
 
 		aggregate_afinn,aggregate_wiebe,aggregate_shouts = 0.0,0.0,0.0
 
-		@pos_tagged = self.return_relevant_pos_tags
+		@pos_tagged = self.remove_pos_splitter_punc.return_relevant_pos_tags
 		clean_array = self.clean_and_filter_for_processing
 		
 		

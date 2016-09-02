@@ -1443,7 +1443,6 @@ strongsubj courage noun positive
 strongsubj courageous adj positive
 strongsubj courageously anypos positive
 strongsubj courageousness noun positive
-strongsubj court verb positive
 strongsubj courteous adj positive
 strongsubj courtesy noun positive
 strongsubj courtly adj positive
@@ -5757,7 +5756,6 @@ strongsubj preponderance adj positive
 strongsubj preponderance noun positive
 strongsubj preposterous adj negative
 strongsubj preposterously anypos negative
-weaksubj press verb positive
 strongsubj pressing adj negative
 strongsubj pressing noun negative
 weaksubj pressure adj neutral
@@ -8030,8 +8028,8 @@ weaksubj waste noun negative
 weaksubj waste verb negative
 weaksubj wasteful adj negative
 weaksubj wastefulness noun negative
-strongsubj watchdog adj negative
-strongsubj watchdog noun negative
+weaksubj watchdog adj negative
+weaksubj watchdog noun negative
 strongsubj wayward adj negative
 weaksubj weak adj negative
 strongsubj weaken verb negative

@@ -39,7 +39,12 @@ end
 def get_word_score(word,w,pos)
 
 	afinnscore=$afinn[word]
- 	afinnscore.nil? ? afinnscoreFinal=0 : afinnscoreFinal=afinnscore.round(2)
+ 	if afinnscore.nil?
+ 		afinnscoreFinal=0
+ 	else
+ 		afinnscoreFinal=afinnscore.round(2)
+ 		p "A match: #{word}: #{afinnscoreFinal}"
+ 	end
  	
 	wordpos = POS_TYPES[pos][:name].downcase
  	wiebescore=$wiebe[word]
@@ -48,9 +53,15 @@ def get_word_score(word,w,pos)
  		wiebescoreFinal=0
  	else
  		if wiebescore[:pos] == (wordpos || 'anypos' )
- 			p "match: #{word}: #{wiebescore[:pos]}, #{wordpos}"
  			wiebescoreFinal=wiebescore[:sentiment]
+ 			p "W match: #{word}: #{wiebescoreFinal} #{wiebescore[:pos]}, #{wordpos}"
+
+ 		elsif wiebescore[:pos] == 'verb' && wordpos == 'noun'
+ 			# specific journalese tagger miscategorisation
+ 			wiebescoreFinal=wiebescore[:sentiment]/2
+ 			p "W v/n mismatch: #{word}: #{wiebescoreFinal} #{wiebescore[:pos]}, #{wordpos}"
  		else
+ 			p "W mismatch: #{word}: #{wiebescore[:pos]}, #{wordpos}"
  			wiebescoreFinal=0
  		end
  	end

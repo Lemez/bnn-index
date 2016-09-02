@@ -29,7 +29,7 @@ end
 
 def add_dailyscore_record_for_day_if_none(day)
   
-  p "Adding DailyScore for #{day}"
+  p "Attempting to add DailyScore for #{day}"
   
   scores = Score.where(date:Date.parse(day))
   if scores.exists?
