@@ -1,5 +1,7 @@
 class Score < ActiveRecord::Base
 
+	before_create :set_just_created
+
 	scope :find_by_source, -> (paper) { where(:source => paper) }
 	scope :express, -> { where(source:"express") }
 	scope :guardian, -> { where(source:"guardian") }
@@ -7,7 +9,7 @@ class Score < ActiveRecord::Base
 	scope :mail, -> { where(source:"mail") }
 	scope :telegraph, -> { where(source:"telegraph") }
 	scope :times, -> { where(source:"times") }
-	# scope :by_date, -> (needful_date) { where('date.formatted_date = ?', needful_date) }
+	scope :on_date, -> (day) { where(date:day) } #day must be Date format, not string
 
 	def self.from_day(day)
 		self.where('created_at > ?', day)
@@ -25,13 +27,20 @@ class Score < ActiveRecord::Base
 		self.order('date')
 	end
 
-	def self.on_date(d)
-		@date = Date.parse(d)
-		self.where(date: @date..(@date + 1.day))
-	end
-
 	def is_valid?
 		!first.score.nil? && !first.score.nan?
 	end
+
+	def just_created?
+    	@just_created || false
+  	end
+
+	private
+
+  # Set a flag indicating this model is just created
+
+	  def set_just_created
+	    @just_created = true
+	  end
 
 end

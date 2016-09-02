@@ -1,10 +1,13 @@
 class DailyScore < ActiveRecord::Base
 
 	serialize :topics, Array
-	scope :since_day, -> (day) { where('date > ?', day) }
-	scope :on_date, -> (day) { where(date:day) }
+	before_create :set_just_created
 
-#<DailyScore id: 7020, mail: 0.5, telegraph: -0.8, times: 1.0, average: -2.3, guardian: -6.6, independent: -1.1, express: -4.7, date: "2016-05-21 00:00:00", created_at: "2016-05-21 16:54:25", updated_at: "2016-05-21 16:54:25", dateformat: nil>
+	scope :since_day, -> (day) { where('date > ?', day) }
+	scope :on_date, -> (day) { where(date:day) } #day must be Date format, not string
+												# need to chain with .first as this returns ARarray
+
+#<DailyScore id: 7020, mail: 0.5, telegraph: -0.8, times: 1.0, average: -2.3, guardian: -6.6, independent: -1.1, express: -4.7, date: "2016-05-21 00:00:00", created_at: "2016-05-21 16:54:25", updated_at: "2016-05-21 16:54:25">
 
 	def self.from_today
 		self.where(date:Date.today)
@@ -64,6 +67,18 @@ class DailyScore < ActiveRecord::Base
 
         @totalDailyScores.each_with_object({}) { |(key, value), hash| hash[key] = value.round(1) }
 
+	end
+
+	def just_created?
+    	@just_created || false
+  	end
+
+private
+
+  # Set a flag indicating this model is just created
+
+	def set_just_created
+	    @just_created = true
 	end
 
 end

@@ -13,6 +13,44 @@ require 'pry'
 # require 'user_agent_randomizer'
 require 'lemmatizer'
 
+def check_fetch_update_today_if_needed
+	  day = Date.today.to_s
+
+	  stories_to_be_fetched = any_sources_not_fetched_via_RSS_today?(day)
+	  if stories_to_be_fetched.any?
+
+	      set_up_sentiment_analysers
+
+	      stories_to_be_fetched.each do |params|
+	      	get_todays_rss(options=params)
+		 	create_or_update_score_for(params[:name],day)
+		  end
+	 end
+
+	 create_or_update_dailyscore_for(day)
+
+end
+
+def any_sources_not_fetched_via_RSS_today? (day)
+
+	@not_yet_fetched = []
+	CURRENT_NAMES.each do |key|
+
+		params = {:name=> key, :got=>0}
+
+		got_today = Story.count_stories_on(key,day)
+
+		if got_today < DAILY_NUMBER
+			params[:got] = got_today
+			@not_yet_fetched << params
+			p params
+		end
+	end
+	@not_yet_fetched
+end
+
+
+
 def get_reset_date
 	RACK_ENV == 'production' ? Date.parse("2016-08-25") : Date.parse("2016-07-30")
 end
@@ -132,36 +170,10 @@ def get_todays_rss(options={:name=>'',:got=>0})
 
 end
 
-def check_and_fetch_today_if_needed
-		day = Date.today.to_s
-	  stories_to_be_fetched = any_sources_not_fetched_via_RSS_today?(day)
-	  if stories_to_be_fetched.any?
-	      p "getting RSS"  
-	      set_up_sentiment_analysers 
-	      stories_to_be_fetched.each {|params|get_todays_rss(options=params)}
-	 end
-
-	 check_and_update_scores(day)
-end
 
 
-def any_sources_not_fetched_via_RSS_today? (day)
 
-	@not_yet_fetched = []
-	CURRENT_NAMES.each do |key|
 
-		params = {:name=> key, :got=>0}
-
-		got_today = Story.count_stories_on(key,day)
-
-		if got_today < DAILY_NUMBER
-			params[:got] = got_today
-			@not_yet_fetched << params
-			p params
-		end
-	end
-	@not_yet_fetched
-end
 
 
 def check_and_get_missing_sources
@@ -197,7 +209,7 @@ def scrape_instead(source_array)
 
 		process_new_stories_by_source(data,source, method)
 		
-		save_scores(source,Date.today.to_s)
+		# save_scores(source,Date.today.to_s)
 	end
 end
 

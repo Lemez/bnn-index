@@ -7,12 +7,20 @@ def save_scores(paper,day)
 		return
 	else
 		@sc = Score.on_date(day).where(source: paper).first_or_create! do |sc| #ensures only one per paper per day
-			sc.date = Date.parse(day)
-			sc.score = mixed_score
-			sc.save!
+					sc.update(score:mixed_score, date:Date.parse(day))
+			end
+
+		if @sc.persisted?
+			status = (@sc.just_created? ? "New" : "Updated")
+			p "Score #{status}, #{@sc.date}, #{@sc.source}, #{@sc.id} " 
+		else
+			p "Score for #{paper} not updated"
 		end
-		p "Saved Score #{@sc.id}, #{@sc.source}, #{@sc.date}" if @sc.persisted?
 	end
+end
+
+def create_or_update_score_for(source,day)
+	save_scores(source,day)
 end
 
 def check_and_update_scores(day)

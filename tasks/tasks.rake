@@ -16,9 +16,7 @@ namespace :score do
       $date = $current_time.strftime('%d/%m/%Y')
       $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
 
-      check_and_fetch_today_if_needed
-
- 		  add_dailyscore_record_for_today_if_none
+      check_fetch_update_today_if_needed
 	end
 
   task :update_stories_in_db => :environment do

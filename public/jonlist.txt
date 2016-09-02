@@ -72,3 +72,4 @@ slave,-2
 backlash,-2
 tough,-1
 storm,-1
+yob,-2

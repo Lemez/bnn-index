@@ -158,8 +158,7 @@ Padrino.after_load do
     p "online: #{@online}, $reset_date: #{$reset_date}, ENV: #{RACK_ENV}"
 
     if @online
-		check_and_fetch_today_if_needed
-		add_dailyscore_record_for_today_if_none if all_sources_fetched?
+		check_fetch_update_today_if_needed
 	end
 
 	$day = (@online ?  Date.today : Date.parse(Story.last.date.formatted_date))
