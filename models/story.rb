@@ -6,6 +6,8 @@ class Story < ActiveRecord::Base
 	scope :mail, -> { where(source:"mail") }
 	scope :telegraph, -> { where(source:"telegraph") }
 	scope :times, -> { where(source:"times") }
+	scope :mirror, -> { where(source:"mirror") }
+	scope :ft, -> { where(source:"ft") }
 	scope :find_by_source, -> (paper) { where(:source => paper.downcase) }
 	scope :negative, -> { where('mixed < ?', 0) }
 

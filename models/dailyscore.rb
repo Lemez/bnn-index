@@ -33,12 +33,12 @@ class DailyScore < ActiveRecord::Base
 		File.open(Padrino.root("public", "log/dailyscore/#{time}.txt") , 'a+') { |file| file.write("DailyScore,#{self.id},#{self.nil_attributes}\n") }
 	end
 
-	def self.get_trophies_since(day)
+	def self.get_trophies_since(d)
 		@trophies = ActiveSupport::OrderedHash.new
 		CURRENT_NAMES.each{|f| @trophies[f]=0}
 		fields = CURRENT_NAMES.map(&:to_sym)
 
-		self.since_day(day).select(fields).each do |day|
+		self.since_day(d).select(fields).each do |day|
           object = day.attributes # AR to hash
           sample = day.attributes.values[-1]
           next if sample.nil? || sample.nan?

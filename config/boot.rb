@@ -68,13 +68,15 @@ SOURCES =  {
 			'Guardian'=>"https://www.theguardian.com/uk/rss",
 			'Independent'=>'http://independent.co.uk/news/rss',
 			'Mail'=>'http://www.dailymail.co.uk/news/index.rss',
-			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml'
+			'Telegraph'=>'http://www.telegraph.co.uk/news/rss.xml',
+			'Mirror' => 'http://www.mirror.co.uk/news/rss.xml',
+			'Ft' => 'http://www.ft.com/rss/home/uk'
 			# 'Standard'=>"http://www.standard.co.uk/rss"
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
-CURRENT_NAMES = ['guardian','telegraph','mail','independent','express']
-EXCLUDE = ['express']
+CURRENT_NAMES = SOURCES.keys.map(&:downcase) - EXCLUDE
+EXCLUDE = ['ft','mirror']
 
 SCRAPERS = {
 	'express' => "https://www.bing.com/news/search?q=site%3A+www.express.co.uk%2Fnews&go=Search&qs=bs&form=QBNT",
@@ -87,7 +89,9 @@ LOGOS =  {'Express'=> "Express-long-better.jpg",
 			'Independent'=>"Independent-long.png",
 			'Mail'=>"Mail-long.png",
 			'Telegraph'=>"Telegraph-long.jpg",
-			"Standard"=>"145x88_ES.png"
+			"Standard"=>"145x88_ES.png",
+			'Mirror'=>'Mirror-long.jpg',
+			'Ft' => 'FT-long.png'
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
@@ -158,11 +162,11 @@ Padrino.after_load do
     p "online: #{@online}, $reset_date: #{$reset_date}, ENV: #{RACK_ENV}"
 
     if @online
-		check_fetch_update_today_if_needed
+		# check_fetch_update_today_if_needed
 	end
 
 	$day = (@online ?  Date.today : Story.last.date.to_date)
-    $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
+    # $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
 
     @logomap = {}
     LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }

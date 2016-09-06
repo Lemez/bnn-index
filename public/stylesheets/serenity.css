@@ -233,13 +233,20 @@ svg text.chart__range-selection {
 .chart__guardian--focus,
 .chart__independent--focus,
 .chart__express--focus,
-.chart__telegraph--focus {
+.chart__mirror--focus,
+.chart__ft--focus,
+ {
     stroke-width: 2px;
     opacity: 0.1;
 }
-.times,
-.chart__times--focus {
+.mirror,
+.chart__mirror--focus {
     stroke: #40d47e;
+}
+
+.ft,
+.chart__ft--focus {
+    stroke: pink;
 }
 .guardian,
 .chart__guardian--focus {
@@ -371,7 +378,7 @@ td.clickable {
     min-height: 100%;
 }
 tr.tablerow > td > span.balls_container {
-    letter-spacing: -3px;
+    letter-spacing: -7px;
     vertical-align: middle;
 }
 .paperscore {
@@ -380,7 +387,7 @@ tr.tablerow > td > span.balls_container {
     font-size: 1.5em;
 }
 .logo_today {
-    width: 12.5vw;
+    width: 10vw;
 }
 .active {
     visibility: visible;
@@ -1192,7 +1199,7 @@ span.source {
         vertical-align: middle;
     }
     img.logo_today {
-        width: 17vw;
+        width: 12.5vw;
     }
     span.award {
         margin-top: 10px;
@@ -1247,9 +1254,7 @@ span.source {
     tr.tablerow > td > span.balls_container {
         /*letter-spacing: -5px;*/
     }
-    img.logo_today {
-        width: 12.5vw;
-    }
+
     .globaltable > td {
         padding: 5px;
     }

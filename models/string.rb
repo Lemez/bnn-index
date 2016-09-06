@@ -94,10 +94,18 @@ class String
 
 	def process_for_histogram(options = {:num => false})
 
+		amount = (options[:num] ? options[:num] : 5)
+		self.see_histogram[0..amount].
+				map!{|name,number|  name.is_a_dictionary_word? ? name : name.titleize}.
+				map!{|name,number| @people.include?(name) ? name.titleize : name}.
+				map!{|name,number|  name.upcase.is_a_common_acronym? ? name.upcase : name}
+	end
+
+	def see_histogram
+
 		@not_worthy = %w(apos say the new at least)
 		@people = %w(may trump)
-		amount = (options[:num] ? options[:num] : 5)
-
+		
 		bag = self.remove_stopwords.separate_words.map!{|g|g.lemmatize}
 		hist = Hash[
 					*bag.
@@ -107,11 +115,7 @@ class String
 				reject{|k,v| k.valid_number?}.
 				reject{|k,v| k.size<2}.
 				reject{|k,v| @not_worthy.include?(k)}.
-				sort_by{|k,v|v}.
-				reverse[0..amount].
-				map!{|name,number|  name.is_a_dictionary_word? ? name : name.titleize}.
-				map!{|name,number| @people.include?(name) ? name.titleize : name}.
-				map!{|name,number|  name.upcase.is_a_common_acronym? ? name.upcase : name}
+				sort_by{|k,v|v}.reverse
 	end
 
 	def separate_words

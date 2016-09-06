@@ -25,6 +25,8 @@
 	var guardianLine,guardianChart,guardianLabel,guardianHelper,guardianTooltip,guardianText,guardianLabelText,guardianEmoji,guardianEmojiText;
 	var independentLine,independentChart,independentLabel,independentHelper,independentTooltip,independentText,independentLabelText,independentEmoji,independentEmojiText;
 	var telegraphLine,telegraphChart,telegraphLabel,telegraphHelper,telegraphTooltip,telegraphText,telegraphLabelText,telegraphEmoji,telegraphEmojiText;
+	var mirrorLine,mirrorChart,mirrorLabel,mirrorHelper,mirrorTooltip,mirrorText,mirrorLabelText,mirrorEmoji,mirrorEmojiText;
+	var ftLine,ftChart,ftLabel,ftHelper,ftTooltip,ftText,ftLabelText,ftEmoji,ftEmojiText;
 	var averageLine,averageChart,averageLabel,averageHelper,averageTooltip,averageText,averageLabelText,averageEmoji,averageEmojiText;
 	var paperKey, relevantObj, relevantField;
 	var allObjects = {  
@@ -83,16 +85,44 @@
 					        		'labeltext': telegraphLabelText
 					        	},
 					        		'express' : {'chartclass' : 'chart__express--focus',
-		        		'line' : expressLine,
-		        		'chart' : expressChart,
-		        		'label' : expressLabel,
-		        		'helper': expressHelper,
-		        		'tooltip': expressTooltip,
-		        		'tooltipclass' : 'chart__tooltip--express',
-		        		'text': expressText,
-		        		'logo': 'express.png',
-		        		'labelText': expressLabelText
-		        		},
+							        		'line' : expressLine,
+							        		'chart' : expressChart,
+							        		'label' : expressLabel,
+							        		'helper': expressHelper,
+							        		'tooltip': expressTooltip,
+							        		'tooltipclass' : 'chart__tooltip--express',
+							        		'text': expressText,
+							        		'logo': 'express.png',
+							        		'labelText': expressLabelText
+							        		},
+
+		        			'mirror' : { 'chartclass' : 'chart__mirror--focus',
+					        		'line' : mirrorLine,
+					        		'chart' : mirrorChart,
+					        		'label' : mirrorLabel,
+					        		'helper': mirrorHelper,
+					        		'emoji' :mirrorEmoji,
+					        		'emojitext' : mirrorEmojiText,
+					        		'tooltip': mirrorTooltip,
+					        		'tooltipclass' : 'chart__tooltip--mirror',
+					        		'text': mirrorText,
+					        		'logo': 'Mirror-long.jpg',
+					        		'labeltext': mirrorLabelText
+		        					},
+
+		        			'ft' : { 'chartclass' : 'chart__mirror--focus',
+					        		'line' : ftLine,
+					        		'chart' : ftChart,
+					        		'label' : ftLabel,
+					        		'helper': ftHelper,
+					        		'emoji' :ftEmoji,
+					        		'emojitext' : ftEmojiText,
+					        		'tooltip': ftTooltip,
+					        		'tooltipclass' : 'chart__tooltip--ft',
+					        		'text': ftText,
+					        		'logo': 'FT-long.png',
+					        		'labeltext': ftLabelText
+		        					},
 
 					        	// average must be the last in this list
 					    'average' : {'chartclass' : 'chart__average--focus',
@@ -257,6 +287,7 @@
 			    		data.map(function (d) {return (d.mail);}),
 			    		data.map(function (d) {return (d.express);}),
 			    		data.map(function (d) {return (d.independent);}),
+			    		data.map(function (d) {return (d.mirror);}),
 			    		data.map(function (d) {return (d.telegraph);})
 			    	);
 

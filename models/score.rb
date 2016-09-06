@@ -9,6 +9,8 @@ class Score < ActiveRecord::Base
 	scope :mail, -> { where(source:"mail") }
 	scope :telegraph, -> { where(source:"telegraph") }
 	scope :times, -> { where(source:"times") }
+	scope :mirror, -> { where(source:"mirror") }
+	scope :ft, -> { where(source:"ft") }
 	scope :on_date, -> (day) { where(date:day) } #day must be Date format, not string
 
 	def self.from_day(day)
