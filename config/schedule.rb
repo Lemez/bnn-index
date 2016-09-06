@@ -25,14 +25,17 @@ job_type :padrino_rake, 'cd :path && padrino rake :task -e :environment'
 
 
 # every 1.day, :at => '4:30 am' do
-# every :hour do
+every :hour do
+	p "\n\n #{Time.now} : score::check_fetch_and_update_all_hourly \n\n"
+	padrino_rake "score::check_fetch_and_update_all_hourly"
+end
 
 
 # every '0 0,6,12,18 * * *' do # every day, 3 times a day, do
-every '0 6 * * *' do
-  p "\n\n #{Time.now} : score:get_and_save_today_to_db \n\n"
-padrino_rake "score:get_and_save_today_to_db"
-end
+# every '0 6 * * *' do
+#   p "\n\n #{Time.now} : score:get_and_save_today_to_db \n\n"
+# padrino_rake "score:get_and_save_today_to_db"
+# end
 
 # update with `whenever -w`
 # check with `crontab -l`
