@@ -74,4 +74,7 @@ backlash,-2
 tough,-1
 storm,-1
 yob,-2
+thug,-2
+flee,-1
 bankruptcy,-3
+holiday,2

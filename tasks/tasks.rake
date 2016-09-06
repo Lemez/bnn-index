@@ -20,7 +20,7 @@ namespace :score do
 	end
 
   task :check_fetch_and_update_all_hourly => :environment do
-    check_and_fetch_hourly
+    check_fetch_RSS_hourly
     update_scores_and_daily_score
   end
 

@@ -1404,8 +1404,6 @@ weaksubj controversy noun negative
 weaksubj convenient adj positive
 strongsubj convenient anypos positive
 strongsubj conveniently anypos positive
-weaksubj conviction adj positive
-weaksubj conviction noun positive
 weaksubj convince verb positive
 strongsubj convincing adj positive
 strongsubj convincing noun positive
@@ -2929,7 +2927,6 @@ weaksubj flake noun negative
 weaksubj flakey adj negative
 weaksubj flaky adj negative
 weaksubj flame adj positive
-weaksubj flame noun positive
 weaksubj flash adj negative
 weaksubj flash noun negative
 weaksubj flashy anypos negative

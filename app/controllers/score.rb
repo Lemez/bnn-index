@@ -26,15 +26,15 @@ SerenityPadrino::Serenity.controllers :score do
     
           @grim_today=$grimmest_articles_today.to_json.html_safe
 
-          @g_today = []
-          $grimmest_articles_today.each_pair do |k,v|
-            v.each do |story|
-                  @g_today << {'id'=>story.id,
-                   'title'=>story.title}
-                 end
-          end
+          # @g_today = []
+          # $grimmest_articles_today.each_pair do |k,v|
+          #   v.each do |story|
+          #         @g_today << {'id'=>story.id,
+          #          'title'=>story.title}
+          #        end
+          # end
 
-          p @g_today
+          # p @g_today
 
           #@words_today = {
          #    31712=>[[1, -6.0], [2, -4.0]],
@@ -79,7 +79,6 @@ SerenityPadrino::Serenity.controllers :score do
         @trophies['week']['max'] = @trophies_week.map{|a|a[1]}.max
         @trophiesJS = @trophies.to_json.html_safe
        
-
         render 'headlines'
   end
 
