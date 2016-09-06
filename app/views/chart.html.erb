@@ -20,6 +20,8 @@
 	    return roundedTempNumber / factor;
 	};
 
+	var excludeForNow = ['mirror','ft'];
+
 	var guardian,independent,express,telegraph,mail,average,dateHelper,helperLabel,mailLine,mailChart,mailLabel,mailHelper,mailTooltip,mailText,mailLabelText,mailEmoji,mailEmojiText;
 	var expressLine,expressChart,expressLabel,expressHelper,expressTooltip,expressText,expressLabelText;
 	var guardianLine,guardianChart,guardianLabel,guardianHelper,guardianTooltip,guardianText,guardianLabelText,guardianEmoji,guardianEmojiText;
@@ -96,33 +98,33 @@
 							        		'labelText': expressLabelText
 							        		},
 
-		        			'mirror' : { 'chartclass' : 'chart__mirror--focus',
-					        		'line' : mirrorLine,
-					        		'chart' : mirrorChart,
-					        		'label' : mirrorLabel,
-					        		'helper': mirrorHelper,
-					        		'emoji' :mirrorEmoji,
-					        		'emojitext' : mirrorEmojiText,
-					        		'tooltip': mirrorTooltip,
-					        		'tooltipclass' : 'chart__tooltip--mirror',
-					        		'text': mirrorText,
-					        		'logo': 'Mirror-long.jpg',
-					        		'labeltext': mirrorLabelText
-		        					},
+		        			// 'mirror' : { 'chartclass' : 'chart__mirror--focus',
+					        // 		'line' : mirrorLine,
+					        // 		'chart' : mirrorChart,
+					        // 		'label' : mirrorLabel,
+					        // 		'helper': mirrorHelper,
+					        // 		'emoji' :mirrorEmoji,
+					        // 		'emojitext' : mirrorEmojiText,
+					        // 		'tooltip': mirrorTooltip,
+					        // 		'tooltipclass' : 'chart__tooltip--mirror',
+					        // 		'text': mirrorText,
+					        // 		'logo': 'Mirror-long.jpg',
+					        // 		'labeltext': mirrorLabelText
+		        			// 		},
 
-		        			'ft' : { 'chartclass' : 'chart__mirror--focus',
-					        		'line' : ftLine,
-					        		'chart' : ftChart,
-					        		'label' : ftLabel,
-					        		'helper': ftHelper,
-					        		'emoji' :ftEmoji,
-					        		'emojitext' : ftEmojiText,
-					        		'tooltip': ftTooltip,
-					        		'tooltipclass' : 'chart__tooltip--ft',
-					        		'text': ftText,
-					        		'logo': 'FT-long.png',
-					        		'labeltext': ftLabelText
-		        					},
+		        			// 'ft' : { 'chartclass' : 'chart__mirror--focus',
+					        // 		'line' : ftLine,
+					        // 		'chart' : ftChart,
+					        // 		'label' : ftLabel,
+					        // 		'helper': ftHelper,
+					        // 		'emoji' :ftEmoji,
+					        // 		'emojitext' : ftEmojiText,
+					        // 		'tooltip': ftTooltip,
+					        // 		'tooltipclass' : 'chart__tooltip--ft',
+					        // 		'text': ftText,
+					        // 		'logo': 'FT-long.png',
+					        // 		'labeltext': ftLabelText
+		        			// 		},
 
 					        	// average must be the last in this list
 					    'average' : {'chartclass' : 'chart__average--focus',
