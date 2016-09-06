@@ -75,7 +75,7 @@ SOURCES =  {
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
-			
+
 EXCLUDE = ['ft','mirror']
 CURRENT_NAMES = SOURCES.keys.map(&:downcase) - EXCLUDE
 
@@ -168,7 +168,7 @@ Padrino.after_load do
 	end
 
 	$day = (@online ?  Date.today : Story.last.date.to_date)
-    # $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
+    $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
 
     @logomap = {}
     LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }
