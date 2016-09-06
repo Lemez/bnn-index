@@ -75,8 +75,10 @@ SOURCES =  {
 			# 'Sun' => 'http://www.thesun.co.uk/sol/homepage/'
 			# 'Times'=>"http://www.thetimes.co.uk/tto/newsrss/?service=rss"
 			}
-CURRENT_NAMES = SOURCES.keys.map(&:downcase) - EXCLUDE
+			
 EXCLUDE = ['ft','mirror']
+CURRENT_NAMES = SOURCES.keys.map(&:downcase) - EXCLUDE
+
 
 SCRAPERS = {
 	'express' => "https://www.bing.com/news/search?q=site%3A+www.express.co.uk%2Fnews&go=Search&qs=bs&form=QBNT",
