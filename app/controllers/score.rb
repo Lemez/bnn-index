@@ -26,15 +26,13 @@ SerenityPadrino::Serenity.controllers :score do
     
           @grim_today=$grimmest_articles_today.to_json.html_safe
 
-          # @g_today = []
-          # $grimmest_articles_today.each_pair do |k,v|
-          #   v.each do |story|
-          #         @g_today << {'id'=>story.id,
-          #          'title'=>story.title}
-          #        end
-          # end
-
-          # p @g_today
+          @g_today = []
+          $grimmest_articles_today.each_pair do |k,v|
+            v.each do |story|
+                  @g_today << {'id'=>story.id,
+                   'title'=>story.title}
+                 end
+          end
 
           #@words_today = {
          #    31712=>[[1, -6.0], [2, -4.0]],
