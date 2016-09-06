@@ -19,6 +19,10 @@ class Story < ActiveRecord::Base
 		self.select{|b| b.date.formatted_date == Date.today.to_s}
 	end
 
+	def self.main_five_sources
+		self.where('source != ?','mirror').where('source != ?','ft')
+	end
+
 	def self.from_day(day)
 		self.where('created_at > ?', day)
 	end
@@ -32,8 +36,7 @@ class Story < ActiveRecord::Base
 	end
 
 	def self.on_date(d)
-		@date = Date.parse(d)
-		self.where(created_at: @date..(@date + 1.day))
+		self.where(date: d..(d + 1.day))
 	end
 
 	def formatted_date

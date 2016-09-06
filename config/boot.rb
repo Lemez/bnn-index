@@ -160,15 +160,12 @@ Padrino.after_load do
 
     require_relative("#{PADRINO_ROOT}/app/rss.rb")
 
-    @online = Net::Ping::External.new("8.8.8.8").ping?
-    p "online: #{@online}, $reset_date: #{$reset_date}, ENV: #{RACK_ENV}"
+    $online = Net::Ping::External.new("8.8.8.8").ping?
+    p "online: #{$online}, $reset_date: #{$reset_date}, ENV: #{RACK_ENV}"
 
-    if @online
+    if $online
 		# check_fetch_update_today_if_needed
 	end
-
-	$day = (@online ?  Date.today : Story.last.date.to_date)
-    $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
 
     @logomap = {}
     LOGOS.keys.each{|k| @logomap[k.titleize] = LOGOS[k] }

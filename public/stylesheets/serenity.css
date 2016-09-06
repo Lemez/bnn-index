@@ -603,6 +603,18 @@ figure.circle {
 span.shout {
     color: red;
 }
+
+
+span.tabbed {
+    min-width: 15vw;
+    display: table-cell;
+    text-align: right;
+}
+
+span.celltotal {
+    font-weight: 700;
+}
+
 .codechart div {
     font: 10px sans-serif;
     background-color: steelblue;
@@ -1154,7 +1166,7 @@ span.source {
     body {
         height: 100%;
         background: white;
-        font-size: 12px;
+        font-size: 14px;
     }
     #today,
     #data,

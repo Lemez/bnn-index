@@ -10,8 +10,6 @@
 		<h3>How?</h3>
 		<p>
 			Once every hour, we take the RSS feed from Britain's 'top' newspapers, and run the first ten headlines through sentiment analysis to see how they score. Stories are assessed for 'positivity' or 'negativity', according to two manually-created sentiment analysis dictionaries (see below).</p>
-			<p> Each word gets looked up in the dictionaries and given a sentiment score, that ranges between +3 (eg. 'wonderful') and -3 (eg. 'terrifying'), then we add the scores for each word to give a final score for the headline as a whole.</p>
-
 
 		<h3>Steps</h3>
 		<p>Each headline goes through a bunch of steps: I'll take a slightly adapted-for-demo-purposes recent headline from the Daily Express on 6th Sep 2015 as an example:</p>
@@ -34,15 +32,7 @@
 			<li>Make all words lower-case,  <span class='info-ex'><em>shame, hero, suffering, post, traumatic, stress, conflict, refused, credit</em></span> </li>
 
 			<li>Get the lemma of each token,  <span class='info-ex'><em>shame, hero, suffer, post, traumatic, stress, conflict, refuse, credit</em></span> </li>
-			
-			<li>Search for each word in sentiment dictionaries,  <span class='info-ex'><em>shame, hero, suffer, post, traumatic, stress, conflict, refuse, credit</em></span> </li>
-			
-
-			
-
-			
-			
-			
+				
 		</ol>
 
 		<h3>Testing and Analysis</h3>
@@ -54,6 +44,48 @@
 	</ol>
 
 		<p>In the first test, sixty headlines were checked against the three tools. Ultimately, sentiment analysis is a rather subjective exercise, so I went down the list of scores and picked out the stories <em>I </em> thought were particularly offensive, and compared the scores. The full csv of initial data for comparison is <a href="https://www.dropbox.com/s/tngc6yqcff9ylve/rss2mixed.csv?dl=1">here</a> (key: Wiebe-MPQA, Sent-Naive Classifier). Taken alone, Wiebe and AFINN got the score badly wrong (ie weren't offended by something I found grossly offensive, or were offended by something harmless) around 20% of the time, but averaged together, the rate dropped dramatically in the test data. </p>
+
+		<h3>Scoring</h3>
+			<p> Each word gets looked up in the dictionaries and given a sentiment score, that ranges between +3 (eg. 'wonderful') and -3 (eg. 'terrifying'), then we average the scores for each word over the two dictionaries, and add them up to give a final score for the headline as a whole. <a href="https://newrepublic.com/article/117390/netiquette-capitalization-how-caps-became-code-yelling" ><span class="shout">SHOUTING</span></a> is part of negative semantics, and so each dictionary shouting word scores an extra -1 point.</p>
+
+		<p>An example using our headline above:</p>
+		<div class='info_example'>  
+
+				<span class='info-ex tabbed'>WORD</span><span class='info-ex tabbed'>Overall</span><span class='info-ex tabbed'>Afinn,MPQA</span><span class='info-ex tabbed'>SHOUT?</span><br>
+				<span class='info-ex shout tabbed'>shame</span>
+			<span class='info-ex tabbed celltotal'> -2.75</span>
+			<span class='info-ex tabbed'>-2.0,-1.5</span>
+			<span class='info-ex tabbed'>Y</span><br>
+				<span class='info-ex tabbed'>hero</span>
+				<span class='info-ex tabbed celltotal'> 2.5</span>
+				<span class='info-ex tabbed'> 2.0,3.0</span><br>
+				<span class='info-ex tabbed'>suffer</span>
+				<span class='info-ex tabbed celltotal'> -1.25</span>
+				<span class='info-ex tabbed'>-2.0,-0.5</span><br>
+			<span class='info-ex tabbed'>post</span>
+			<span class='info-ex tabbed celltotal'> 0 </span>
+			<span class='info-ex tabbed'> 0, 0</span><br>
+			<span class='info-ex tabbed'>traumatic</span>
+			<span class='info-ex tabbed celltotal'> -1.5 </span>
+			<span class='info-ex tabbed'> -3.0,0</span><br>
+			<span class='info-ex tabbed'>stress</span>
+			<span class='info-ex tabbed celltotal'> -0.75</span>
+			<span class='info-ex tabbed'> 0,-1.5</span><br>
+			<span class='info-ex tabbed'>conflict</span>
+			<span class='info-ex tabbed celltotal'> -1.5</span>
+			<span class='info-ex tabbed'> -2.0,-1.0</span><br>
+			<span class='info-ex shout tabbed'> refuse</span>
+			<span class='info-ex tabbed celltotal'> -2.75 </span>
+			<span class='info-ex tabbed'> -2.0,-1.5</span>
+			<span class='info-ex tabbed'>Y</span><br>
+			<span class='info-ex tabbed'>credit</span>
+			<span class='info-ex tabbed celltotal'>0</span>
+			<span class='info-ex tabbed'>0, 0</span> </div><br>
+			<span class='info-ex tabbed'>TOTAL</span>
+			
+			<span class='info-ex tabbed celltotal'>-8</span> </div>
+			<span class='info-ex tabbed'></span><br>
+
 
 		<h3>What is it coded in?</h3>
 		<div class='codechart'></div>

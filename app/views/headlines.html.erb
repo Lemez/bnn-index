@@ -48,23 +48,23 @@
         <dl>
 
             
-            <% @trophies['ever']['trophies'].each do |item|%>
+            <%# @trophies['ever']['trophies'].each do |item|%>
                   <dd>
                     
                    <%# item[1].times do %>
                     <%# image_tag('cup.jpg', :class => 'trophy_pic') %>
                   <%# end %> 
-                  <span class="trophy_name_wrapper"><%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
+                  <span class="trophy_name_wrapper"><%# image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
                   
                    <span class='manyblocks'>
 
-                      <span id='ever_bar_<%=item[0]%>' class='block'></span>
-                        <span class='text'><%=item[1]%></span>
+                      <span id='ever_bar_<%#item[0]%>' class='block'></span>
+                        <span class='text'><%#item[1]%></span>
                     </span>
                 
 
                   </dd>
-            <% end %>
+            <%# end %>
               
         </dl>
       </div>
@@ -98,23 +98,23 @@
        <div id='champion_trophies_month' class="trophies month">
            <dl>
             
-            <% @trophies['month']['trophies'].each do |item|%>
+            <%# @trophies['month']['trophies'].each do |item|%>
                   <dd>
                     
                    <%# item[1].times do %>
                     <%# image_tag('cup.jpg', :class => 'trophy_pic') %>
                   <%# end %> 
-                  <span class="trophy_name_wrapper"><%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
+                  <span class="trophy_name_wrapper"><%# image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
                   
                    <span class='manyblocks'>
                     
-                      <span id='month_bar_<%=item[0]%>' class='block'></span>
-                      <span class='text'><%=item[1]%></span>
+                      <span id='month_bar_<%#item[0]%>' class='block'></span>
+                      <span class='text'><%#item[1]%></span>
                     </span>
                 
 
                   </dd>
-            <% end %>
+            <%# end %>
               
         </dl>
       </div>
@@ -149,23 +149,23 @@
        <div id='champion_trophies_week' class="trophies week">
          <dl>
             
-            <% @trophies['week']['trophies'].each do |item|%>
+            <%# @trophies['week']['trophies'].each do |item|%>
                   <dd>
                     
                    <%# item[1].times do %>
                     <%# image_tag('cup.jpg', :class => 'trophy_pic') %>
                   <%# end %> 
-                  <span class="trophy_name_wrapper"><%= image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
+                  <span class="trophy_name_wrapper"><%# image_tag(LOGOS[item[0].titleize], :width => 100, :class => 'trophyname awardpic ' + item[0].downcase) %></span>
                   
                    <span class='manyblocks'>
                     
-                      <span id='week_bar_<%=item[0]%>' class='block'></span>
-                      <span class='text'><%=item[1]%></span>
+                      <span id='week_bar_<%#item[0]%>' class='block'></span>
+                      <span class='text'><%#item[1]%></span>
                     </span>
                 
 
                   </dd>
-            <% end %>
+            <%# end %>
               
         </dl>
       </div>

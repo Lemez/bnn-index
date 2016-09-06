@@ -29,6 +29,10 @@ class Score < ActiveRecord::Base
 		self.order('date')
 	end
 
+	def self.main_five_sources
+		self.where('source != ?','mirror').where('source != ?','ft')
+	end
+
 	def is_valid?
 		!first.score.nil? && !first.score.nan?
 	end

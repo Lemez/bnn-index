@@ -29,10 +29,9 @@ def get_todays_saved_story_objects(options = {:date => date})
 
 	CURRENT_NAMES.each do |source|
 		$passed = []
-		stories = Story.all
-		.from_day(options[:date])
-		.uniq(:title)
-		.where(:source=>source)
+		stories = Story.on_date(options[:date])
+		.where(source:source)
+				.uniq(:title)
 		.order(:mixed)
 		# .select{|a| a.is_uniqish_by_tfidf(source,options[:date].to_s)}
 		# .select{|a| a.is_uniqish(source)}

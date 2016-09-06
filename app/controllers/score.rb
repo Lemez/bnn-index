@@ -4,12 +4,14 @@ SerenityPadrino::Serenity.controllers :score do
   require 'active_record'
   require 'pry'
 
+  $day = ($online ?  Date.today : Story.last.date.to_date)
+
 
   layout :data
   get :index, :map => '/' do
 
-      @todays_paper_winner =  Score.on_date($day).order(:score).collect(&:source).map(&:titleize).first
-      @winner_average_today = Score.on_date($day).order(:score).first.score
+      @todays_paper_winner =  Score.on_date($day).main_five_sources.order(:score).collect(&:source).map(&:titleize).first
+      @winner_average_today = Score.on_date($day).main_five_sources.order(:score).first.score
       @logo = LOGOS[@todays_paper_winner]
 
     render 'index'
@@ -20,9 +22,11 @@ SerenityPadrino::Serenity.controllers :score do
           # START prepare local variables for erb  ##############
           set_up_sentiment_analysers
 
-          @todays_data = Score.on_date($day).uniq(:source).order(:score)
+          @todays_data = Score.on_date($day).uniq(:source).main_five_sources.order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
+
+          $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
     
           @grim_today=$grimmest_articles_today.to_json.html_safe
 
@@ -52,10 +56,11 @@ SerenityPadrino::Serenity.controllers :score do
 
       @starting_date = get_starting_date
          #using Float.nan? to remove all quirks with floats
-        stories_ever = Story.worst_since(@starting_date).uniq{|a|a.title.downcase}
-        stories_month = Story.worst_since(Date.today-30).uniq{|a|a.title.downcase}
-        stories_week = Story.worst_since(Date.today-7).uniq{|a|a.title.downcase}
-        stories_today = Story.worst_since($day).uniq{|a|a.title.downcase}
+         mystories = Story.main_five_sources
+        stories_ever = mystories.worst_since(@starting_date).uniq{|a|a.title.downcase}
+        stories_month = mystories.worst_since(Date.today-30).uniq{|a|a.title.downcase}
+        stories_week = mystories.worst_since(Date.today-7).uniq{|a|a.title.downcase}
+        stories_today = mystories.worst_since($day).uniq{|a|a.title.downcase}
 
         @story_neg_ever,@story_neg_month,@story_neg_week, @story_neg_today  = stories_ever[0..9],stories_month[0..9],stories_week[0..9], stories_today[0..9]
         @story_pos_ever,@story_pos_month,@story_pos_week = stories_ever[-10..-1].reverse,stories_month[-10..-1].reverse,stories_week[-10..-1].reverse
@@ -65,16 +70,16 @@ SerenityPadrino::Serenity.controllers :score do
          'month'=>{'trophies'=>"", 'max'=>0},
          'week'=>{'trophies'=>"", 'max'=>0}
        }
-        @trophies_ever = DailyScore.get_trophies_since(@starting_date)
-        @trophies_month = DailyScore.get_trophies_since(Date.today-30)
-        @trophies_week = DailyScore.get_trophies_since(Date.today-7)
+        # @trophies_ever = DailyScore.get_trophies_since(@starting_date)
+        # @trophies_month = DailyScore.get_trophies_since(Date.today-30)
+        # @trophies_week = DailyScore.get_trophies_since(Date.today-7)
 
-        @trophies['ever']['trophies'] = @trophies_ever
-        @trophies['ever']['max'] = @trophies_ever.map{|a|a[1]}.max
-        @trophies['month']['trophies'] = @trophies_month
-        @trophies['month']['max'] = @trophies_month.map{|a|a[1]}.max
-        @trophies['week']['trophies'] = @trophies_week
-        @trophies['week']['max'] = @trophies_week.map{|a|a[1]}.max
+        # @trophies['ever']['trophies'] = @trophies_ever
+        # @trophies['ever']['max'] = @trophies_ever.map{|a|a[1]}.max
+        # @trophies['month']['trophies'] = @trophies_month
+        # @trophies['month']['max'] = @trophies_month.map{|a|a[1]}.max
+        # @trophies['week']['trophies'] = @trophies_week
+        # @trophies['week']['max'] = @trophies_week.map{|a|a[1]}.max
         @trophiesJS = @trophies.to_json.html_safe
        
         render 'headlines'
