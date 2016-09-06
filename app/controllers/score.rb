@@ -8,10 +8,9 @@ SerenityPadrino::Serenity.controllers :score do
   layout :data
   get :index, :map => '/' do
 
-      @todays_data = Score.from_day($day).uniq(:source).order(:score)
-      @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
-      @todays_scores = @todays_data.collect(&:score)
-      @logos = $logos
+      @todays_paper_winner =  Score.on_date($day).order(:score).collect(&:source).map(&:titleize).first
+      @winner_average_today = Score.on_date($day).order(:score).first.score
+      @logo = LOGOS[@todays_paper_winner]
 
     render 'index'
   end
@@ -21,7 +20,7 @@ SerenityPadrino::Serenity.controllers :score do
           # START prepare local variables for erb  ##############
           set_up_sentiment_analysers
 
-          @todays_data = Score.from_day($day).uniq(:source).order(:score)
+          @todays_data = Score.on_date($day).uniq(:source).order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
     
@@ -68,7 +67,7 @@ SerenityPadrino::Serenity.controllers :score do
          'month'=>{'trophies'=>"", 'max'=>0},
          'week'=>{'trophies'=>"", 'max'=>0}
        }
-        @trophies_ever = DailyScore.get_trophies_since(Story.first.date.formatted_date)
+        @trophies_ever = DailyScore.get_trophies_since(@starting_date)
         @trophies_month = DailyScore.get_trophies_since(Date.today-30)
         @trophies_week = DailyScore.get_trophies_since(Date.today-7)
 

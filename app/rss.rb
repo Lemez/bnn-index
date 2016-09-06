@@ -28,7 +28,23 @@ def check_fetch_update_today_if_needed
 	 end
 
 	 create_or_update_dailyscore_for(day)
+end
 
+def check_fetch_RSS_hourly
+	day = Date.today.to_s
+	set_up_sentiment_analysers
+	
+	CURRENT_NAMES.each do |name|
+		get_todays_rss(options={:name=>name})
+	end
+end
+
+def update_scores_and_daily_score
+	day = Date.today.to_s
+	CURRENT_NAMES.each do |name|
+		create_or_update_score_for(name,day)
+	end
+	create_or_update_dailyscore_for(day)
 end
 
 def any_sources_not_fetched_via_RSS_today? (day)
@@ -99,13 +115,13 @@ def process_new_stories_by_source(data, key,type, options)
 						analysis_data[:shouts] +
 						((params[:afinn]+params[:wiebe])/2) 
 
-		if enough_stories_for_source_already_saved_today?(params)
-			p "#{DAILY_NUMBER} Saved stories from #{key} today"
-			return
+		# if enough_stories_for_source_already_saved_today?(params)
+		# 	p "#{DAILY_NUMBER} Saved stories from #{key} today"
+		# 	return
 
-		elsif story_not_yet_saved?(params)
+		# elsif 
+		if story_not_yet_saved?(params)
 			save_stories(params) 
-
 		else
 			p "EXISTS: #{params[:source]}: #{params[:title]} saved previously on #{Story.where(:title=>params[:title]).first.date.formatted_date}"
 		end

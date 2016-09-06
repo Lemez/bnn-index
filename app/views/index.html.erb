@@ -1,1 +1,14 @@
-  <%= partial 'partials/welcome',:locals => { :todays_papers_ordered => @todays_papers_ordered, :todays_scores => @todays_scores, :grimmest_articles_today => $grimmest_articles_today, :logos => @logos } %>
+<section id='welcome'>
+	<h1 id='welcome_header'>The newspaper to avoid today is... </h1>
+	<div id="today_logo">
+		<a href='/today.html'>
+		<%=image_tag @logo, :width => 300, :class => 'logo' %>
+		</a>
+	</div>
+	<h2 class="welcome_text"> with an average article negativity<sup>*</sup> score of </h2>
+	<h1 class="welcome_score"><%= @winner_average_today %></h1>
+	<h3>Don't say we didn't warn you :)</h3>
+
+</section>
+
+

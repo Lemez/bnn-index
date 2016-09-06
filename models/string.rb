@@ -184,6 +184,17 @@ class String
 		return all_words.reject_numbers.clean_word_noise.unhyphenate
 	end
 
+	def process_to_hash
+		# output with index, pos, lemma, score
+		params = {}
+		simple = self.split(" ")
+		simple.each_with_index{|a,i| params[i] = {:word => a[0], :lemma => ''}}
+		array = self.sentence_to_pos
+		
+		params.reject{|k,v| k[:word].to_i!=0 || k[:pos][0]=="P"}
+
+	end
+
 
 	def get_all_word_scores(options = {:write => false})
 

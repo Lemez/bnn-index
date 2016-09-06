@@ -4437,9 +4437,6 @@ weaksubj judgments noun neutral
 weaksubj jumpy adj negative
 weaksubj junk noun negative
 weaksubj junky adj negative
-strongsubj just adj positive
-weaksubj just anypos positive
-weaksubj just noun positive
 weaksubj justice adj positive
 weaksubj justice noun positive
 strongsubj justifiable adj positive
@@ -7337,10 +7334,10 @@ strongsubj terrific adj positive
 strongsubj terrific anypos positive
 strongsubj terrifically anypos positive
 strongsubj terrified adj positive
-strongsubj terrify verb positive
-strongsubj terrifying adj positive
-strongsubj terrifying anypos positive
-strongsubj terrifyingly anypos positive
+strongsubj terrify verb negative
+strongsubj terrifying adj negative
+strongsubj terrifying anypos negative
+strongsubj terrifyingly anypos negative
 strongsubj terror noun negative
 strongsubj terror-genic adj negative
 strongsubj terror-genic noun negative

@@ -787,7 +787,7 @@
 						      	var delta = windowW/40;
 						      	var lengths = topics.map(function(e){return e.length;}).slice(start,finish);
 						      	for (var mm=0;mm<e;mm++){
-						      		soFar += ((lengths[mm]*letterWidth));
+						      		soFar += ((lengths[mm]*letterWidth)+delta/2);
 						      	}
 						      	return soFar;
 						      }

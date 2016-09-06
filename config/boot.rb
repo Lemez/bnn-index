@@ -161,7 +161,7 @@ Padrino.after_load do
 		check_fetch_update_today_if_needed
 	end
 
-	$day = (@online ?  Date.today : Date.parse(Story.last.date.formatted_date))
+	$day = (@online ?  Date.today : Story.last.date.to_date)
     $grimmest_articles_today = get_todays_saved_story_objects({:date => $day})
 
     @logomap = {}

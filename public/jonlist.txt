@@ -55,6 +55,7 @@ voyeur,-1
 infiltrate,-2
 kidnap,-3
 kidnapped,-3
+kidnapper,-3
 warzone,-3
 teargas,-3
 antisemitic,-3
