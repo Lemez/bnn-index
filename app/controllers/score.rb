@@ -4,11 +4,17 @@ SerenityPadrino::Serenity.controllers :score do
   require 'active_record'
   require 'pry'
 
+  $day = Story.last.date.to_date
+
+  $scoresToday = Score.on_date($day).presence || Score.on_date($day - 1.day)
+
+  $day = $scoresToday.last.date.to_date
+
   layout :data
   get :index, :map => '/' do
 
-      @todays_paper_winner =  Score.on_date($day).main_five_sources.order(:score).collect(&:source).map(&:titleize).first
-      @winner_average_today = Score.on_date($day).main_five_sources.order(:score).first.score
+      @todays_paper_winner =  $scoresToday.main_five_sources.order(:score).collect(&:source).map(&:titleize).first
+      @winner_average_today = $scoresToday.main_five_sources.order(:score).first.score
       @logo = LOGOS[@todays_paper_winner]
 
     render 'index'
@@ -19,7 +25,7 @@ SerenityPadrino::Serenity.controllers :score do
           # START prepare local variables for erb  ##############
           set_up_sentiment_analysers
 
-          @todays_data = Score.on_date($day).uniq(:source).main_five_sources.order(:score)
+          @todays_data = $scoresToday.uniq(:source).main_five_sources.order(:score)
           @todays_papers_ordered = @todays_data.collect(&:source).map(&:downcase)
           @todays_scores = @todays_data.collect(&:score)
 
