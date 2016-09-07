@@ -27,7 +27,7 @@ job_type :padrino_rake, 'cd :path && padrino rake :task -e :environment'
 # every 1.day, :at => '4:30 am' do
 every :hour do
 	p "\n\n #{Time.now} : score:check_fetch_and_update_all_hourly \n\n"
-	padrino_rake "score:check_fetch_and_update_all_hourly"
+	padrino_rake "score:check_fetch_and_update_all_hourly >/tmp/stdout.log 2>/tmp/stderr.log"
 end
 
 

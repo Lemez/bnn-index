@@ -45,7 +45,7 @@ end
 
 def get_keywords_on(d)
 	set_up_sentiment_analysers if $afinn.nil?
-	title = Story.on_date(d.to_s).map(&:title).join(" ")
+	title = Story.on_date(d).map(&:title).join(" ")
 	hist = title.process_for_histogram
 	hist
 end

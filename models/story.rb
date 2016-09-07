@@ -36,7 +36,7 @@ class Story < ActiveRecord::Base
 	end
 
 	def self.on_date(d)
-		self.where(date: d..(d + 1.day))
+		self.where(date: d..d+1)
 	end
 
 	def formatted_date

@@ -1,13 +1,13 @@
 def save_scores(paper,day)
-
-	mixed_score = Story.on_date(day).where(source:paper).map(&:mixed).get_average.round(2)
+	@day = Date.parse(day)
+	mixed_score = Story.on_date(@day).where(source:paper).map(&:mixed).get_average.round(2)
 
 	if mixed_score.nan? || mixed_score.nil?
 		p "Score on #{day} not valid"
 		return
 	else
-		@sc = Score.on_date(day).where(source: paper).first_or_create! do |sc| #ensures only one per paper per day
-					sc.update(score:mixed_score, date:Date.parse(day))
+		@sc = Score.on_date(@day).where(source: paper).first_or_create! do |sc| #ensures only one per paper per day
+					sc.update(score:mixed_score, date:@day)
 			end
 
 		if @sc.persisted?
