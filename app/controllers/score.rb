@@ -4,7 +4,7 @@ SerenityPadrino::Serenity.controllers :score do
   require 'active_record'
   require 'pry'
 
-  $day = ($online ?  Date.today : Story.last.date.to_date)
+  $day = Story.last.date.to_date
 
 
   layout :data
