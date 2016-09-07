@@ -16,7 +16,7 @@ def create_or_update_dailyscore_for(day)
 end
 
 def to_daily_score_format(data)
-    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2), :topics => get_keywords_on(data.first.date)}
+    params = {:date => data.first.date, :average => data.map(&:score).get_average.round(2), :topics => get_keywords_on(data.first.date.to_date)}
     data.each {|s| params[s.source.downcase.to_sym] = s.score}
     params
 end
