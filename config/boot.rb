@@ -157,14 +157,14 @@ Padrino.after_load do
     $current_time_formatted = $current_time.strftime('%X-%d/%m/%Y')
 
     $reset_date = get_reset_date
-
-    require_relative("#{PADRINO_ROOT}/app/rss.rb")
+    $day = Story.last.date.to_date
 
     $online = Net::Ping::External.new("8.8.8.8").ping?
     p "online: #{$online}, $reset_date: #{$reset_date}, ENV: #{RACK_ENV}"
 
     if $online
-		# check_fetch_update_today_if_needed
+		# check_fetch_update_today_if_needed 
+		p "I'm online"
 	end
 
     @logomap = {}
