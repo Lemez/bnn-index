@@ -3,7 +3,7 @@ def story_not_yet_saved? (params)
 end
 
 def enough_stories_for_source_already_saved_today?(params)
-	Story.from_today.where(source:params[:source]).count == DAILY_NUMBER
+	Story.from_today.where(source:params[:source]).count >= DAILY_NUMBER
 end
 
 

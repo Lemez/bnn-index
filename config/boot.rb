@@ -11,7 +11,7 @@ require "net/ping"
 # configure { set :server, :puma }
 
 SIMILARITY_THRESHOLD = 0.5
-DAILY_NUMBER = 10
+DAILY_LIMIT = 20
 
 
 POS_TYPES = {

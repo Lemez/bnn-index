@@ -33,7 +33,7 @@ end
 def check_fetch_RSS_hourly
 	day = Date.today.to_s
 	set_up_sentiment_analysers
-	
+
 	CURRENT_NAMES.each do |name|
 		get_todays_rss(options={:name=>name})
 	end
@@ -115,12 +115,11 @@ def process_new_stories_by_source(data, key,type, options)
 						analysis_data[:shouts] +
 						((params[:afinn]+params[:wiebe])/2) 
 
-		# if enough_stories_for_source_already_saved_today?(params)
-		# 	p "#{DAILY_NUMBER} Saved stories from #{key} today"
-		# 	return
+		if enough_stories_for_source_already_saved_today?(params)
+			p "#{DAILY_NUMBER} already saved stories from #{key} today"
+			return
 
-		# elsif 
-		if story_not_yet_saved?(params)
+		elsif story_not_yet_saved?(params)
 			save_stories(params) 
 		else
 			p "EXISTS: #{params[:source]}: #{params[:title]} saved previously on #{Story.where(:title=>params[:title]).first.date.formatted_date}"
